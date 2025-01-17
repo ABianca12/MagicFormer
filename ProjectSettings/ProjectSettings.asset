@@ -4,7 +4,7 @@
 PlayerSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 28
-  productGUID: 47ae008d9345695428fdd96115fe2e46
+  productGUID: 43d6997615bdbdd47bf0f395c384987b
   AndroidProfiler: 0
   AndroidFilterTouchesWhenObscured: 0
   AndroidEnableSustainedPerformanceMode: 0
@@ -930,10 +930,10 @@ PlayerSettings:
   captureStartupLogs: {}
   activeInputHandler: 2
   windowsGamepadBackendHint: 0
-  cloudProjectId: af70e9e6-635c-46de-adb1-a324f954ddab
+  cloudProjectId: a332f722-5abd-49e3-9c3d-c96f81a2e49f
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
-  projectName: MagicFormer
+  projectName: MagicFormer 2025-01-17_17-58-13
   organizationId: unity_caecbcb3ba7f57cddb3a
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0
