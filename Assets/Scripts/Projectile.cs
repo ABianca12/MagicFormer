@@ -1,27 +1,47 @@
 using UnityEngine;
 
-public class Projectile : MonoBehaviour
+public class Projectile : Entity
 {
     //Member Variables
-    private Vector3 startPos;
-    private Vector3 currentPos;
-    private Vector2 velocity;
-    [SerializeField] private float zAxis;
-    [SerializeField] private float lifeTime;
+    [SerializeField] protected float lifeTime = 10;
+    [SerializeField] protected bool temporary;
 
-    //Constructor
-    public Projectile(Vector3 start, Vector2 v)
+    //Constructors
+    public Projectile(Vector3 start, Vector2 v, Material m, float l) : base(start, v, m)
     {
-        startPos = start;
-        currentPos = start;
-        velocity = v;
-        zAxis = start.z;
+        lifeTime = l;
+    }
+    public Projectile(Vector3 start, Vector2 v, Material m) : base(start, v, m)
+    {
+
+    }
+    public Projectile(Material m, bool temp) : base(m)
+    {
+        temporary = temp;
+    }
+    public Projectile(Material m) : base(m)
+    {
+
+    }
+    public Projectile() : base()
+    {
+
     }
 
     //Function updates projectiles
-    public void updateProjectile()
+    public void updateEntity(float deltaTime)
     {
-        this.transform.position = new Vector3(currentPos.x + velocity.x, currentPos.y + velocity.y, zAxis);
-        
+        base.updateEntity();
+        //this.transform.position = new Vector3(currentPos.x + velocity.x, currentPos.y + velocity.y, zAxis);
+        //Reduces lifetime if the projectile has a lifespan
+        if(temporary)
+        {
+            lifeTime -= deltaTime;
+            //Destroys projectile if lifetime is expired
+            if (lifeTime <= 0)
+            {
+                Destroy(gameObject);
+            }
+        }
     }
 }
