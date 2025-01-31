@@ -1,9 +1,12 @@
+using Unity.Hierarchy;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
     [Header("Movement")]
     [SerializeField] float moveSpeed = 6f;
+    [SerializeField] float crouchMoveSpeed = 2f;
+    [SerializeField] float handstandMoveSpeed = 2f;
     [SerializeField] float airMultiplier = 0.4f;
     private float movementMultiplier = 10f;
 
@@ -12,16 +15,17 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("Jumping")]
     public float jumpForce = 50f;
+    public float standingToHandstandJumpForce;
+    public float superHandstandJumpForce;
     public float jumpRate = 15f;
 
     [Header("Keybinds")]
     [SerializeField] KeyCode jumpKey = KeyCode.Space;
-    [SerializeField] KeyCode sprintKey = KeyCode.LeftShift;
+    [SerializeField] KeyCode crouchKey = KeyCode.S;
 
     [Header("Gravity and Air Control")]
-    [SerializeField] float grav;
-    [SerializeField] float groundDrag = 6f;
-    [SerializeField] float airDrag = 2f;
+    [SerializeField] float groundDrag = 2f;
+    [SerializeField] float airDrag = 0.4f;
 
     [Header("Ground Detection")]
     [SerializeField] Transform groundCheck;
@@ -52,11 +56,17 @@ public class PlayerMovement : MonoBehaviour
         {
             HandleJump();
         }
+        
+        if (Input.GetKeyDown(crouchKey))
+        {
+            
+        }
     }
 
     private void FixedUpdate()
     {
         MovePlayer();
+        rotatePlayer();
     }
 
     void HandleInput()
@@ -81,13 +91,18 @@ public class PlayerMovement : MonoBehaviour
 
     void ControlDrag()
     {
-        rb.drag = isGrounded ? groundDrag : airDrag;
+        rb.linearDamping = isGrounded ? groundDrag : airDrag;
     }
 
     void MovePlayer()
     {
         float multiplier = isGrounded ? movementMultiplier : airMultiplier * movementMultiplier;
         rb.AddForce(multiplier * moveSpeed * moveDirection.normalized, ForceMode.Acceleration);
+    }
+
+    void rotatePlayer()
+    {
+        
     }
 
     private void OnCollisionEnter(Collision collision)
