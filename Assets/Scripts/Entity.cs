@@ -25,7 +25,7 @@ public class Entity : MonoBehaviour
     {
         startPos = start;
         currentPos = start;
-        velocity = Vector2.zero;
+        velocity = v;
         material = m;
     }
     public void initEntity(Vector3 start)
@@ -58,9 +58,9 @@ public class Entity : MonoBehaviour
     }
 
     //updates position based on velocity
-    public void updateEntity()
+    public void updateEntity(float deltaTime)
     {
-        currentPos = new Vector3(currentPos.x + velocity.x, currentPos.y + velocity.y, zAxis);
+        currentPos = new Vector3(currentPos.x + velocity.x*deltaTime, currentPos.y + velocity.y*deltaTime, zAxis);
         gameObject.transform.position = currentPos;
     }
 

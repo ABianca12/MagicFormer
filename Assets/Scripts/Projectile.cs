@@ -38,7 +38,7 @@ public class Projectile : Entity
     //Function updates projectiles
     public void updateEntity(float deltaTime)
     {
-        base.updateEntity();
+        base.updateEntity(deltaTime);
         //this.transform.position = new Vector3(currentPos.x + velocity.x, currentPos.y + velocity.y, zAxis);
         //Reduces lifetime if the projectile has a lifespan
         if(temporary)

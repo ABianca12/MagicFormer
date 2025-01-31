@@ -20,6 +20,19 @@ public class Fireball : Projectile
     // Update is called once per frame
     void Update()
     {
-        updateEntity();
+        base.updateEntity(Time.deltaTime);
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.tag == "Player")
+        {
+            //do nothing
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+        
     }
 }

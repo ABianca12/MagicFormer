@@ -14,7 +14,8 @@ public class magicCastingScript : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.Alpha1))
         {
-            
+            Fireball fb = Instantiate(f);
+            fb.initFireball(gameObject.transform.position, new Vector2(5,0));
         }
     }
 }
