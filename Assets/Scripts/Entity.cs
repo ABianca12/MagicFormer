@@ -42,6 +42,13 @@ public class Entity : MonoBehaviour
         velocity = Vector2.zero;
         material = m;
     }
+    public void initEntity(Vector3 sPos, Material m)
+    {
+        startPos = sPos;
+        currentPos = Vector3.zero;
+        velocity = Vector2.zero;
+        material = m;
+    }
     public void initEntity(Vector3 start, Vector2 v)
     {
         startPos = start;
@@ -69,4 +76,11 @@ public class Entity : MonoBehaviour
     {
         velocity = newV;
     }
+
+    //Function to update material of Entity
+    public void setMaterial(Material newMaterial)
+    {
+        material = newMaterial;
+    }
+
 }
