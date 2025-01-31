@@ -21,36 +21,35 @@ public class Entity : MonoBehaviour
     protected Material material;
     [SerializeField] protected float zAxis;
 
-    //Constructors
-    public Entity(Vector3 start, Vector2 v, Material m)
+    public void initEntity(Vector3 start, Vector2 v, Material m)
     {
         startPos = start;
         currentPos = start;
         velocity = Vector2.zero;
         material = m;
     }
-    public Entity(Vector3 start)
+    public void initEntity(Vector3 start)
     {
         startPos = start;
         currentPos = start;
         velocity = Vector2.zero;
         material = Material.None;
     }
-    public Entity(Material m)
+    public void initEntity(Material m)
     {
         startPos = Vector3.zero;
         currentPos = Vector3.zero;
         velocity = Vector2.zero;
         material = m;
     }
-    public Entity(Vector3 start, Vector2 v)
+    public void initEntity(Vector3 start, Vector2 v)
     {
         startPos = start;
         currentPos = start;
         velocity = v;
         material = Material.None;
     }
-    public Entity()
+    public void initEntity()
     {
         startPos = Vector3.zero;
         currentPos = Vector3.zero;
@@ -62,6 +61,7 @@ public class Entity : MonoBehaviour
     public void updateEntity()
     {
         currentPos = new Vector3(currentPos.x + velocity.x, currentPos.y + velocity.y, zAxis);
+        gameObject.transform.position = currentPos;
     }
 
     //Function to edit velocity value
