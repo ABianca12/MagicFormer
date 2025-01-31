@@ -471,7 +471,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   zAxis: -1
   lifeTime: 0
-  temporary: 0
+  temporary: 1
 --- !u!1 &1460934519
 GameObject:
   m_ObjectHideFlags: 0
