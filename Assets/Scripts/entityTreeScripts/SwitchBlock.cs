@@ -1,4 +1,5 @@
 using Unity.VisualScripting;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class SwitchBlock : Ground
@@ -10,11 +11,6 @@ public class SwitchBlock : Ground
 
     bool activeState;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
     public void swapState()
     {
@@ -31,5 +27,19 @@ public class SwitchBlock : Ground
             gameObject.GetComponent<MeshRenderer>().material = matOff;
         }
 
+    }
+
+    public void turnOff()
+    {
+        activeState = false;
+        setMaterial(Material.None);
+        gameObject.GetComponent<MeshRenderer>().material = matOn;
+    }
+
+    public void turnOn()
+    {
+        activeState = true;
+        setMaterial(Material.Metal);
+        gameObject.GetComponent<MeshRenderer>().material = matOff;
     }
 }

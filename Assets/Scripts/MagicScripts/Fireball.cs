@@ -25,7 +25,7 @@ public class Fireball : Projectile
 
     private void OnCollisionEnter(Collision collision)
     {
-        if(collision.gameObject.tag == "Player")
+        if(collision.gameObject.tag == "Player" || collision.gameObject.GetComponent<Fireball>() != null)
         {
             //do nothing
         }

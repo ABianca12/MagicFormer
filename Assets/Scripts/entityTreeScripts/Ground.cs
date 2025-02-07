@@ -1,5 +1,5 @@
 using UnityEngine;
-
+using System.Collections.Generic;
 public class Ground : Entity
 {
     public void initGround(Vector3 start, Material m)
