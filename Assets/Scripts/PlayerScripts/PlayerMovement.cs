@@ -33,15 +33,17 @@ public class PlayerMovement : MonoBehaviour
     public bool isGrounded { get; private set; }
 
     [HideInInspector] public bool isMoving;
+    [HideInInspector] public bool isCrouching;
 
     private Vector3 moveDirection;
     private Vector2 movement;
     private Rigidbody rb;
+    private CapsuleCollider collider;
 
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
-        rb.freezeRotation = true;
+        collider = GetComponent<CapsuleCollider>();
     }
 
     private void Update()
@@ -59,7 +61,7 @@ public class PlayerMovement : MonoBehaviour
         
         if (Input.GetKeyDown(crouchKey))
         {
-            
+            HandleCrouch();
         }
     }
 
@@ -81,6 +83,29 @@ public class PlayerMovement : MonoBehaviour
         {
             rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
             isGrounded = false;
+        }
+    }
+
+    void HandleCrouch()
+    {
+        if (!isCrouching)
+        {
+            isCrouching = true;
+        }
+        else
+        {
+            isCrouching = false;
+        }
+
+        if (isCrouching)
+        {
+            collider.height = collider.height / 2;
+            collider.center = new Vector3(0, -0.5f, 0);
+        }
+        else
+        {
+            collider.height = collider.height * 2;
+            collider.center = Vector3.zero;
         }
     }
 
