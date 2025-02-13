@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class MovementVaribles : MonoBehaviour
+public class MovementVariables : MonoBehaviour
 {
     [Header("KEYBINDS")]
     public KeyCode up = KeyCode.W;
