@@ -6,24 +6,10 @@ namespace TarodevController
     [RequireComponent(typeof(Rigidbody2D), typeof(CapsuleCollider2D))]
     public class PlayerController : MonoBehaviour, IPlayerController
     {
-        private enum PlayerState
-        {
-            None,
-            Crouched,
-            Handstand,
-            RopeClimb,
-            HorizontalBar,
-            HoldingObject
-        }
-
-        private PlayerState state;
-
         [SerializeField] private MovementVariables moveVars;
         private Rigidbody2D rb;
         private CapsuleCollider2D capCollider;
         private FrameInput frameInput;
-        private float currentMaxSpeed;
-        private float currentMaxAccel;
         private Vector2 velocity;
         private bool startInColliders;
 
@@ -35,7 +21,7 @@ namespace TarodevController
 
         #endregion
 
-        private float time;
+        private float _time;
 
         private void Awake()
         {
@@ -43,15 +29,11 @@ namespace TarodevController
             capCollider = GetComponent<CapsuleCollider2D>();
 
             startInColliders = Physics2D.queriesStartInColliders;
-
-            state = PlayerState.None;
-            currentMaxSpeed = moveVars.MaxSpeed;
-            currentMaxAccel = moveVars.Acceleration;
         }
 
         private void Update()
         {
-            time += Time.deltaTime;
+            _time += Time.deltaTime;
             GatherInput();
         }
 
@@ -62,13 +44,9 @@ namespace TarodevController
                 // If Mathf.Abs(frameInput.move.x) is less than HorizontalDeadZoneThreshold, then
                 // frameInput.move.x = 0, if Mathf.Abs(frameInput.move.x) is not less than
                 // HorizontalDeadZoneThreshold frameInput.move.x is equal to the sign of its value
-                JumpDown = Input.GetButtonDown("Jump") || Input.GetKeyDown(moveVars.jump),
-                JumpHeld = Input.GetButton("Jump") || Input.GetKey(moveVars.jump),
-                DownDown = Input.GetKeyDown(moveVars.down),
-                DownHeld = Input.GetKey(moveVars.down),
-                DownReleased = Input.GetKeyUp(moveVars.down),
+                JumpDown = Input.GetButtonDown("Jump") || Input.GetKeyDown(KeyCode.C),
+                JumpHeld = Input.GetButton("Jump") || Input.GetKey(KeyCode.C),
                 Move = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"))
-
             };
 
             if (moveVars.SnapInput)
@@ -80,13 +58,7 @@ namespace TarodevController
             if (frameInput.JumpDown)
             {
                 hasJump = true;
-                timeJumpWasPressed = time;
-            }
-
-            if (frameInput.DownDown)
-            {
-
-                timeCrouchWasPressed = time;
+                timeJumpWasPressed = _time;
             }
         }
 
@@ -95,7 +67,6 @@ namespace TarodevController
             CheckCollisions();
 
             HandleJump();
-            HandleDown();
             HandleDirection();
             HandleGravity();
 
@@ -118,15 +89,7 @@ namespace TarodevController
                 0, Vector2.up, moveVars.GrounderDistance, ~moveVars.PlayerLayer);
 
             // Hit a Ceiling
-            if (ceilingHit)
-            {
-                velocity.y = Mathf.Min(0, velocity.y);
-                canStandUp = false;
-            }
-            else
-            {
-                canStandUp = true;
-            }
+            if (ceilingHit) velocity.y = Mathf.Min(0, velocity.y);
 
             // Landed on the Ground
             if (!grounded && groundHit)
@@ -141,7 +104,7 @@ namespace TarodevController
             else if (grounded && !groundHit)
             {
                 grounded = false;
-                frameLeftGround = time;
+                frameLeftGround = _time;
                 GroundedChanged?.Invoke(false, 0);
             }
 
@@ -158,8 +121,8 @@ namespace TarodevController
         private bool coyoteUsable;
         private float timeJumpWasPressed;
 
-        private bool HasBufferedJump => bufferedJumpUsable && time < timeJumpWasPressed + moveVars.JumpBuffer;
-        private bool CanUseCoyote => coyoteUsable && !grounded && time < frameLeftGround + moveVars.CoyoteTime;
+        private bool HasBufferedJump => bufferedJumpUsable && _time < timeJumpWasPressed + moveVars.JumpBuffer;
+        private bool CanUseCoyote => coyoteUsable && !grounded && _time < frameLeftGround + moveVars.CoyoteTime;
 
         private void HandleJump()
         {
@@ -184,48 +147,6 @@ namespace TarodevController
 
         #endregion
 
-        #region Crouching
-
-        private bool isCrouched;
-        private bool canStandUp;
-        private float timeCrouchWasPressed;
-
-        private void HandleDown()
-        {
-            if (frameInput.DownDown)
-            {
-                ExecuteCrouch();
-                isCrouched = true;
-            }
-
-            if (canStandUp && frameInput.DownReleased)
-            {
-                ExecuteStandUp();
-            }
-        }
-
-        private void ExecuteCrouch()
-        {
-            state = PlayerState.Crouched;
-            currentMaxSpeed = moveVars.MaxCrouchSpeed;
-            currentMaxAccel = moveVars.CrouchingAcceleration;
-
-            capCollider.size = new Vector2(capCollider.size.x, capCollider.size.y / 2);
-            capCollider.offset = new Vector2(0, -0.5f);
-        }
-
-        private void ExecuteStandUp()
-        {
-            state = PlayerState.None;
-            currentMaxSpeed = moveVars.MaxSpeed;
-            currentMaxAccel = moveVars.Acceleration;
-
-            capCollider.size = new Vector2(capCollider.size.x, capCollider.size.y * 2);
-            capCollider.offset = Vector2.zero;
-        }
-
-        #endregion
-
         #region Horizontal
 
         private void HandleDirection()
@@ -237,7 +158,7 @@ namespace TarodevController
             }
             else
             {
-                velocity.x = Mathf.MoveTowards(velocity.x, frameInput.Move.x * currentMaxSpeed, currentMaxAccel * Time.fixedDeltaTime);
+                velocity.x = Mathf.MoveTowards(velocity.x, frameInput.Move.x * moveVars.MaxSpeed, moveVars.Acceleration * Time.fixedDeltaTime);
             }
         }
 
@@ -275,9 +196,6 @@ namespace TarodevController
     {
         public bool JumpDown;
         public bool JumpHeld;
-        public bool DownDown;
-        public bool DownHeld;
-        public bool DownReleased;
         public Vector2 Move;
     }
 
