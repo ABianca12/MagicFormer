@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 
 public class MovingPlatform : Ground
@@ -17,11 +18,36 @@ public class MovingPlatform : Ground
         speed = s;
     }
 
-    private void Update()
+    private void Start()
     {
-        if (baseMoving) 
+        initPlatform(gameObject.transform.position, material, endPos, baseMoving, speed);
+
+        if (baseMoving)
         {
-            
+            if (currentPos.x < endPos.x)
+            {
+                updateVelocity((new Vector2(1.0f, 0)) * speed);
+            }
+            else if (currentPos.x > endPos.x)
+            {
+                updateVelocity((new Vector2(1.0f, 0)) * -speed);
+            }
+
         }
     }
+
+    private void Update()
+    {
+        if(currentPos.x >= endPos.x)
+        {
+            updateVelocity((new Vector2(1.0f, 0)) * -speed);
+        }
+        else if(currentPos.x <= startPos.x)
+        {
+            updateVelocity((new Vector2(1.0f, 0)) * speed);
+        }
+
+        updateEntity(Time.deltaTime);
+    }
+
 }

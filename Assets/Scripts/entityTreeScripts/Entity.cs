@@ -45,7 +45,7 @@ public class Entity : MonoBehaviour
     public void initEntity(Vector3 sPos, Material m)
     {
         startPos = sPos;
-        currentPos = Vector3.zero;
+        currentPos = sPos;
         velocity = Vector2.zero;
         material = m;
     }
