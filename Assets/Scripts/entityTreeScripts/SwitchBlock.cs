@@ -7,7 +7,7 @@ public class SwitchBlock : Ground
     private UnityEngine.Material matOn;
     private UnityEngine.Material matOff;
 
-    private Material currTex;
+    private BaseType currTex;
 
     bool activeState;
 
@@ -17,13 +17,13 @@ public class SwitchBlock : Ground
         if (activeState)
         {
             activeState = false;
-            setMaterial(Material.None);
+            setMaterial(BaseType.NONE);
             gameObject.GetComponent<MeshRenderer>().material = matOn;
         }
         else
         {
             activeState = true;
-            setMaterial(Material.Metal);
+            setMaterial(BaseType.METAL);
             gameObject.GetComponent<MeshRenderer>().material = matOff;
         }
 
@@ -32,14 +32,14 @@ public class SwitchBlock : Ground
     public void turnOff()
     {
         activeState = false;
-        setMaterial(Material.None);
+        setMaterial(BaseType.NONE);
         gameObject.GetComponent<MeshRenderer>().material = matOn;
     }
 
     public void turnOn()
     {
         activeState = true;
-        setMaterial(Material.Metal);
+        setMaterial(BaseType.METAL);
         gameObject.GetComponent<MeshRenderer>().material = matOff;
     }
 }

@@ -7,26 +7,26 @@ public class Projectile : Entity
     [SerializeField] protected bool temporary;
 
     //Constructors
-    public void initProjectile(Vector3 start, Vector2 v, Material m, float l)
+    public void initProjectile(Vector3 start, Vector2 v, BaseType m, float l)
     {
         initEntity(start, v, m);
         lifeTime = l;
     }
-    public void initProjectile(Vector3 start, Vector2 v, Material m, bool temp)
+    public void initProjectile(Vector3 start, Vector2 v, BaseType m, bool temp)
     {
         initEntity(start, v, m);
         temporary = temp;
     }
-    public void initProjectile(Vector3 start, Vector2 v, Material m)
+    public void initProjectile(Vector3 start, Vector2 v, BaseType m)
     {
         initEntity(start, v, m);
     }
-    public void initProjectile(Material m, bool temp)
+    public void initProjectile(BaseType m, bool temp)
     {
         initEntity(m);
         temporary = temp;
     }
-    public void initProjectile(Material m)
+    public void initProjectile(BaseType m)
     {
         initEntity(m);
     }

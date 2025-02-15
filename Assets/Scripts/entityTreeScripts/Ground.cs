@@ -2,11 +2,11 @@ using UnityEngine;
 using System.Collections.Generic;
 public class Ground : Entity
 {
-    public void initGround(Vector3 start, Material m)
+    public void initGround(Vector3 start, BaseType m)
     {
         initEntity(start, m);
     }
-    public void initGround(Vector3 start, Vector2 v, Material m)
+    public void initGround(Vector3 start, Vector2 v, BaseType m)
     {
         initEntity(start, v, m);
     }
@@ -14,7 +14,7 @@ public class Ground : Entity
     {
         initEntity(start);
     }
-    public void initGround(Material m)
+    public void initGround(BaseType m)
     {
         initEntity(m);
     }

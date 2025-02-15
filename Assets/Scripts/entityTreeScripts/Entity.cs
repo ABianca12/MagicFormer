@@ -3,25 +3,25 @@ using UnityEngine;
 public class Entity : MonoBehaviour
 {
     //Struct for materials
-    public enum Material
+    public enum BaseType
     {
-        None,
-        Metal,
-        Wood,
-        Stone,
-        Fire,
-        Ice,
-        Grass
+        NONE,
+        METAL,
+        WOOD,
+        STONE,
+        FIRE,
+        ICE,
+        GRASS
     }
 
     //Member Variables
     protected Vector3 startPos;
     protected Vector3 currentPos;
     protected Vector2 velocity;
-    protected Material material;
+    protected BaseType material;
     [SerializeField] protected float zAxis;
 
-    public void initEntity(Vector3 start, Vector2 v, Material m)
+    public void initEntity(Vector3 start, Vector2 v, BaseType m)
     {
         startPos = start;
         currentPos = start;
@@ -33,16 +33,16 @@ public class Entity : MonoBehaviour
         startPos = start;
         currentPos = start;
         velocity = Vector2.zero;
-        material = Material.None;
+        material = BaseType.NONE;
     }
-    public void initEntity(Material m)
+    public void initEntity(BaseType m)
     {
         startPos = Vector3.zero;
         currentPos = Vector3.zero;
         velocity = Vector2.zero;
         material = m;
     }
-    public void initEntity(Vector3 sPos, Material m)
+    public void initEntity(Vector3 sPos, BaseType m)
     {
         startPos = sPos;
         currentPos = sPos;
@@ -54,14 +54,14 @@ public class Entity : MonoBehaviour
         startPos = start;
         currentPos = start;
         velocity = v;
-        material = Material.None;
+        material = BaseType.NONE;
     }
     public void initEntity()
     {
         startPos = Vector3.zero;
         currentPos = Vector3.zero;
         velocity = Vector2.zero;
-        material = Material.None;
+        material = BaseType.NONE;
     }
 
     //updates position based on velocity
@@ -78,7 +78,7 @@ public class Entity : MonoBehaviour
     }
 
     //Function to update material of Entity
-    public void setMaterial(Material newMaterial)
+    public void setMaterial(BaseType newMaterial)
     {
         material = newMaterial;
     }

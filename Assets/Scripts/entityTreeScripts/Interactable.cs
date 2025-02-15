@@ -6,7 +6,7 @@ public class Interactable : Entity
     {
         initEntity();
     }
-    public void initInteractable(Vector3 start, Vector2 v, Material m)
+    public void initInteractable(Vector3 start, Vector2 v, BaseType m)
     {
         initEntity(start, v, m);
     }
@@ -14,11 +14,11 @@ public class Interactable : Entity
     {
         initEntity(start);
     }
-    public void initInteractable(Material m)
+    public void initInteractable(BaseType m)
     {
         initEntity(m);
     }
-    public void initInteractable(Vector3 sPos, Material m)
+    public void initInteractable(Vector3 sPos, BaseType m)
     {
         initEntity(sPos, m);
     }

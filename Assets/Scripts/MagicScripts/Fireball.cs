@@ -9,12 +9,12 @@ public class Fireball : Projectile
 
     public void initFireball()
     {
-        initProjectile(Material.Fire, false);
+        initProjectile(BaseType.FIRE, false);
     }
 
     public void initFireball(Vector3 start, Vector2 v)
     {
-        initProjectile(start, v, Material.Fire, false);
+        initProjectile(start, v, BaseType.FIRE, false);
     }
 
     // Update is called once per frame

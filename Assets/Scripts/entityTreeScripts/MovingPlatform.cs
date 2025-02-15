@@ -9,8 +9,10 @@ public class MovingPlatform : Ground
 
     [SerializeField] private float speed;
 
+    [SerializeField] private Material offMat, onMat;
+
     public void initPlatform() { initGround(); }
-    public void initPlatform(Vector3 startPos, Material m, Vector3 endingPos, bool startMove, float s)
+    public void initPlatform(Vector3 startPos, BaseType m, Vector3 endingPos, bool startMove, float s)
     {
         initGround(startPos, m);
         endPos = endingPos;
@@ -38,16 +40,33 @@ public class MovingPlatform : Ground
 
     private void Update()
     {
-        if(currentPos.x >= endPos.x)
+        if(baseMoving)
         {
-            updateVelocity((new Vector2(1.0f, 0)) * -speed);
-        }
-        else if(currentPos.x <= startPos.x)
-        {
-            updateVelocity((new Vector2(1.0f, 0)) * speed);
+            if (currentPos.x >= endPos.x)
+            {
+                updateVelocity((new Vector2(1.0f, 0)) * -speed);
+            }
+            else if (currentPos.x <= startPos.x)
+            {
+                updateVelocity((new Vector2(1.0f, 0)) * speed);
+            }
+
+            updateEntity(Time.deltaTime);
         }
 
-        updateEntity(Time.deltaTime);
+        checkMat();
+    }
+
+    private void checkMat()
+    {
+        if (baseMoving) 
+        {
+            gameObject.GetComponent<MeshRenderer>().material = onMat;
+        }
+        else if(!baseMoving)
+        {
+            gameObject.GetComponent<MeshRenderer>().material = offMat;
+        }
     }
 
 }
