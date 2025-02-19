@@ -27,6 +27,21 @@ public class MovementVariables : MonoBehaviour
     [Tooltip("The top horizontal movement speed")]
     public float MaxSpeed = 14;
 
+    [Tooltip("The top crouch movement speed")]
+    public float MaxCrouchSpeed = 7;
+
+    [Tooltip("The top upwards movement speed when on a single rope")]
+    public float MaxUpwardsSingleRopeSpeed = 4;
+
+    [Tooltip("The top downwards movement speed when on a single rope")]
+    public float MaxDownwardsSingleRopeSpeed = 14;
+
+    [Tooltip("The top upwards movement speed when on a double rope")]
+    public float MaxUpwardsDoubleRopeSpeed = 14;
+
+    [Tooltip("The top downwards movement speed when on a double rope")]
+    public float MaxDownwardsDoubleRopeSpeed = 4;
+
     [Tooltip("The player's capacity to gain horizontal speed")]
     public float Acceleration = 120;
 

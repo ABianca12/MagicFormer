@@ -1,5 +1,7 @@
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Playables;
 
 namespace TarodevController
 {
@@ -19,9 +21,24 @@ namespace TarodevController
         public event Action<bool, float> GroundedChanged;
         public event Action Jumped;
 
+        private enum PlayerState
+        {
+            None = 0,
+            Handstand,
+            SingleRope,
+            DoubleRope,
+            HorizontalBar,
+            Crouching,
+            Dead,
+            Carrying,
+            Falling,
+        }
+
+        PlayerState state = PlayerState.None;
+
         #endregion
 
-        private float _time;
+        private float time;
 
         private void Awake()
         {
@@ -33,7 +50,7 @@ namespace TarodevController
 
         private void Update()
         {
-            _time += Time.deltaTime;
+            time += Time.deltaTime;
             GatherInput();
         }
 
@@ -41,16 +58,23 @@ namespace TarodevController
         {
             frameInput = new FrameInput
             {
-                // If Mathf.Abs(frameInput.move.x) is less than HorizontalDeadZoneThreshold, then
-                // frameInput.move.x = 0, if Mathf.Abs(frameInput.move.x) is not less than
-                // HorizontalDeadZoneThreshold frameInput.move.x is equal to the sign of its value
                 JumpDown = Input.GetButtonDown("Jump") || Input.GetKeyDown(KeyCode.C),
                 JumpHeld = Input.GetButton("Jump") || Input.GetKey(KeyCode.C),
+                DownDown = Input.GetKeyDown(moveVars.down),
+                DownHeld = Input.GetKey(moveVars.down),
+                UpDown = Input.GetKeyDown(moveVars.up),
+                UpHeld = Input.GetKey(moveVars.up),
+                PickUpDown = Input.GetKeyDown(moveVars.pickUp),
+                PickUpHeld = Input.GetKey(moveVars.down),
+
                 Move = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"))
             };
 
             if (moveVars.SnapInput)
             {
+                // If Mathf.Abs(frameInput.move.x) is less than HorizontalDeadZoneThreshold, then
+                // frameInput.move.x = 0, if Mathf.Abs(frameInput.move.x) is not less than
+                // HorizontalDeadZoneThreshold frameInput.move.x is equal to the sign of its value
                 frameInput.Move.x = Mathf.Abs(frameInput.Move.x) < moveVars.HorizontalDeadZoneThreshold ? 0 : Mathf.Sign(frameInput.Move.x);
                 frameInput.Move.y = Mathf.Abs(frameInput.Move.y) < moveVars.VerticalDeadZoneThreshold ? 0 : Mathf.Sign(frameInput.Move.y);
             }
@@ -58,7 +82,17 @@ namespace TarodevController
             if (frameInput.JumpDown)
             {
                 hasJump = true;
-                timeJumpWasPressed = _time;
+                timeJumpWasPressed = time;
+            }
+
+            if (frameInput.DownDown)
+            {
+                timeDownWasPressed = time;
+            }
+
+            if (frameInput.UpDown)
+            {
+                timeUpWasPressed = time;
             }
         }
 
@@ -67,8 +101,14 @@ namespace TarodevController
             CheckCollisions();
 
             HandleJump();
+            HandleDown();
+            HandleUp();
             HandleDirection();
-            HandleGravity();
+
+            if (!(state == PlayerState.SingleRope || state == PlayerState.DoubleRope))
+            {
+                HandleGravity();
+            }
 
             ApplyMovement();
         }
@@ -77,6 +117,7 @@ namespace TarodevController
 
         private float frameLeftGround = float.MinValue;
         private bool grounded;
+        private static bool inRangeOfRope;
 
         private void CheckCollisions()
         {
@@ -89,7 +130,10 @@ namespace TarodevController
                 0, Vector2.up, moveVars.GrounderDistance, ~moveVars.PlayerLayer);
 
             // Hit a Ceiling
-            if (ceilingHit) velocity.y = Mathf.Min(0, velocity.y);
+            if (ceilingHit && state == PlayerState.None)
+            {
+                velocity.y = Mathf.Min(0, velocity.y);
+            }
 
             // Landed on the Ground
             if (!grounded && groundHit)
@@ -104,11 +148,21 @@ namespace TarodevController
             else if (grounded && !groundHit)
             {
                 grounded = false;
-                frameLeftGround = _time;
+                frameLeftGround = time;
                 GroundedChanged?.Invoke(false, 0);
             }
 
+            if (!inRangeOfRope)
+            {
+                state = PlayerState.None;
+            }
+
             Physics2D.queriesStartInColliders = startInColliders;
+        }
+
+        public static void setInRangeOfRope(bool newValue)
+        {
+            inRangeOfRope = newValue;
         }
 
         #endregion
@@ -121,16 +175,22 @@ namespace TarodevController
         private bool coyoteUsable;
         private float timeJumpWasPressed;
 
-        private bool HasBufferedJump => bufferedJumpUsable && _time < timeJumpWasPressed + moveVars.JumpBuffer;
-        private bool CanUseCoyote => coyoteUsable && !grounded && _time < frameLeftGround + moveVars.CoyoteTime;
+        private bool HasBufferedJump => bufferedJumpUsable && time < timeJumpWasPressed + moveVars.JumpBuffer;
+        private bool CanUseCoyote => coyoteUsable && !grounded && time < frameLeftGround + moveVars.CoyoteTime;
 
         private void HandleJump()
         {
             if (!endedJumpEarly && !grounded && !frameInput.JumpHeld && rb.linearVelocity.y > 0) endedJumpEarly = true;
 
-            if (!hasJump && !HasBufferedJump) return;
+            if (!hasJump && !HasBufferedJump)
+            {
+                return;
+            }
 
-            if (grounded || CanUseCoyote) ExecuteJump();
+            if (grounded || CanUseCoyote)
+            {
+                ExecuteJump();
+            }
 
             hasJump = false;
         }
@@ -143,6 +203,87 @@ namespace TarodevController
             coyoteUsable = false;
             velocity.y = moveVars.JumpPower;
             Jumped?.Invoke();
+        }
+
+        #endregion
+
+        #region Down Input
+
+        private float timeDownWasPressed;
+
+        private void HandleDown()
+        {
+            switch (state)
+            {
+                case PlayerState.None:
+                    // Crouch
+                    break;
+                case PlayerState.Crouching:
+                    // Handstand
+                    break;
+                case PlayerState.SingleRope:
+                    if (frameInput.Move.y == -1)
+                    {
+                        velocity.y = -moveVars.MaxDownwardsSingleRopeSpeed;
+                    }
+                    break;
+                case PlayerState.DoubleRope:
+                    // Double Rope
+                    break;
+                case PlayerState.Carrying:
+                    // Carrying
+                    break;
+                default:
+                    // 
+                    break;
+            }
+        }
+
+        private void ExecuteCrouch()
+        {
+
+        }
+
+        #endregion
+
+        #region Up Input
+
+        private float timeUpWasPressed;
+
+        private void HandleUp()
+        {
+            switch (state)
+            {
+                case PlayerState.None:
+                    if (inRangeOfRope)
+                    {
+                        if (frameInput.Move.y == 1)
+                        {
+                            velocity.x = 0;
+                            velocity.y = 0;
+                            state = PlayerState.SingleRope;
+                        }
+                    }
+                    break;
+                case PlayerState.SingleRope:
+                    if (frameInput.Move.y == 1)
+                    {
+                        velocity.y = moveVars.MaxUpwardsSingleRopeSpeed;
+                    }
+                    else if (frameInput.Move.y == 0)
+                    {
+                        velocity.y = 0;
+                    }
+                    break;
+                case PlayerState.DoubleRope:
+
+                    break;
+                case PlayerState.Carrying:
+
+                    break;
+                default:
+                    break;
+            }
         }
 
         #endregion
@@ -196,6 +337,12 @@ namespace TarodevController
     {
         public bool JumpDown;
         public bool JumpHeld;
+        public bool DownDown;
+        public bool DownHeld;
+        public bool UpDown;
+        public bool UpHeld;
+        public bool PickUpDown; 
+        public bool PickUpHeld;
         public Vector2 Move;
     }
 
