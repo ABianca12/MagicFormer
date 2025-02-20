@@ -26,6 +26,12 @@ public class Projectile : Entity
         initEntity(m);
         temporary = temp;
     }
+    public void initProjectile(BaseType m, bool temp, float life)
+    {
+        initEntity(m);
+        temporary = temp;
+        lifeTime = life;
+    }
     public void initProjectile(BaseType m)
     {
         initEntity(m);

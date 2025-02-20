@@ -11,7 +11,8 @@ public class Entity : MonoBehaviour
         STONE,
         FIRE,
         ICE,
-        GRASS
+        GRASS,
+        MYSTIC
     }
 
     //Member Variables
