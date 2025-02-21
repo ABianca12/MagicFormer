@@ -45,6 +45,9 @@ public class MovementVariables : MonoBehaviour
     [Tooltip("The player's capacity to gain horizontal speed")]
     public float Acceleration = 120;
 
+    [Tooltip("The player's capacity to gain horizontal speed while crouching")]
+    public float CrouchAcceleration = 120;
+
     [Tooltip("The pace at which the player comes to a stop")]
     public float GroundDeceleration = 60;
 
@@ -60,6 +63,9 @@ public class MovementVariables : MonoBehaviour
     [Header("JUMP")]
     [Tooltip("The immediate velocity applied when jumping")]
     public float JumpPower = 36;
+
+    [Tooltip("The immediate velocity applied when handstand jumping")]
+    public float HandStandJumpPower = 50;
 
     [Tooltip("The maximum vertical movement speed")]
     public float MaxFallSpeed = 40;

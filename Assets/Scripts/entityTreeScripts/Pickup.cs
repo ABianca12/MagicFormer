@@ -42,6 +42,7 @@ public class Pickup : Destructable
         {
             transform.position = pickUpPos;
             Debug.Log("Updated pos");
+            //Instantiate(this.gameObject, player.transform.position, player.transform.rotation);
         }
         
 

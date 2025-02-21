@@ -63,8 +63,8 @@ namespace TarodevController
         {
             frameInput = new FrameInput
             {
-                JumpDown = Input.GetButtonDown("Jump") || Input.GetKeyDown(KeyCode.C),
-                JumpHeld = Input.GetButton("Jump") || Input.GetKey(KeyCode.C),
+                JumpDown = Input.GetButtonDown("Jump") || Input.GetKeyDown(moveVars.jump),
+                JumpHeld = Input.GetButton("Jump") || Input.GetKey(moveVars.jump),
                 DownDown = Input.GetKeyDown(moveVars.down),
                 DownHeld = Input.GetKey(moveVars.down),
                 UpDown = Input.GetKeyDown(moveVars.up),
@@ -99,11 +99,6 @@ namespace TarodevController
             {
                 timeUpWasPressed = time;
             }
-
-            if (frameInput.PickUpDown)
-            {
-                Debug.Log(state);
-            }
         }
 
         private void FixedUpdate()
@@ -130,6 +125,7 @@ namespace TarodevController
         private bool grounded;
         private static bool inRangeOfRope;
         private bool isOnTopOfPickup;
+        private bool ceilingHit = false;
 
         private void CheckCollisions()
         {
@@ -138,7 +134,7 @@ namespace TarodevController
             // Ground and Ceiling
             bool groundHit = Physics2D.CapsuleCast(capCollider.bounds.center, capCollider.size, capCollider.direction,
                 0, Vector2.down, moveVars.GrounderDistance, ~moveVars.PlayerLayer);
-
+            
             RaycastHit2D hit = Physics2D.CapsuleCast(capCollider.bounds.center, capCollider.size, capCollider.direction,
                 0, Vector2.down, moveVars.GrounderDistance, ~moveVars.PlayerLayer);
 
@@ -153,10 +149,18 @@ namespace TarodevController
                     isOnTopOfPickup = false;
                 }
             }
-           
 
-            bool ceilingHit = Physics2D.CapsuleCast(capCollider.bounds.center, capCollider.size, capCollider.direction,
+            if (state == PlayerState.Crouching)
+            {
+                ceilingHit = Physics2D.CapsuleCast(capCollider.bounds.center, new Vector2(capCollider.size.x, capCollider.size.y * 10 ), capCollider.direction,
                 0, Vector2.up, moveVars.GrounderDistance, ~moveVars.PlayerLayer);
+                Debug.DrawRay(transform.position, transform.up * capCollider.size.y, Color.yellow);
+            }
+            else
+            {
+                ceilingHit = Physics2D.CapsuleCast(capCollider.bounds.center, capCollider.size, capCollider.direction,
+                0, Vector2.up, moveVars.GrounderDistance, ~moveVars.PlayerLayer);
+            }
 
             // Hit a Ceiling
             if (ceilingHit && state == PlayerState.None)
@@ -233,7 +237,21 @@ namespace TarodevController
             timeJumpWasPressed = 0;
             bufferedJumpUsable = false;
             coyoteUsable = false;
-            velocity.y = moveVars.JumpPower;
+            switch (state)
+            {
+                case PlayerState.None:
+                    velocity.y = moveVars.JumpPower;
+                    break;
+                case PlayerState.Crouching:
+                    state = PlayerState.Handstand;
+                    break;
+                case PlayerState.Handstand:
+                    velocity.y = moveVars.HandStandJumpPower;
+                    break;
+                default:
+                    velocity.y = moveVars.JumpPower;
+                    break;
+            }
             Jumped?.Invoke();
         }
 
@@ -248,10 +266,19 @@ namespace TarodevController
             switch (state)
             {
                 case PlayerState.None:
-                    // Crouch
+                    if (frameInput.Move.y == -1)
+                    {
+                        transform.localScale = new Vector3(1, 0.5f, 1);
+                        state = PlayerState.Crouching;
+                    }
+                    else if (frameInput.Move.y == 0 && !ceilingHit)
+                    {
+                        transform.localScale = new Vector3(1, 1, 1);
+                        state = PlayerState.None;
+                    }
                     break;
                 case PlayerState.Crouching:
-                    // Handstand
+
                     break;
                 case PlayerState.SingleRope:
                     if (frameInput.Move.y == -1)
@@ -366,7 +393,14 @@ namespace TarodevController
             }
             else
             {
-                velocity.x = Mathf.MoveTowards(velocity.x, frameInput.Move.x * moveVars.MaxSpeed, moveVars.Acceleration * Time.fixedDeltaTime);
+                if (state == PlayerState.Crouching)
+                {
+                    velocity.x = Mathf.MoveTowards(velocity.x, frameInput.Move.x * moveVars.MaxCrouchSpeed, moveVars.CrouchAcceleration * Time.fixedDeltaTime);
+                }
+                else
+                {
+                    velocity.x = Mathf.MoveTowards(velocity.x, frameInput.Move.x * moveVars.MaxSpeed, moveVars.Acceleration * Time.fixedDeltaTime);
+                }
             }
         }
 
