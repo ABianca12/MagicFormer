@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 3
   tags:
   - PickUp
+  - SwitchBlock
   layers:
   - Default
   - TransparentFX
