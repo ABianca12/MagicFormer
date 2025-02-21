@@ -11,6 +11,8 @@ public class MovingPlatform : Ground
 
     [SerializeField] private Material offMat, onMat;
 
+    private bool disableX;
+
     public void initPlatform() { initGround(); }
     public void initPlatform(Vector3 startPos, BaseType m, Vector3 endingPos, bool startMove, float s)
     {
@@ -29,10 +31,23 @@ public class MovingPlatform : Ground
             if (currentPos.x < endPos.x)
             {
                 updateVelocity((new Vector2(1.0f, 0)) * speed);
+                disableX = false;
             }
             else if (currentPos.x > endPos.x)
             {
                 updateVelocity((new Vector2(1.0f, 0)) * -speed);
+                disableX = false;
+            }
+
+            if (currentPos.y < endPos.y)
+            {
+                updateVelocity((new Vector2(0, 1.0f)) * speed);
+                disableX = true;
+            }
+            else if (currentPos.y > endPos.y)
+            {
+                updateVelocity((new Vector2(0, 1.0f)) * -speed);
+                disableX = true;
             }
 
         }
@@ -42,22 +57,36 @@ public class MovingPlatform : Ground
     {
         if(baseMoving)
         {
-            if (currentPos.x >= endPos.x)
+            if (!disableX)
             {
-                updateVelocity((new Vector2(1.0f, 0)) * -speed);
+                if (currentPos.x > endPos.x)
+                {
+                    updateVelocity((new Vector2(1.0f, 0)) * -speed);
+                }
+                else if (currentPos.x < startPos.x)
+                {
+                    updateVelocity((new Vector2(1.0f, 0)) * speed);
+                }
             }
-            else if (currentPos.x <= startPos.x)
+            else
             {
-                updateVelocity((new Vector2(1.0f, 0)) * speed);
+                if (currentPos.y < endPos.y)
+                {
+                   updateVelocity((new Vector2(0, 1.0f)) * speed);
+                }
+                else if (currentPos.y > startPos.y)
+                {
+                    updateVelocity((new Vector2(0, 1.0f)) * -speed);
+                }
             }
 
             updateEntity(Time.deltaTime);
         }
 
-        checkMat();
+        CheckMat();
     }
 
-    private void checkMat()
+    private void CheckMat()
     {
         if (baseMoving) 
         {
@@ -67,6 +96,11 @@ public class MovingPlatform : Ground
         {
             gameObject.GetComponent<MeshRenderer>().material = offMat;
         }
+    }
+
+    public void PushPlat(Vector2 dir, float strength)
+    {
+        
     }
 
 }

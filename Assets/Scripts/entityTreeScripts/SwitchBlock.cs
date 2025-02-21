@@ -4,27 +4,19 @@ using UnityEngine;
 
 public class SwitchBlock : Ground
 {
-    private UnityEngine.Material matOn;
-    private UnityEngine.Material matOff;
+    private bool activeState;
 
-    private BaseType currTex;
-
-    bool activeState;
-
+    [SerializeField] private Material offMat, onMat;
 
     public void swapState()
     {
         if (activeState)
         {
-            activeState = false;
-            setMaterial(BaseType.NONE);
-            gameObject.GetComponent<MeshRenderer>().material = matOn;
+            turnOff();
         }
         else
         {
-            activeState = true;
-            setMaterial(BaseType.METAL);
-            gameObject.GetComponent<MeshRenderer>().material = matOff;
+            turnOn();
         }
 
     }
@@ -32,14 +24,14 @@ public class SwitchBlock : Ground
     public void turnOff()
     {
         activeState = false;
-        setMaterial(BaseType.NONE);
-        gameObject.GetComponent<MeshRenderer>().material = matOn;
+        gameObject.GetComponent<MeshRenderer>().material = offMat;
+        gameObject.GetComponent<Collider>().enabled = false;
     }
 
     public void turnOn()
     {
         activeState = true;
-        setMaterial(BaseType.METAL);
-        gameObject.GetComponent<MeshRenderer>().material = matOff;
+        gameObject.GetComponent<MeshRenderer>().material = onMat;
+        gameObject.GetComponent<Collider>().enabled = true;
     }
 }
