@@ -21,7 +21,7 @@ namespace TarodevController
         public event Action<bool, float> GroundedChanged;
         public event Action Jumped;
 
-        private enum PlayerState
+        public enum PlayerState
         {
             None = 0,
             Handstand,
@@ -34,7 +34,12 @@ namespace TarodevController
             Falling,
         }
 
-        PlayerState state = PlayerState.None;
+        private PlayerState state = PlayerState.None;
+
+        public PlayerState GetPlayerState()
+        {
+            return state;
+        }
 
         #endregion
 
@@ -65,7 +70,7 @@ namespace TarodevController
                 UpDown = Input.GetKeyDown(moveVars.up),
                 UpHeld = Input.GetKey(moveVars.up),
                 PickUpDown = Input.GetKeyDown(moveVars.pickUp),
-                PickUpHeld = Input.GetKey(moveVars.down),
+                PickUpHeld = Input.GetKey(moveVars.pickUp),
 
                 Move = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"))
             };
@@ -94,6 +99,11 @@ namespace TarodevController
             {
                 timeUpWasPressed = time;
             }
+
+            if (frameInput.PickUpDown)
+            {
+                Debug.Log(state);
+            }
         }
 
         private void FixedUpdate()
@@ -103,6 +113,7 @@ namespace TarodevController
             HandleJump();
             HandleDown();
             HandleUp();
+            HandlePickUp();
             HandleDirection();
 
             if (!(state == PlayerState.SingleRope || state == PlayerState.DoubleRope))
@@ -118,6 +129,7 @@ namespace TarodevController
         private float frameLeftGround = float.MinValue;
         private bool grounded;
         private static bool inRangeOfRope;
+        private bool isOnTopOfPickup;
 
         private void CheckCollisions()
         {
@@ -126,6 +138,23 @@ namespace TarodevController
             // Ground and Ceiling
             bool groundHit = Physics2D.CapsuleCast(capCollider.bounds.center, capCollider.size, capCollider.direction,
                 0, Vector2.down, moveVars.GrounderDistance, ~moveVars.PlayerLayer);
+
+            RaycastHit2D hit = Physics2D.CapsuleCast(capCollider.bounds.center, capCollider.size, capCollider.direction,
+                0, Vector2.down, moveVars.GrounderDistance, ~moveVars.PlayerLayer);
+
+            if (hit)
+            {
+                if (hit.transform.tag == "PickUp")
+                {
+                    isOnTopOfPickup = true;
+                }
+                else
+                {
+                    isOnTopOfPickup = false;
+                }
+            }
+           
+
             bool ceilingHit = Physics2D.CapsuleCast(capCollider.bounds.center, capCollider.size, capCollider.direction,
                 0, Vector2.up, moveVars.GrounderDistance, ~moveVars.PlayerLayer);
 
@@ -180,7 +209,10 @@ namespace TarodevController
 
         private void HandleJump()
         {
-            if (!endedJumpEarly && !grounded && !frameInput.JumpHeld && rb.linearVelocity.y > 0) endedJumpEarly = true;
+            if (!endedJumpEarly && !grounded && !frameInput.JumpHeld && rb.linearVelocity.y > 0)
+            {
+                endedJumpEarly = true;
+            }
 
             if (!hasJump && !HasBufferedJump)
             {
@@ -228,7 +260,10 @@ namespace TarodevController
                     }
                     break;
                 case PlayerState.DoubleRope:
-                    // Double Rope
+                    if (frameInput.Move.y == -1)
+                    {
+                        velocity.y = -moveVars.MaxDownwardsDoubleRopeSpeed;
+                    }
                     break;
                 case PlayerState.Carrying:
                     // Carrying
@@ -276,12 +311,44 @@ namespace TarodevController
                     }
                     break;
                 case PlayerState.DoubleRope:
-
+                    if (frameInput.Move.y == 1)
+                    {
+                        velocity.y = moveVars.MaxUpwardsDoubleRopeSpeed;
+                    }
+                    else if (frameInput.Move.y == 0)
+                    {
+                        velocity.y = 0;
+                    }
                     break;
                 case PlayerState.Carrying:
 
                     break;
                 default:
+                    break;
+            }
+        }
+
+        #endregion
+
+        #region Pickups
+
+        private GameObject objectBeingHeld;
+
+        private void HandlePickUp()
+        {
+            switch(state)
+            {
+                case PlayerState.None:
+                    if (frameInput.PickUpDown && isOnTopOfPickup)
+                    {
+                        state = PlayerState.Carrying;
+                    }
+                    break;
+                case PlayerState.Carrying:
+                    if (frameInput.PickUpDown)
+                    {
+                        state = PlayerState.None;
+                    }
                     break;
             }
         }
