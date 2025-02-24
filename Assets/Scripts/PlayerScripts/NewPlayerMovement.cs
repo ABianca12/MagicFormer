@@ -8,6 +8,8 @@ namespace TarodevController
     [RequireComponent(typeof(Rigidbody2D), typeof(CapsuleCollider2D))]
     public class PlayerController : MonoBehaviour, IPlayerController
     {
+        public Quaternion HandstandRotation = Quaternion.Euler(0, 0, 180);
+
         [SerializeField] private MovementVariables moveVars;
         private Rigidbody2D rb;
         private CapsuleCollider2D capCollider;
@@ -57,6 +59,7 @@ namespace TarodevController
         {
             time += Time.deltaTime;
             GatherInput();
+            HandlePickUp();
         }
 
         private void GatherInput()
@@ -65,10 +68,6 @@ namespace TarodevController
             {
                 JumpDown = Input.GetButtonDown("Jump") || Input.GetKeyDown(moveVars.jump),
                 JumpHeld = Input.GetButton("Jump") || Input.GetKey(moveVars.jump),
-                DownDown = Input.GetKeyDown(moveVars.down),
-                DownHeld = Input.GetKey(moveVars.down),
-                UpDown = Input.GetKeyDown(moveVars.up),
-                UpHeld = Input.GetKey(moveVars.up),
                 PickUpDown = Input.GetKeyDown(moveVars.pickUp),
                 PickUpHeld = Input.GetKey(moveVars.pickUp),
 
@@ -89,16 +88,6 @@ namespace TarodevController
                 hasJump = true;
                 timeJumpWasPressed = time;
             }
-
-            if (frameInput.DownDown)
-            {
-                timeDownWasPressed = time;
-            }
-
-            if (frameInput.UpDown)
-            {
-                timeUpWasPressed = time;
-            }
         }
 
         private void FixedUpdate()
@@ -108,7 +97,6 @@ namespace TarodevController
             HandleJump();
             HandleDown();
             HandleUp();
-            HandlePickUp();
             HandleDirection();
 
             if (!(state == PlayerState.SingleRope || state == PlayerState.DoubleRope))
@@ -185,7 +173,7 @@ namespace TarodevController
                 GroundedChanged?.Invoke(false, 0);
             }
 
-            if (!inRangeOfRope)
+            if ((state == PlayerState.SingleRope || state == PlayerState.DoubleRope) && !inRangeOfRope)
             {
                 state = PlayerState.None;
             }
@@ -243,6 +231,9 @@ namespace TarodevController
                     velocity.y = moveVars.JumpPower;
                     break;
                 case PlayerState.Crouching:
+                    // Do little handstand flip jump
+                    velocity.y = moveVars.HandStandTransitionJumpPower;
+                    transform.rotation = Quaternion.Lerp(transform.rotation, HandstandRotation, 2 * Time.deltaTime);
                     state = PlayerState.Handstand;
                     break;
                 case PlayerState.Handstand:
@@ -271,14 +262,13 @@ namespace TarodevController
                         transform.localScale = new Vector3(1, 0.5f, 1);
                         state = PlayerState.Crouching;
                     }
-                    else if (frameInput.Move.y == 0 && !ceilingHit)
+                    break;
+                case PlayerState.Crouching:
+                    if (frameInput.Move.y == 0 && !ceilingHit)
                     {
                         transform.localScale = new Vector3(1, 1, 1);
                         state = PlayerState.None;
                     }
-                    break;
-                case PlayerState.Crouching:
-
                     break;
                 case PlayerState.SingleRope:
                     if (frameInput.Move.y == -1)
@@ -292,18 +282,10 @@ namespace TarodevController
                         velocity.y = -moveVars.MaxDownwardsDoubleRopeSpeed;
                     }
                     break;
-                case PlayerState.Carrying:
-                    // Carrying
-                    break;
                 default:
                     // 
                     break;
             }
-        }
-
-        private void ExecuteCrouch()
-        {
-
         }
 
         #endregion
@@ -374,6 +356,18 @@ namespace TarodevController
                 case PlayerState.Carrying:
                     if (frameInput.PickUpDown)
                     {
+                        if (frameInput.Move.y == 1)
+                        {
+                            // Throw upwards
+                        }
+                        else if (frameInput.Move.y == -1)
+                        {
+                            // Drop
+                        }
+                        else
+                        {
+                            // Throw
+                        }
                         state = PlayerState.None;
                     }
                     break;
@@ -438,10 +432,6 @@ namespace TarodevController
     {
         public bool JumpDown;
         public bool JumpHeld;
-        public bool DownDown;
-        public bool DownHeld;
-        public bool UpDown;
-        public bool UpHeld;
         public bool PickUpDown; 
         public bool PickUpHeld;
         public Vector2 Move;

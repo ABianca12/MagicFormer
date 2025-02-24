@@ -18,8 +18,9 @@ public class Pickup : Destructable
     private BoxCollider2D coll;
     private Rigidbody2D rb;
     private bool beingCarried;
-    private bool beingThrown;
+    private bool thrown;
     private bool grounded;
+    private CapsuleCollider2D playerCapColl;
     //private Vector2 velocity;
 
     public void Start()
@@ -31,60 +32,24 @@ public class Pickup : Destructable
         coll = this.GetComponent<BoxCollider2D>();
         rb = this.GetComponent<Rigidbody2D>();
         rb.constraints = RigidbodyConstraints2D.FreezeAll;
+        playerCapColl = player.GetComponent<CapsuleCollider2D>();
     }
 
     private void Update()
     {
-        pickUpPos = new Vector3(player.transform.position.x, player.transform.position.y + 2,
+        pickUpPos = new Vector3(player.transform.position.x,
+            player.transform.position.y + playerCapColl.size.y,
             player.transform.position.z);
 
         if (controller.GetPlayerState() == PlayerController.PlayerState.Carrying)
         {
             transform.position = pickUpPos;
-            Debug.Log("Updated pos");
-            //Instantiate(this.gameObject, player.transform.position, player.transform.rotation);
         }
-        
-
     }
 
     private void FixedUpdate()
     {
-        Collisions();
-
-        if (beingThrown)
-        {
-            HandleGravity();
-            ApplyMovement();
-        }
-    }
-
-    void Collisions()
-    {
-        bool groundHit = Physics2D.BoxCast(coll.bounds.center, coll.size,
-                0, Vector2.down, PickUpGrounderDistance);
-
-        bool ceilingHit = Physics2D.BoxCast(coll.bounds.center, coll.size,
-                0, Vector2.up, PickUpGrounderDistance);
-
-        // Hit a Ceiling
-        if (ceilingHit && !beingCarried)
-        {
-            velocity.y = Mathf.Min(0, velocity.y);
-        }
-
-        // Landed on the Ground
-        if (!grounded && groundHit)
-        {
-            grounded = true;
-            //GroundedChanged?.Invoke(true, Mathf.Abs(velocity.y));
-        }
-        // Left the Ground
-        else if (grounded && !groundHit)
-        {
-            grounded = false;
-            //GroundedChanged?.Invoke(false, 0);
-        }
+        ApplyMovement();
     }
 
     public void throwPickUp(Vector2 direction, float force)

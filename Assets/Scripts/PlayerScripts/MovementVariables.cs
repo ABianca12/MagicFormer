@@ -64,6 +64,9 @@ public class MovementVariables : MonoBehaviour
     [Tooltip("The immediate velocity applied when jumping")]
     public float JumpPower = 36;
 
+    [Tooltip("The immediate velocity applied when transitioning to a handstand")]
+    public float HandStandTransitionJumpPower = 18;
+
     [Tooltip("The immediate velocity applied when handstand jumping")]
     public float HandStandJumpPower = 50;
 
