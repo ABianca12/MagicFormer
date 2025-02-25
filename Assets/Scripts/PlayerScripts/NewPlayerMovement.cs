@@ -356,9 +356,11 @@ namespace TarodevController
                 case PlayerState.Carrying:
                     if (frameInput.PickUpDown)
                     {
+                        state = PlayerState.None;
                         if (frameInput.Move.y == 1)
                         {
                             // Throw upwards
+                            PickUpBehvaior.throwPickUp(new Vector2(0, moveVars.JumpPower));
                         }
                         else if (frameInput.Move.y == -1)
                         {
@@ -367,8 +369,8 @@ namespace TarodevController
                         else
                         {
                             // Throw
+                            PickUpBehvaior.throwPickUp(velocity + new Vector2(2, 0));
                         }
-                        state = PlayerState.None;
                     }
                     break;
             }
