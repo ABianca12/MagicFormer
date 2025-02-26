@@ -49,7 +49,7 @@ public class PickUpBehvaior : MonoBehaviour
             player.transform.position.y + playerCapColl.size.y,
             player.transform.position.z);
 
-        if (controller.GetPlayerState() == PlayerController.PlayerState.Carrying && grounded)
+        if (controller.GetPlayerState() == PlayerController.PlayerState.Carrying)
         {
             this.transform.position = pickUpPos;
             grounded = false;
@@ -84,13 +84,11 @@ public class PickUpBehvaior : MonoBehaviour
     private void CheckCollisions()
     {
         // Ground and Ceiling
-        bool groundHit = Physics2D.BoxCast(coll.bounds.center, coll.size, 0, Vector2.down, PickUpGrounderDistance, ~playerLayer);
+        bool groundHit = Physics2D.BoxCast(coll.bounds.center, coll.size, 0, Vector2.down, PickUpGrounderDistance, defaultLayer);
+        RaycastHit2D hit = Physics2D.BoxCast(coll.bounds.center, coll.size, 0, Vector2.down, PickUpGrounderDistance, defaultLayer);
 
-        Debug.Log(groundHit);
-        RaycastHit2D hit = Physics2D.BoxCast(coll.bounds.center, coll.size, 0, Vector2.down, PickUpGrounderDistance, ~playerLayer);
-        Debug.Log(hit.transform.name);
-
-        bool ceilingHit = Physics2D.BoxCast(coll.bounds.center, coll.size, 0, Vector2.up);
+        bool ceilingHit = Physics2D.BoxCast(coll.bounds.center, coll.size, 0, Vector2.up, PickUpGrounderDistance, defaultLayer);
+        Debug.Log(ceilingHit);
 
         bool leftHit = Physics2D.BoxCast(coll.bounds.center, coll.size, 0, Vector2.left,
             PickUpGrounderDistance, defaultLayer);

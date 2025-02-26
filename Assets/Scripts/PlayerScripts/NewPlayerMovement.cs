@@ -1,8 +1,5 @@
 using System;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Playables;
-using UnityEngine.UIElements.Experimental;
 
 namespace TarodevController
 {
@@ -377,20 +374,21 @@ namespace TarodevController
                         if (frameInput.Move.y == 1)
                         {
                             // Throw upwards
-                            PickUpBehvaior.ThrowPickUp(new Vector2(0, 100));
+                            PickUpBehvaior.ThrowPickUp(new Vector2(0, moveVars.ThrowingStrength));
                             Debug.Log("Thrown Up");
                         }
                         else if (frameInput.Move.y == -1)
                         {
                             // Drop
+                            PickUpBehvaior.ThrowPickUp(new Vector2(0, 0));
                         }
                         else if (frameInput.Move.x == -1)
                         {
-                            PickUpBehvaior.ThrowPickUp(velocity - new Vector2(moveVars.ThrowingStrength, 0));
+                            PickUpBehvaior.ThrowPickUp(velocity + new Vector2(-moveVars.ThrowingStrength, moveVars.ThrowingStrength));
                         }
                         else if (frameInput.Move.x == 1)
                         {
-                            PickUpBehvaior.ThrowPickUp(velocity + new Vector2(moveVars.ThrowingStrength, 0));
+                            PickUpBehvaior.ThrowPickUp(velocity + new Vector2(moveVars.ThrowingStrength, moveVars.ThrowingStrength));
                         }
                         else
                         {

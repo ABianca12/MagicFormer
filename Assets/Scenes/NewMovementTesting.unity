@@ -1413,7 +1413,7 @@ GameObject:
   - component: {fileID: 1241999885}
   - component: {fileID: 1241999888}
   - component: {fileID: 1241999889}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Capsule
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2039,7 +2039,7 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1000000
-  m_LinearDamping: 0
+  m_LinearDamping: 1
   m_AngularDamping: 0.05
   m_GravityScale: 0
   m_Material: {fileID: 6200000, guid: 9ee43051fc898e44d804dcf43e5f2bd7, type: 2}
@@ -2114,10 +2114,18 @@ MonoBehaviour:
   PickUpGrounderDistance: 0.05
   GroundingForce: -9.81
   MaxFallSpeed: 80
-  FallAcceleration: 1000
-  collisionLayer:
+  FallAcceleration: 100
+  defaultLayer:
     serializedVersion: 2
     m_Bits: 1
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 8
+  pickUpLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  GroundDeceleration: 60
+  AirDeceleration: 30
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
