@@ -1,15 +1,18 @@
+using TarodevController;
 using UnityEngine;
+using static TarodevController.PlayerController;
 
 public class magicCastingScript : MonoBehaviour
 {
     //Spell prefabs
     [SerializeField] private Fireball f;
     [SerializeField] private Crate earfKrate;
+    private PlayerController p;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        p = gameObject.GetComponent<PlayerController>();
     }
 
     // Update is called once per frame
@@ -18,15 +21,38 @@ public class magicCastingScript : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.Alpha1))
         {
             Fireball fb = Instantiate(f);
-            fb.initFireball(gameObject.transform.position, new Vector2(5,0));
+            switch(p.getFaceDirection())
+            {
+                case PlayerDirection.Left:
+                    fb.initFireball(gameObject.transform.position,new Vector2(-5, 0));
+                    break;
+                case PlayerDirection.Right:
+                    fb.initFireball(gameObject.transform.position, new Vector2(5, 0));
+                    break;
+                default:
+                    fb.initFireball(gameObject.transform.position, new Vector2(5, 0));
+                    break;
+
+            }
+            
         }
         else if (Input.GetKeyDown(KeyCode.Alpha2))
         {
             Debug.Log("EARTH");
             Crate c = Instantiate(earfKrate);
-            c.initCrate(gameObject.transform.position);
-            //c.initCrate(new Vector3(gameObject.transform.position.x, gameObject.transform.position.y - 2, gameObject.transform.position.z));
-            //Call player pickup function to make them pick up the crate
+            switch (p.getFaceDirection())
+            {
+                case PlayerDirection.Left:
+                    c.initCrate(new Vector3(gameObject.transform.position.x - 2, gameObject.transform.position.y, gameObject.transform.position.z));
+                    break;
+                case PlayerDirection.Right:
+                    c.initCrate(new Vector3(gameObject.transform.position.x + 2, gameObject.transform.position.y, gameObject.transform.position.z));
+                    break;
+                default:
+                    c.initCrate(new Vector3(gameObject.transform.position.x + 2, gameObject.transform.position.y, gameObject.transform.position.z));
+                    break;
+
+            }
         }
     }
 }

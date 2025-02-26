@@ -44,7 +44,7 @@ namespace TarodevController
             return state;
         }
 
-        private enum PlayerDirection
+        public enum PlayerDirection
         {
             None,
             Left,
@@ -52,6 +52,11 @@ namespace TarodevController
         }
 
         private PlayerDirection facing = PlayerDirection.Right;
+        
+        public PlayerDirection getFaceDirection()
+        {
+            return facing;
+        }
 
         #endregion
 

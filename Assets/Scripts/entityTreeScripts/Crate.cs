@@ -18,4 +18,9 @@ public class Crate : Pickup
     {
         base.initPickup(BaseType.STONE, start);
     }
+
+    private void Update()
+    {
+        base.updateEntity(Time.deltaTime);
+    }
 }
