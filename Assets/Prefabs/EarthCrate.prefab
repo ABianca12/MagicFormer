@@ -175,7 +175,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!114 &-3596224629888988163
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -192,6 +192,14 @@ MonoBehaviour:
   GroundingForce: -9.81
   MaxFallSpeed: 80
   FallAcceleration: 1000
-  collisionLayer:
+  defaultLayer:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 0
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  pickUpLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  GroundDeceleration: 60
+  AirDeceleration: 30
