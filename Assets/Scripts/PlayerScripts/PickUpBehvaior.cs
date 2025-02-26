@@ -10,7 +10,15 @@ public class PickUpBehvaior : MonoBehaviour
     public float MaxFallSpeed = 80;
     public float FallAcceleration = 150;
     public event Action<bool, float> GroundedChanged;
-    public LayerMask collisionLayer;
+    public LayerMask defaultLayer;
+    public LayerMask playerLayer;
+    public LayerMask pickUpLayer;
+
+    [Tooltip("The pace at which the throwable comes to a stop")]
+    public float GroundDeceleration = 60;
+
+    [Tooltip("Deceleration in air only after stopping input mid-air")]
+    public float AirDeceleration = 30;
 
     private GameObject player;
     private PlayerController controller;
@@ -43,7 +51,7 @@ public class PickUpBehvaior : MonoBehaviour
 
         if (controller.GetPlayerState() == PlayerController.PlayerState.Carrying && grounded)
         {
-            transform.position = pickUpPos;
+            this.transform.position = pickUpPos;
             grounded = false;
             beingCarried = true;
         }
@@ -73,22 +81,22 @@ public class PickUpBehvaior : MonoBehaviour
         }
     }
 
-    private bool ceilingHit = false;
-
     private void CheckCollisions()
     {
         // Ground and Ceiling
-        bool groundHit = Physics2D.BoxCast(coll.bounds.center, coll.size, 0, Vector2.down);
+        bool groundHit = Physics2D.BoxCast(coll.bounds.center, coll.size, 0, Vector2.down, PickUpGrounderDistance, ~playerLayer);
 
         Debug.Log(groundHit);
+        RaycastHit2D hit = Physics2D.BoxCast(coll.bounds.center, coll.size, 0, Vector2.down, PickUpGrounderDistance, ~playerLayer);
+        Debug.Log(hit.transform.name);
 
         bool ceilingHit = Physics2D.BoxCast(coll.bounds.center, coll.size, 0, Vector2.up);
 
         bool leftHit = Physics2D.BoxCast(coll.bounds.center, coll.size, 0, Vector2.left,
-            PickUpGrounderDistance, collisionLayer);
+            PickUpGrounderDistance, defaultLayer);
 
         bool rightHit = Physics2D.BoxCast(coll.bounds.center, coll.size, 0, Vector2.right,
-            PickUpGrounderDistance, collisionLayer);
+            PickUpGrounderDistance, defaultLayer);
 
         // Hit a Ceiling
         if (ceilingHit)
@@ -105,6 +113,7 @@ public class PickUpBehvaior : MonoBehaviour
         if (!grounded && groundHit)
         {
             grounded = true;
+            velocity.x = 0;
             GroundedChanged?.Invoke(true, Mathf.Abs(velocity.y));
         }
         // Left the Ground
