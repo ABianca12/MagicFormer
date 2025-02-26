@@ -84,4 +84,8 @@ public class MovementVariables : MonoBehaviour
 
     [Tooltip("The amount of time we buffer a jump. This allows jump input before actually hitting the ground")]
     public float JumpBuffer = .2f;
+
+    [Header("Throwing")]
+    [Tooltip("The full force of throwing something")]
+    public float ThrowingStrength = 100.0f;
 }

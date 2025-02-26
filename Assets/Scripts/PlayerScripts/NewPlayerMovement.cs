@@ -2,6 +2,7 @@ using System;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Playables;
+using UnityEngine.UIElements.Experimental;
 
 namespace TarodevController
 {
@@ -15,7 +16,7 @@ namespace TarodevController
         private CapsuleCollider2D capCollider;
         private FrameInput frameInput;
         private Vector2 velocity;
-        private bool startInColliders;
+        private bool startInColliders = false;
 
         #region Interface
 
@@ -43,6 +44,15 @@ namespace TarodevController
             return state;
         }
 
+        private enum PlayerDirection
+        {
+            None,
+            Left,
+            Right
+        }
+
+        private PlayerDirection facing = PlayerDirection.Right;
+
         #endregion
 
         private float time;
@@ -53,6 +63,8 @@ namespace TarodevController
             capCollider = GetComponent<CapsuleCollider2D>();
 
             startInColliders = Physics2D.queriesStartInColliders;
+
+            
         }
 
         private void Update()
@@ -360,16 +372,34 @@ namespace TarodevController
                         if (frameInput.Move.y == 1)
                         {
                             // Throw upwards
-                            PickUpBehvaior.throwPickUp(new Vector2(0, moveVars.JumpPower));
+                            PickUpBehvaior.ThrowPickUp(new Vector2(0, 100));
+                            Debug.Log("Thrown Up");
                         }
                         else if (frameInput.Move.y == -1)
                         {
                             // Drop
                         }
+                        else if (frameInput.Move.x == -1)
+                        {
+                            PickUpBehvaior.ThrowPickUp(velocity - new Vector2(moveVars.ThrowingStrength, 0));
+                        }
+                        else if (frameInput.Move.x == 1)
+                        {
+                            PickUpBehvaior.ThrowPickUp(velocity + new Vector2(moveVars.ThrowingStrength, 0));
+                        }
                         else
                         {
-                            // Throw
-                            PickUpBehvaior.throwPickUp(velocity + new Vector2(2, 0));
+                            switch (facing)
+                            {
+                                case PlayerDirection.Left:
+                                    PickUpBehvaior.ThrowPickUp(new Vector2(-moveVars.ThrowingStrength,
+                                moveVars.ThrowingStrength));
+                                    break;
+                                case PlayerDirection.Right:
+                                    PickUpBehvaior.ThrowPickUp(new Vector2(moveVars.ThrowingStrength,
+                                moveVars.ThrowingStrength));
+                                    break;
+                            }
                         }
                     }
                     break;
@@ -389,14 +419,39 @@ namespace TarodevController
             }
             else
             {
-                if (state == PlayerState.Crouching)
+                switch(state)
                 {
-                    velocity.x = Mathf.MoveTowards(velocity.x, frameInput.Move.x * moveVars.MaxCrouchSpeed, moveVars.CrouchAcceleration * Time.fixedDeltaTime);
+                    case PlayerState.None:
+                        velocity.x = Mathf.MoveTowards(velocity.x, frameInput.Move.x * moveVars.MaxSpeed,
+                            moveVars.Acceleration * Time.fixedDeltaTime);
+                        RotatePlayer();
+                        break;
+                    case PlayerState.Crouching:
+                        velocity.x = Mathf.MoveTowards(velocity.x,
+                            frameInput.Move.x * moveVars.MaxCrouchSpeed,
+                            moveVars.CrouchAcceleration * Time.fixedDeltaTime);
+                        RotatePlayer();
+                        break;
+                    case PlayerState.Carrying:
+                        velocity.x = Mathf.MoveTowards(velocity.x, frameInput.Move.x * moveVars.MaxSpeed,
+                            moveVars.Acceleration * Time.fixedDeltaTime);
+                        RotatePlayer();
+                        break;
                 }
-                else
-                {
-                    velocity.x = Mathf.MoveTowards(velocity.x, frameInput.Move.x * moveVars.MaxSpeed, moveVars.Acceleration * Time.fixedDeltaTime);
-                }
+            }
+        }
+
+        private void RotatePlayer()
+        {
+            if (frameInput.Move.x == -1)
+            {
+                facing = PlayerDirection.Left;
+                transform.rotation = Quaternion.Euler(0, 180, 0);
+            }
+            else if (frameInput.Move.x == 1)
+            {
+                facing = PlayerDirection.Right;
+                transform.rotation = Quaternion.Euler(0, 0, 0);
             }
         }
 

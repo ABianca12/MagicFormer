@@ -7,9 +7,10 @@ public class PickUpBehvaior : MonoBehaviour
 {
     public float PickUpGrounderDistance = 0.05f;
     public float GroundingForce = -1.5f;
-    public float MaxFallSpeed = 40;
-    public float FallAcceleration = 110;
+    public float MaxFallSpeed = 80;
+    public float FallAcceleration = 150;
     public event Action<bool, float> GroundedChanged;
+    public LayerMask collisionLayer;
 
     private GameObject player;
     private PlayerController controller;
@@ -19,7 +20,6 @@ public class PickUpBehvaior : MonoBehaviour
     private BoxCollider2D coll;
     private static Rigidbody2D rb;
     private bool beingCarried;
-    private bool thrown;
     private bool grounded;
     private CapsuleCollider2D playerCapColl;
     private static Vector2 velocity;
@@ -32,7 +32,6 @@ public class PickUpBehvaior : MonoBehaviour
         rend = this.GetComponent<Renderer>();
         coll = this.GetComponent<BoxCollider2D>();
         rb = this.GetComponent<Rigidbody2D>();
-        //rb.constraints = RigidbodyConstraints2D.FreezeAll;
         playerCapColl = player.GetComponent<CapsuleCollider2D>();
     }
 
@@ -42,12 +41,11 @@ public class PickUpBehvaior : MonoBehaviour
             player.transform.position.y + playerCapColl.size.y,
             player.transform.position.z);
 
-        if (controller.GetPlayerState() == PlayerController.PlayerState.Carrying)
+        if (controller.GetPlayerState() == PlayerController.PlayerState.Carrying && grounded)
         {
             transform.position = pickUpPos;
             grounded = false;
             beingCarried = true;
-            Debug.Log("Updating to player pos");
         }
         else
         {
@@ -82,12 +80,25 @@ public class PickUpBehvaior : MonoBehaviour
         // Ground and Ceiling
         bool groundHit = Physics2D.BoxCast(coll.bounds.center, coll.size, 0, Vector2.down);
 
+        Debug.Log(groundHit);
+
         bool ceilingHit = Physics2D.BoxCast(coll.bounds.center, coll.size, 0, Vector2.up);
+
+        bool leftHit = Physics2D.BoxCast(coll.bounds.center, coll.size, 0, Vector2.left,
+            PickUpGrounderDistance, collisionLayer);
+
+        bool rightHit = Physics2D.BoxCast(coll.bounds.center, coll.size, 0, Vector2.right,
+            PickUpGrounderDistance, collisionLayer);
 
         // Hit a Ceiling
         if (ceilingHit)
         {
             velocity.y = Mathf.Min(0, velocity.y);
+        }
+
+        if (leftHit || rightHit)
+        {
+            velocity.x = 0;
         }
 
         // Landed on the Ground
@@ -104,7 +115,7 @@ public class PickUpBehvaior : MonoBehaviour
         }
     }
 
-    public static void throwPickUp(Vector2 direction)
+    public static void ThrowPickUp(Vector2 direction)
     {
         velocity.x = direction.x;
         velocity.y = direction.y;
