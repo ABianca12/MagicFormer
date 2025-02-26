@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class Interactable : Entity
 {
+    //init functions
     public void initInteractable()
     {
         initEntity();

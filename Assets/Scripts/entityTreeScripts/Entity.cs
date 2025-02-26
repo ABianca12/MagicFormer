@@ -22,6 +22,7 @@ public class Entity : MonoBehaviour
     protected BaseType material;
     [SerializeField] protected float zAxis;
 
+    //Init functions
     public void initEntity(Vector3 start, Vector2 v, BaseType m)
     {
         startPos = start;

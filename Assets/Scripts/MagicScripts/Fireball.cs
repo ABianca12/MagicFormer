@@ -28,6 +28,7 @@ public class Fireball : Projectile
         if(collision.gameObject.tag == "Player" || collision.gameObject.GetComponent<Fireball>() != null)
         {
             //do nothing
+            Debug.Log("Collision Ignored");
         }
         else
         {
