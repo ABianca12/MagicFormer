@@ -32,6 +32,7 @@ public class Fireball : Projectile
         }
         else
         {
+            //add fire particle fx
             Destroy(gameObject);
         }
         

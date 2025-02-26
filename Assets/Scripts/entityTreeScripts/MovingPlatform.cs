@@ -98,9 +98,32 @@ public class MovingPlatform : Ground
         }
     }
 
-    public void PushPlat(Vector2 dir, float strength)
+    public override void addForce(Vector2 force, float strength = 2.0f)
     {
-        
+        //If platform is moving along the x axis
+        if(!disableX)
+        {
+            //Checks if the platform is moving towards the end position or the start position
+            if(currentPos.x > endPos.x)
+            {
+
+            }
+            else
+            {
+
+            }
+        }
+        else
+        {
+            if (currentPos.y > endPos.y)
+            {
+
+            }
+            else
+            {
+
+            }
+        }
     }
 
 }

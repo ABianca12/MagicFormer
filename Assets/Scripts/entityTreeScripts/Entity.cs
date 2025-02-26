@@ -66,6 +66,12 @@ public class Entity : MonoBehaviour
         material = BaseType.NONE;
     }
 
+    //Get function for material
+    public BaseType getMaterial()
+    {
+        return material;
+    }
+
     //updates position based on velocity
     public void updateEntity(float deltaTime)
     {
@@ -85,4 +91,10 @@ public class Entity : MonoBehaviour
         material = newMaterial;
     }
 
+    //Function to add force to an object
+    public virtual void addForce(Vector2 force, float strength = 2.0f)
+    {
+        Vector2 f = force.normalized;
+        velocity += f * strength;
+    }
 }

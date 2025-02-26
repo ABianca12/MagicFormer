@@ -17,6 +17,12 @@ public class Projectile : Entity
         initEntity(start, v, m);
         temporary = temp;
     }
+    public void initProjectile(Vector3 start, Vector2 v, BaseType m, bool temp, float l)
+    {
+        initEntity(start, v, m);
+        temporary = temp;
+        lifeTime = l;
+    }
     public void initProjectile(Vector3 start, Vector2 v, BaseType m)
     {
         initEntity(start, v, m);
@@ -29,6 +35,12 @@ public class Projectile : Entity
     public void initProjectile(BaseType m, bool temp, float life)
     {
         initEntity(m);
+        temporary = temp;
+        lifeTime = life;
+    }
+    public void initProjectile(BaseType m, bool temp, float life, Vector3 start)
+    {
+        initEntity(start, m);
         temporary = temp;
         lifeTime = life;
     }

@@ -467,6 +467,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   f: {fileID: 5489159008218696636, guid: da3f8300befa5d948aa4f68465369fd3, type: 3}
   earfKrate: {fileID: 3109656594679393509, guid: 03ce55d3f6da36d41b92af1f37230bf9, type: 3}
+  poosh: {fileID: 7775935390947257808, guid: 67a8ac871a2341b48afe7c6b3b2e470d, type: 3}
 --- !u!1 &283607431
 GameObject:
   m_ObjectHideFlags: 0

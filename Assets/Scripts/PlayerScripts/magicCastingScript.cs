@@ -7,6 +7,7 @@ public class magicCastingScript : MonoBehaviour
     //Spell prefabs
     [SerializeField] private Fireball f;
     [SerializeField] private Crate earfKrate;
+    [SerializeField] private ForcePush poosh;
     private PlayerController p;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -18,13 +19,15 @@ public class magicCastingScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Alpha1))
+        //Casting fireball
+        if (Input.GetKeyDown(KeyCode.Alpha1))
         {
+            //Debug.Log("FIRE:);
             Fireball fb = Instantiate(f);
-            switch(p.getFaceDirection())
+            switch (p.getFaceDirection())
             {
                 case PlayerDirection.Left:
-                    fb.initFireball(gameObject.transform.position,new Vector2(-5, 0));
+                    fb.initFireball(gameObject.transform.position, new Vector2(-5, 0));
                     break;
                 case PlayerDirection.Right:
                     fb.initFireball(gameObject.transform.position, new Vector2(5, 0));
@@ -34,11 +37,12 @@ public class magicCastingScript : MonoBehaviour
                     break;
 
             }
-            
+
         }
+        //Casting earth crate
         else if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-            Debug.Log("EARTH");
+            //Debug.Log("EARTH");
             Crate c = Instantiate(earfKrate);
             switch (p.getFaceDirection())
             {
@@ -54,5 +58,14 @@ public class magicCastingScript : MonoBehaviour
 
             }
         }
+        //Casting force push
+        else if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            //Debug.Log("FORCE BURST");
+            ForcePush f = Instantiate(poosh);
+            Vector2 point = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
+            f.initForcePush(gameObject.transform.position, point.normalized * 10);
+        }
+
     }
 }
