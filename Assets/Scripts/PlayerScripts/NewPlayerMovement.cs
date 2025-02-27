@@ -76,6 +76,11 @@ namespace TarodevController
             time += Time.deltaTime;
             GatherInput();
             HandlePickUp();
+
+            if (Input.GetKeyDown(KeyCode.O))
+            {
+                hasJump = true;
+            }
         }
 
         private void GatherInput()
@@ -326,6 +331,7 @@ namespace TarodevController
                             velocity.x = 0;
                             velocity.y = 0;
                             state = PlayerState.SingleRope;
+                            SnapToRope(facing);
                         }
                     }
                     break;
@@ -427,7 +433,26 @@ namespace TarodevController
 
         #endregion
 
+        #region Rope
+
+        private void SnapToRope(PlayerDirection facing)
+        {
+            switch (facing)
+            {
+                case PlayerDirection.Left:
+                    transform.position = new Vector3(Climbable.GetLeftTransform() + moveVars.RopeSnapPositionOffset, transform.position.y, transform.position.z);
+                    break;
+                case PlayerDirection.Right:
+                    transform.position = new Vector3(Climbable.GetRightTransform() - moveVars.RopeSnapPositionOffset, transform.position.y, transform.position.z);
+                    break;
+            }
+        }
+
+        #endregion
+
         #region Horizontal
+
+        private bool HangingOffRope;
 
         private void HandleDirection()
         {
@@ -453,7 +478,28 @@ namespace TarodevController
                         RotatePlayer();
                         break;
                     case PlayerState.SingleRope:
-                        RotatePlayer();
+                        if (frameInput.Move.x != 0)
+                        {
+                            switch (facing)
+                            {
+                                case PlayerDirection.Right:
+                                    SnapToRope(facing);
+                                    break;
+                                case PlayerDirection.Left:
+                                    SnapToRope(facing);
+                                    break;
+                            }
+
+                            if (HangingOffRope)
+                            {
+                                state = PlayerState.None;
+                                HangingOffRope = false;
+                            }
+                            else
+                            {
+                                HangingOffRope = true;
+                            }
+                        }
                         break;
                     default:
                         velocity.x = Mathf.MoveTowards(velocity.x, frameInput.Move.x * moveVars.MaxSpeed,

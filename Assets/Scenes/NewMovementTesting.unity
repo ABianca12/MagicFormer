@@ -646,6 +646,7 @@ MonoBehaviour:
   CoyoteTime: 0.15
   JumpBuffer: 0.2
   ThrowingStrength: 25
+  RopeSnapPositionOffset: 0.5
 --- !u!114 &241274357
 MonoBehaviour:
   m_ObjectHideFlags: 0

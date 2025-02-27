@@ -93,4 +93,8 @@ public class MovementVariables : MonoBehaviour
     [Header("Throwing")]
     [Tooltip("The full force of throwing something")]
     public float ThrowingStrength = 100.0f;
+
+    [Header("Climbing")]
+    [Tooltip("The offset of the player's position when snaping to a rope"), Range(0.01f, 0.99f)]
+    public float RopeSnapPositionOffset = 0.5f;
 }
