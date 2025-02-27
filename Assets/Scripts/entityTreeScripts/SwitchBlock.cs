@@ -8,6 +8,14 @@ public class SwitchBlock : Ground
 
     [SerializeField] private Material offMat, onMat;
 
+    private void Start()
+    {
+        if (!activeState)
+        {
+            gameObject.GetComponent<BoxCollider2D>().enabled = false;
+        }
+    }
+
     public void swapState()
     {
         if (activeState)
@@ -25,13 +33,13 @@ public class SwitchBlock : Ground
     {
         activeState = false;
         gameObject.GetComponent<MeshRenderer>().material = offMat;
-        gameObject.GetComponent<Collider>().enabled = false;
+        gameObject.GetComponent<BoxCollider2D>().enabled = false;
     }
 
     public void turnOn()
     {
         activeState = true;
         gameObject.GetComponent<MeshRenderer>().material = onMat;
-        gameObject.GetComponent<Collider>().enabled = true;
+        gameObject.GetComponent<BoxCollider2D>().enabled = true;
     }
 }
