@@ -1,3 +1,4 @@
+using TarodevController;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -8,7 +9,15 @@ public class Scenemanager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    public void restartLevel()
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            restartLevel();
+        }
+
+    }
+public void restartLevel()
     {
         SceneManager.LoadScene("NewMovementTesting");
     }

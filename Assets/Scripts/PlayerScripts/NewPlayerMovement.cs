@@ -210,7 +210,7 @@ namespace TarodevController
 
         #region Jumping
 
-        private bool hasJump;
+        public bool hasJump;
         private bool bufferedJumpUsable;
         private bool endedJumpEarly;
         private bool coyoteUsable;
