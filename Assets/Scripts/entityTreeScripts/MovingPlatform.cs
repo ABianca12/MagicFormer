@@ -53,6 +53,7 @@ public class MovingPlatform : Ground
         }
     }
 
+
     private void Update()
     {
         if(baseMoving)
@@ -103,26 +104,11 @@ public class MovingPlatform : Ground
         //If platform is moving along the x axis
         if(!disableX)
         {
-            //Checks if the platform is moving towards the end position or the start position
-            if(currentPos.x > endPos.x)
-            {
-
-            }
-            else
-            {
-
-            }
+            base.velocity += new Vector2(force.x * strength, 0);
         }
         else
         {
-            if (currentPos.y > endPos.y)
-            {
-
-            }
-            else
-            {
-
-            }
+            base.velocity += new Vector2(0,force.y * strength);
         }
     }
 
