@@ -6,8 +6,6 @@ namespace TarodevController
     [RequireComponent(typeof(Rigidbody2D), typeof(CapsuleCollider2D))]
     public class PlayerController : MonoBehaviour, IPlayerController
     {
-        public Quaternion HandstandRotation = Quaternion.Euler(0, 0, 180);
-
         [SerializeField] private MovementVariables moveVars;
         private Rigidbody2D rb;
         private CapsuleCollider2D capCollider;
@@ -63,10 +61,7 @@ namespace TarodevController
         {
             rb = GetComponent<Rigidbody2D>();
             capCollider = GetComponent<CapsuleCollider2D>();
-
-            startInColliders = Physics2D.queriesStartInColliders;
-
-            
+            startInColliders = Physics2D.queriesStartInColliders; 
         }
 
         private void Update()
@@ -128,6 +123,8 @@ namespace TarodevController
         private static bool inRangeOfRope;
         private bool isOnTopOfPickup;
         private bool ceilingHit = false;
+        private RaycastHit2D hit;
+        private GameObject ObjectOnTopOf;
 
         private void CheckCollisions()
         {
@@ -137,7 +134,7 @@ namespace TarodevController
             bool groundHit = Physics2D.CapsuleCast(capCollider.bounds.center, capCollider.size, capCollider.direction,
                 0, Vector2.down, moveVars.GrounderDistance, ~moveVars.PlayerLayer);
             
-            RaycastHit2D hit = Physics2D.CapsuleCast(capCollider.bounds.center, capCollider.size, capCollider.direction,
+            hit = Physics2D.CapsuleCast(capCollider.bounds.center, capCollider.size, capCollider.direction,
                 0, Vector2.down, moveVars.GrounderDistance, ~moveVars.PlayerLayer);
 
             if (hit)
@@ -145,10 +142,12 @@ namespace TarodevController
                 if (hit.transform.tag == "PickUp")
                 {
                     isOnTopOfPickup = true;
+                    ObjectOnTopOf = hit.transform.gameObject;
                 }
                 else
                 {
                     isOnTopOfPickup = false;
+                    ObjectOnTopOf = null;
                 }
             }
 
@@ -241,17 +240,15 @@ namespace TarodevController
             coyoteUsable = false;
             switch (state)
             {
-                case PlayerState.None:
-                    velocity.y = moveVars.JumpPower;
-                    break;
                 case PlayerState.Crouching:
-                    // Do little handstand flip jump
                     velocity.y = moveVars.HandStandTransitionJumpPower;
-                    transform.rotation = Quaternion.Lerp(transform.rotation, HandstandRotation, 2 * Time.deltaTime);
                     state = PlayerState.Handstand;
+                    RotatePlayer();
                     break;
                 case PlayerState.Handstand:
                     velocity.y = moveVars.HandStandJumpPower;
+                    state = PlayerState.None;
+                    RotatePlayer();
                     break;
                 default:
                     velocity.y = moveVars.JumpPower;
@@ -284,6 +281,9 @@ namespace TarodevController
                         state = PlayerState.None;
                     }
                     break;
+                case PlayerState.Handstand:
+                    transform.localScale = new Vector3(1, 1, 1);
+                    break;
                 case PlayerState.SingleRope:
                     if (frameInput.Move.y == -1)
                     {
@@ -297,7 +297,6 @@ namespace TarodevController
                     }
                     break;
                 default:
-                    // 
                     break;
             }
         }
@@ -343,9 +342,6 @@ namespace TarodevController
                         velocity.y = 0;
                     }
                     break;
-                case PlayerState.Carrying:
-
-                    break;
                 default:
                     break;
             }
@@ -355,7 +351,7 @@ namespace TarodevController
 
         #region Pickups
 
-        private GameObject objectBeingHeld;
+        private GameObject ObjectBeingHeld;
 
         private void HandlePickUp()
         {
@@ -364,6 +360,7 @@ namespace TarodevController
                 case PlayerState.None:
                     if (frameInput.PickUpDown && isOnTopOfPickup)
                     {
+                        ObjectBeingHeld = ObjectOnTopOf;
                         state = PlayerState.Carrying;
                     }
                     break;
@@ -371,24 +368,29 @@ namespace TarodevController
                     if (frameInput.PickUpDown)
                     {
                         state = PlayerState.None;
+                        ObjectBeingHeld = null;
                         if (frameInput.Move.y == 1)
                         {
-                            // Throw upwards
-                            PickUpBehvaior.ThrowPickUp(new Vector2(0, moveVars.ThrowingStrength));
-                            Debug.Log("Thrown Up");
+                            PickUpBehvaior.ThrowPickUp(new Vector2(0,
+                                moveVars.ThrowingStrength + velocity.y));
+                            Debug.Log("Object thrown");
                         }
                         else if (frameInput.Move.y == -1)
                         {
-                            // Drop
                             PickUpBehvaior.ThrowPickUp(new Vector2(0, 0));
+                            Debug.Log("Object thrown");
                         }
                         else if (frameInput.Move.x == -1)
                         {
-                            PickUpBehvaior.ThrowPickUp(velocity + new Vector2(-moveVars.ThrowingStrength, moveVars.ThrowingStrength));
+                            PickUpBehvaior.ThrowPickUp(new Vector2(velocity.x + -moveVars.ThrowingStrength,
+                                moveVars.ThrowingStrength));
+                            Debug.Log("Object thrown");
                         }
                         else if (frameInput.Move.x == 1)
                         {
-                            PickUpBehvaior.ThrowPickUp(velocity + new Vector2(moveVars.ThrowingStrength, moveVars.ThrowingStrength));
+                            PickUpBehvaior.ThrowPickUp(new Vector2(velocity.x + moveVars.ThrowingStrength,
+                                moveVars.ThrowingStrength));
+                            Debug.Log("Object thrown");
                         }
                         else
                         {
@@ -396,11 +398,13 @@ namespace TarodevController
                             {
                                 case PlayerDirection.Left:
                                     PickUpBehvaior.ThrowPickUp(new Vector2(-moveVars.ThrowingStrength,
-                                moveVars.ThrowingStrength));
+                                moveVars.ThrowingStrength / 2));
+                                    Debug.Log("Object thrown");
                                     break;
                                 case PlayerDirection.Right:
                                     PickUpBehvaior.ThrowPickUp(new Vector2(moveVars.ThrowingStrength,
-                                moveVars.ThrowingStrength));
+                                moveVars.ThrowingStrength / 2));
+                                    Debug.Log("Object thrown");
                                     break;
                             }
                         }
@@ -424,18 +428,22 @@ namespace TarodevController
             {
                 switch(state)
                 {
-                    case PlayerState.None:
-                        velocity.x = Mathf.MoveTowards(velocity.x, frameInput.Move.x * moveVars.MaxSpeed,
-                            moveVars.Acceleration * Time.fixedDeltaTime);
-                        RotatePlayer();
-                        break;
                     case PlayerState.Crouching:
                         velocity.x = Mathf.MoveTowards(velocity.x,
                             frameInput.Move.x * moveVars.MaxCrouchSpeed,
                             moveVars.CrouchAcceleration * Time.fixedDeltaTime);
                         RotatePlayer();
                         break;
-                    case PlayerState.Carrying:
+                    case PlayerState.Handstand:
+                        velocity.x = Mathf.MoveTowards(velocity.x,
+                            frameInput.Move.x * moveVars.MaxHandStandSpeed,
+                            moveVars.HandstandAcceleration * Time.fixedDeltaTime);
+                        RotatePlayer();
+                        break;
+                    case PlayerState.SingleRope:
+                        RotatePlayer();
+                        break;
+                    default:
                         velocity.x = Mathf.MoveTowards(velocity.x, frameInput.Move.x * moveVars.MaxSpeed,
                             moveVars.Acceleration * Time.fixedDeltaTime);
                         RotatePlayer();
@@ -446,15 +454,54 @@ namespace TarodevController
 
         private void RotatePlayer()
         {
-            if (frameInput.Move.x == -1)
+            switch(state)
             {
-                facing = PlayerDirection.Left;
-                transform.rotation = Quaternion.Euler(0, 180, 0);
-            }
-            else if (frameInput.Move.x == 1)
-            {
-                facing = PlayerDirection.Right;
-                transform.rotation = Quaternion.Euler(0, 0, 0);
+                default:
+                    if (frameInput.Move.x == -1)
+                    {
+                        facing = PlayerDirection.Left;
+                        transform.rotation = Quaternion.Euler(0, 180, 0);
+                    }
+                    else if (frameInput.Move.x == 1)
+                    {
+                        facing = PlayerDirection.Right;
+                        transform.rotation = Quaternion.Euler(0, 0, 0);
+                    }
+                    else
+                    {
+                        if (facing == PlayerDirection.Left)
+                        {
+                            transform.rotation = Quaternion.Euler(0, 180, 0);
+                        }
+                        else if (facing == PlayerDirection.Right)
+                        {
+                            transform.rotation = Quaternion.Euler(0, 0, 0);
+                        }
+                    }
+                    break;
+                case PlayerState.Handstand:
+                    if (frameInput.Move.x == -1)
+                    {
+                        facing = PlayerDirection.Left;
+                        transform.rotation = Quaternion.Euler(0, 180, 180);
+                    }
+                    else if (frameInput.Move.x == 1)
+                    {
+                        facing = PlayerDirection.Right;
+                        transform.rotation = Quaternion.Euler(0, 0, 180);
+                    }
+                    else
+                    {
+                        if (facing == PlayerDirection.Left)
+                        {
+                            transform.rotation = Quaternion.Euler(0, 180, 180);
+                        }
+                        else if (facing == PlayerDirection.Right)
+                        {
+                            transform.rotation = Quaternion.Euler(0, 0, 180);
+                        }
+                    }
+                    break;
             }
         }
 

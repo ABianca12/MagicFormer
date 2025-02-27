@@ -8,7 +8,6 @@ public class MovementVariables : MonoBehaviour
     public KeyCode jump = KeyCode.Space;
     public KeyCode pickUp = KeyCode.R;
 
-
     [Header("LAYERS")]
     [Tooltip("Player Layer")]
     public LayerMask PlayerLayer;
@@ -30,6 +29,9 @@ public class MovementVariables : MonoBehaviour
     [Tooltip("The top crouch movement speed")]
     public float MaxCrouchSpeed = 7;
 
+    [Tooltip("The top handstand movement speed")]
+    public float MaxHandStandSpeed = 7;
+
     [Tooltip("The top upwards movement speed when on a single rope")]
     public float MaxUpwardsSingleRopeSpeed = 4;
 
@@ -47,6 +49,9 @@ public class MovementVariables : MonoBehaviour
 
     [Tooltip("The player's capacity to gain horizontal speed while crouching")]
     public float CrouchAcceleration = 120;
+
+    [Tooltip("The player's capacity to gain horizontal speed while in a handstand")]
+    public float HandstandAcceleration = 120;
 
     [Tooltip("The pace at which the player comes to a stop")]
     public float GroundDeceleration = 60;

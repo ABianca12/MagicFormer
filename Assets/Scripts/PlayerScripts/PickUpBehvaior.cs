@@ -28,9 +28,9 @@ public class PickUpBehvaior : MonoBehaviour
     private BoxCollider2D coll;
     private static Rigidbody2D rb;
     private bool beingCarried;
-    private bool grounded;
     private CapsuleCollider2D playerCapColl;
     private static Vector2 velocity;
+    private bool startInColliders = false;
 
     public void Start()
     {
@@ -52,7 +52,6 @@ public class PickUpBehvaior : MonoBehaviour
         if (controller.GetPlayerState() == PlayerController.PlayerState.Carrying)
         {
             this.transform.position = pickUpPos;
-            grounded = false;
             beingCarried = true;
         }
         else
@@ -65,6 +64,7 @@ public class PickUpBehvaior : MonoBehaviour
     {
         CheckCollisions();
         HandleGravity();
+        HandleDirection();
         ApplyMovement();
     }
 
@@ -81,14 +81,18 @@ public class PickUpBehvaior : MonoBehaviour
         }
     }
 
+    private bool grounded = true;
+
     private void CheckCollisions()
     {
-        // Ground and Ceiling
-        bool groundHit = Physics2D.BoxCast(coll.bounds.center, coll.size, 0, Vector2.down, PickUpGrounderDistance, defaultLayer);
-        RaycastHit2D hit = Physics2D.BoxCast(coll.bounds.center, coll.size, 0, Vector2.down, PickUpGrounderDistance, defaultLayer);
+        Physics2D.queriesStartInColliders = false;
 
-        bool ceilingHit = Physics2D.BoxCast(coll.bounds.center, coll.size, 0, Vector2.up, PickUpGrounderDistance, defaultLayer);
-        Debug.Log(ceilingHit);
+        // Ground and Ceiling
+        bool groundHit = Physics2D.BoxCast(coll.bounds.center, coll.size, 0, Vector2.down,
+            PickUpGrounderDistance, defaultLayer);
+
+        bool ceilingHit = Physics2D.BoxCast(coll.bounds.center, coll.size, 0, Vector2.up,
+            PickUpGrounderDistance, defaultLayer);
 
         bool leftHit = Physics2D.BoxCast(coll.bounds.center, coll.size, 0, Vector2.left,
             PickUpGrounderDistance, defaultLayer);
@@ -119,6 +123,21 @@ public class PickUpBehvaior : MonoBehaviour
         {
             grounded = false;
             GroundedChanged?.Invoke(false, 0);
+        }
+
+        Physics2D.queriesStartInColliders = startInColliders;
+    }
+
+    private void HandleDirection()
+    {
+        if (velocity.x > 0 || velocity.x < 0)
+        {
+            var deceleration = grounded ? GroundDeceleration : AirDeceleration;
+            velocity.x = Mathf.MoveTowards(velocity.x, 0, deceleration * Time.fixedDeltaTime);
+        }
+        else
+        {
+            
         }
     }
 
