@@ -64,13 +64,14 @@ public class magicCastingScript : MonoBehaviour
             //Debug.Log("FORCE BURST");
             ForcePush f = Instantiate(poosh);
             Vector3 point = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            Debug.Log(point);
-            point.Normalize();
-            //f.initForcePush(gameObject.transform.position, new Vector2(point.x - gameObject.transform.position.x, point.y - gameObject.transform.position.y) * 10);
+            //Debug.Log(point);
+            //point.Normalize();
+            f.initForcePush(gameObject.transform.position, new Vector2(point.x - gameObject.transform.position.x, point.y - gameObject.transform.position.y) * 10);
+            //f.initForcePush(gameObject.transform.position, new Vector2(point.x, point.y) * 10);
             switch (p.getFaceDirection())
             {
                 case PlayerDirection.Left:
-                    f.initForcePush(gameObject.transform.position + new Vector3(-3,0,0), new Vector2(-10,10));
+                    f.initForcePush(gameObject.transform.position + new Vector3(-3, 0, 0), new Vector2(-10, 10));
                     break;
                 case PlayerDirection.Right:
                     f.initForcePush(gameObject.transform.position + new Vector3(3, 0, 0), new Vector2(10, 10));
@@ -79,7 +80,7 @@ public class magicCastingScript : MonoBehaviour
                     f.initForcePush(gameObject.transform.position + new Vector3(3, 0, 0), new Vector2(10, 10));
                     break;
             }
-                    
+
         }
 
     }

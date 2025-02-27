@@ -53,6 +53,13 @@ namespace TarodevController
             return facing;
         }
 
+        public enum PlayerLooking
+        {
+            None,
+            Up,
+            Down
+        }
+
         #endregion
 
         private float time;
@@ -351,7 +358,12 @@ namespace TarodevController
 
         #region Pickups
 
-        private GameObject ObjectBeingHeld;
+        private static GameObject ObjectBeingHeld;
+
+        public static GameObject GetObjectBeingHeld()
+        {
+            return ObjectBeingHeld;
+        }
 
         private void HandlePickUp()
         {

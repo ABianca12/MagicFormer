@@ -6,6 +6,7 @@ TagManager:
   tags:
   - PickUp
   - SwitchBlock
+  - SceneManager
   layers:
   - Default
   - TransparentFX

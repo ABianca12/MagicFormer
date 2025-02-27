@@ -17,7 +17,7 @@ public class Destructable : Interactable
         base.initInteractable(start, m);
     }
 
-    public void destroyObject()
+    public virtual void destroyObject()
     {
         Destroy(gameObject);
     }
