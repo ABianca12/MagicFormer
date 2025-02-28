@@ -67,7 +67,7 @@ public class magicCastingScript : MonoBehaviour
             var d = Input.mousePosition - point;
             d.Normalize();
             print(point);
-            f.initForcePush(gameObject.transform.position, d * 10f);
+            f.initForcePush(gameObject.transform.position, d * 20f);
 
         }
 

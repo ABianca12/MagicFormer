@@ -8,15 +8,15 @@ public class ForcePush : Projectile
     //init functions
     public void initForcePush()
     {
-        initProjectile(BaseType.MYSTIC, true, 0.5f);
+        initProjectile(BaseType.MYSTIC, true, 0.2f);
     }
     public void initForcePush(Vector3 start)
     {
-        initProjectile(BaseType.MYSTIC, true, 0.5f, start);
+        initProjectile(BaseType.MYSTIC, true, 0.2f, start);
     }
     public void initForcePush(Vector3 start, Vector2 direction)
     {
-        initProjectile(start, direction, BaseType.MYSTIC, true, 0.5f);
+        initProjectile(start, direction, BaseType.MYSTIC, true, 0.2f);
     }
 
     //Update is called once per frame
