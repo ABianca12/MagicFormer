@@ -18,6 +18,15 @@ public class Crate : Pickup
     {
         base.initPickup(BaseType.STONE, start);
     }
+    public void initCrate(Vector3 start, BaseType b)
+    {
+        base.initPickup(b, start);
+    }
+
+    private void FixedUpdate()
+    {
+        base.fixedUpdateCall();
+    }
 
     private void Update()
     {

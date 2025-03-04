@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: 3109656594679393509}
   - component: {fileID: 8273967145899993757}
   - component: {fileID: -2853669019120561522}
-  - component: {fileID: -3596224629888988163}
   m_Layer: 6
   m_Name: EarthCrate
   m_TagString: PickUp
@@ -103,6 +102,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   zAxis: 1
+  PickUpGrounderDistance: 0.05
+  GroundingForce: -9.81
+  MaxFallSpeed: 80
+  FallAcceleration: 1000
+  defaultLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  pickUpLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  GroundDeceleration: 60
+  AirDeceleration: 30
 --- !u!61 &8273967145899993757
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -176,30 +190,3 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &-3596224629888988163
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7282807202652238559}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6e4a01addb4f48f40acd7425e3a6e522, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  PickUpGrounderDistance: 0.05
-  GroundingForce: -9.81
-  MaxFallSpeed: 80
-  FallAcceleration: 1000
-  defaultLayer:
-    serializedVersion: 2
-    m_Bits: 0
-  playerLayer:
-    serializedVersion: 2
-    m_Bits: 0
-  pickUpLayer:
-    serializedVersion: 2
-    m_Bits: 0
-  GroundDeceleration: 60
-  AirDeceleration: 30

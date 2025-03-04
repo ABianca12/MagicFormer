@@ -73,7 +73,7 @@ public class Entity : MonoBehaviour
     }
 
     //updates position based on velocity
-    public void updateEntity(float deltaTime)
+    public virtual void updateEntity(float deltaTime)
     {
         currentPos = new Vector3(currentPos.x + velocity.x*deltaTime, currentPos.y + velocity.y*deltaTime, zAxis);
         gameObject.transform.position = currentPos;

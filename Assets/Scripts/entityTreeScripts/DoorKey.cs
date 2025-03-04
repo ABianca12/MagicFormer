@@ -4,7 +4,10 @@ public class DoorKey : Pickup
 {
     [SerializeField] private float lifetime = 10.0f;
 
-
+    public void initKey()
+    {
+        base.initPickup(BaseType.MYSTIC, transform.position);
+    }
 
     public override void destroyObject()
     {
@@ -17,5 +20,20 @@ public class DoorKey : Pickup
         {
             destroyObject();
         }
+    }
+
+    private void Start()
+    {
+        initKey();
+    }
+
+    private void Update()
+    {
+        base.updateEntity(Time.deltaTime);
+    }
+
+    private void FixedUpdate()
+    {
+        base.fixedUpdateCall();
     }
 }

@@ -6951,9 +6951,9 @@ GameObject:
   - component: {fileID: 1748201827}
   - component: {fileID: 1748201826}
   - component: {fileID: 1748201825}
-  - component: {fileID: 1748201830}
   - component: {fileID: 1748201829}
   - component: {fileID: 1748201828}
+  - component: {fileID: 1748201830}
   m_Layer: 6
   m_Name: Key
   m_TagString: PickUp
@@ -7111,12 +7111,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1748201822}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6e4a01addb4f48f40acd7425e3a6e522, type: 3}
+  m_Script: {fileID: 11500000, guid: 99d9bb93b02479a40bf83f505343cb47, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  zAxis: 1
   PickUpGrounderDistance: 0.05
   GroundingForce: -9.81
-  MaxFallSpeed: 60
+  MaxFallSpeed: 80
   FallAcceleration: 80
   defaultLayer:
     serializedVersion: 2
@@ -7129,6 +7130,7 @@ MonoBehaviour:
     m_Bits: 64
   GroundDeceleration: 60
   AirDeceleration: 30
+  lifetime: 10
 --- !u!1 &1786239933
 GameObject:
   m_ObjectHideFlags: 0
