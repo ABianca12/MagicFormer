@@ -26,7 +26,6 @@ public class SwitchBlock : Ground
         {
             turnOn();
         }
-
     }
 
     public void turnOff()

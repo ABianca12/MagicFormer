@@ -3,11 +3,11 @@ using UnityEngine;
 
 public class SwitchButton : Interactable
 {
+    public bool isPress = false;
 
     private bool independantSwitch;
     GameObject[] relatedBlocks;
-
-    public bool isPress = false;
+    GameObject[] relatedSwitches;
 
     private bool isActive = false;
 
@@ -19,8 +19,8 @@ public class SwitchButton : Interactable
     {
         relatedBlocks = GameObject.FindGameObjectsWithTag("SwitchBlock");
         switchText = gameObject.GetComponentInChildren<TextMeshPro>();
-
     }
+
     private void Update()
     {
         if (isPress)
@@ -34,24 +34,43 @@ public class SwitchButton : Interactable
     {
         for (int i = 0; i < relatedBlocks.Length; i++)
         {
-            relatedBlocks[i].GetComponent<SwitchBlock>().swapState();
+            if (relatedBlocks[i].GetComponent<SwitchBlock>() != null)
+            {
+                relatedBlocks[i].GetComponent<SwitchBlock>().swapState();
+            }
+            else if(relatedBlocks[i].GetComponent<SwitchButton>() != null)
+            {
+                relatedBlocks[i].GetComponent<SwitchButton>().SwapStates();
+            }
+            
         }
         isPress = false;
 
+    }
+
+    public void SwapStates()
+    {
         if (isActive)
         {
-            isActive = false;
-            switchText.text = "OFF";
-            gameObject.GetComponent<MeshRenderer>().material = offMat;
+            TurnOff();
         }
         else
         {
-            isActive = true;
-            switchText.text = "ON";
-            gameObject.GetComponent<MeshRenderer>().material = onMat;
+            TurnOn();
         }
+    }
+    public void TurnOn()
+    {
+        isActive = true;
+        switchText.text = "ON";
+        gameObject.GetComponent<MeshRenderer>().material = onMat;
+    }
 
-
+    public void TurnOff()
+    {
+        isActive = false;
+        switchText.text = "OFF";
+        gameObject.GetComponent<MeshRenderer>().material = offMat;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

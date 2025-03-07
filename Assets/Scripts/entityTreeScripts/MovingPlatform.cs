@@ -1,5 +1,7 @@
 using System.Linq;
+using TarodevController;
 using UnityEngine;
+using UnityEngine.Diagnostics;
 
 public class MovingPlatform : Ground
 {
@@ -111,5 +113,19 @@ public class MovingPlatform : Ground
             base.velocity += new Vector2(0,force.y * strength);
         }
     }
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "Player")
+        {
+            collision.gameObject.transform.SetParent(transform, true);
+        }
+    }
 
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "Player")
+        {
+            transform.DetachChildren();
+        }
+    }
 }
