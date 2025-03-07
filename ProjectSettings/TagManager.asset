@@ -8,6 +8,8 @@ TagManager:
   - SwitchBlock
   - SceneManager
   - Fireball
+  - Horizontal
+  - Single
   layers:
   - Default
   - TransparentFX
