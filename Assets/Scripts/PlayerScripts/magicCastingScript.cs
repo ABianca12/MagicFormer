@@ -27,13 +27,13 @@ public class magicCastingScript : MonoBehaviour
             switch (p.getFaceDirection())
             {
                 case PlayerDirection.Left:
-                    fb.initFireball(gameObject.transform.position, new Vector2(-5, 0));
+                    fb.initFireball(gameObject.transform.position - new Vector3(2,0), new Vector2(-20, 0));
                     break;
                 case PlayerDirection.Right:
-                    fb.initFireball(gameObject.transform.position, new Vector2(5, 0));
+                    fb.initFireball(gameObject.transform.position + new Vector3(2, 0), new Vector2(20, 0));
                     break;
                 default:
-                    fb.initFireball(gameObject.transform.position, new Vector2(5, 0));
+                    fb.initFireball(gameObject.transform.position + new Vector3(2, 0), new Vector2(20, 0));
                     break;
 
             }

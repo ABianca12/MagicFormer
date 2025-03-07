@@ -29,11 +29,11 @@ public class Pickup : Destructable
     private Vector3 initalPos;
     private Renderer rend;
     private BoxCollider2D coll;
-    private static Rigidbody2D rb;
+    private Rigidbody2D rb;
     private bool beingCarried;
     private CapsuleCollider2D playerCapColl;
-    private static Vector2 velocity;
     private bool startInColliders = false;
+    private bool isPicked = false;
 
     //Init functions
     protected void initMemberVars()
@@ -65,17 +65,24 @@ public class Pickup : Destructable
 
     public void throwPickup(Vector2 direction)
     {
-        base.updateVelocity(direction);
+        isPicked = false;
+        velocity = direction;
     }
 
-    public override void updateEntity(float deltaTime)
+    public void pickUpObject()
+    {
+        isPicked = true;
+    }
+
+    public void updatePickup()
     {
         pickUpPos = new Vector3(player.transform.position.x,
             player.transform.position.y + playerCapColl.size.y,
             player.transform.position.z);
 
-        if (controller.GetPlayerState() == PlayerController.PlayerState.Carrying)
+        if (controller.GetPlayerState() == PlayerController.PlayerState.Carrying && isPicked)
         {
+            base.currentPos = pickUpPos;
             this.transform.position = pickUpPos;
             beingCarried = true;
         }
@@ -83,7 +90,6 @@ public class Pickup : Destructable
         {
             beingCarried = false;
         }
-        
     }
 
     protected void fixedUpdateCall()

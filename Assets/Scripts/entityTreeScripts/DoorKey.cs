@@ -29,7 +29,7 @@ public class DoorKey : Pickup
 
     private void Update()
     {
-        base.updateEntity(Time.deltaTime);
+        base.updatePickup();
     }
 
     private void FixedUpdate()

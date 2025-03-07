@@ -30,6 +30,6 @@ public class Crate : Pickup
 
     private void Update()
     {
-        base.updateEntity(Time.deltaTime);
+        updatePickup();
     }
 }

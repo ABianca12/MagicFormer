@@ -14,7 +14,7 @@ public class Door : Ground
     {
         if (collision.transform.tag == "Player")
         {
-            if (PlayerController.GetObjectBeingHeld() != null && PlayerController.GetObjectBeingHeld().name == "Key")
+            if (collision.gameObject.GetComponent<PlayerController>().GetObjectBeingHeld() != null && collision.gameObject.GetComponent<PlayerController>().GetObjectBeingHeld().name == "Key")
             {
                 //End level
                 s.restartLevel();
