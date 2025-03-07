@@ -4,14 +4,14 @@ using UnityEngine;
 public class Climbable : Destructable
 {
     private CapsuleCollider2D capColl;
-    private static float RightTransform;
-    private static float LeftTransform;
+    private float RightTransform;
+    private float LeftTransform;
 
     private void Start()
     {
         capColl = GetComponent<CapsuleCollider2D>();
-        LeftTransform = capColl.bounds.max.x;
-        RightTransform = capColl.bounds.min.x;
+        this.LeftTransform = capColl.bounds.max.x;
+        this.RightTransform = capColl.bounds.min.x;
         Debug.Log(capColl.bounds.max);
         Debug.Log(capColl.bounds.min);
     }
@@ -20,7 +20,14 @@ public class Climbable : Destructable
     {
         if (collision.gameObject.tag == "Player")
         {
-            PlayerController.setInRangeOfRope(true);
+            if (transform.CompareTag("Single"))
+            {
+                PlayerController.setInRangeOfRope(true);
+            }
+            else if (transform.CompareTag("Horizontal"))
+            {
+                PlayerController.setInRangeOfBar(true);
+            }
         }
     }
 
@@ -28,16 +35,23 @@ public class Climbable : Destructable
     {
         if (collision.gameObject.tag == "Player")
         {
-            PlayerController.setInRangeOfRope(false);
+            if (transform.CompareTag("Single"))
+            {
+                PlayerController.setInRangeOfRope(false);
+            }
+            else if (transform.CompareTag("Horizontal"))
+            {
+                PlayerController.setInRangeOfBar(false);
+            }
         }
     }
 
-    public static float GetLeftTransform()
+    public float GetLeftTransform()
     {
         return LeftTransform;
     }
 
-    public static float GetRightTransform()
+    public float GetRightTransform()
     {
         return RightTransform;
     }

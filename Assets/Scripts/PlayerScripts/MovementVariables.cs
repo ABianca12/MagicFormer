@@ -44,6 +44,9 @@ public class MovementVariables : MonoBehaviour
     [Tooltip("The top downwards movement speed when on a double rope")]
     public float MaxDownwardsDoubleRopeSpeed = 4;
 
+    [Tooltip("The top horizontal movement speed when on a horizontal bar")]
+    public float MaxHorizontalBarSpeed = 5;
+
     [Tooltip("The player's capacity to gain horizontal speed")]
     public float Acceleration = 120;
 
@@ -74,6 +77,9 @@ public class MovementVariables : MonoBehaviour
 
     [Tooltip("The immediate velocity applied when handstand jumping")]
     public float HandStandJumpPower = 50;
+
+    [Tooltip("The immediate velocity applied when fully charged horizontal bar jumping")]
+    public float BarJumpPower = 10;
 
     [Tooltip("The maximum vertical movement speed")]
     public float MaxFallSpeed = 40;
