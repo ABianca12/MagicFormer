@@ -16,6 +16,19 @@ public class Climbable : Destructable
         Debug.Log(capColl.bounds.min);
     }
 
+    public void initClimbable()
+    {
+        base.initDestructable();
+    }
+    public void initClimbable(BaseType m)
+    {
+        base.initDestructable(m);
+    }
+    public void initClimbable(BaseType m, Vector3 start)
+    {
+        base.initDestructable(m, start);
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "Player")

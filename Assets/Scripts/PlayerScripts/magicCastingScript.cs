@@ -8,6 +8,7 @@ public class magicCastingScript : MonoBehaviour
     [SerializeField] private Fireball f;
     [SerializeField] private Crate earfKrate;
     [SerializeField] private ForcePush poosh;
+    [SerializeField] private Climbable vine;
     private PlayerController p;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -66,8 +67,16 @@ public class magicCastingScript : MonoBehaviour
             Vector3 point = Camera.main.WorldToScreenPoint(gameObject.transform.position);
             var d = Input.mousePosition - point;
             d.Normalize();
-            print(point);
             f.initForcePush(gameObject.transform.position, d * 20f);
+
+        }
+        //Casting vine
+        else if (Input.GetKeyDown(KeyCode.Alpha4))
+        {
+            //Debug.Log("VINE TIME");
+            Climbable v = Instantiate(vine);
+            Vector3 point = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            v.initClimbable(Entity.BaseType.GRASS,new Vector3(point.x,point.y, transform.position.z));
 
         }
 

@@ -29,6 +29,7 @@ public class Entity : MonoBehaviour
         currentPos = start;
         velocity = v;
         material = m;
+        transform.position = startPos;
     }
     public void initEntity(Vector3 start)
     {
@@ -36,6 +37,7 @@ public class Entity : MonoBehaviour
         currentPos = start;
         velocity = Vector2.zero;
         material = BaseType.NONE;
+        transform.position = startPos;
     }
     public void initEntity(BaseType m)
     {
@@ -43,6 +45,7 @@ public class Entity : MonoBehaviour
         currentPos = Vector3.zero;
         velocity = Vector2.zero;
         material = m;
+        transform.position = startPos;
     }
     public void initEntity(Vector3 sPos, BaseType m)
     {
@@ -50,6 +53,7 @@ public class Entity : MonoBehaviour
         currentPos = sPos;
         velocity = Vector2.zero;
         material = m;
+        transform.position = startPos;
     }
     public void initEntity(Vector3 start, Vector2 v)
     {
@@ -57,6 +61,7 @@ public class Entity : MonoBehaviour
         currentPos = start;
         velocity = v;
         material = BaseType.NONE;
+        transform.position = startPos;
     }
     public void initEntity()
     {
@@ -64,6 +69,7 @@ public class Entity : MonoBehaviour
         currentPos = Vector3.zero;
         velocity = Vector2.zero;
         material = BaseType.NONE;
+        transform.position = startPos;
     }
 
     //Get function for material
