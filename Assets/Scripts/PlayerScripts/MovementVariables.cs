@@ -102,5 +102,8 @@ public class MovementVariables : MonoBehaviour
 
     [Header("Climbing")]
     [Tooltip("The offset of the player's position when snaping to a rope"), Range(0.01f, 0.99f)]
-    public float RopeSnapPositionOffset = 0.5f;
+    public float VerticalRopeSnapPositionOffset = 0.5f;
+
+    [Tooltip("The offset of the player's position when snaping to a rope"), Range(0.01f, 0.99f)]
+    public float HorizontalRopeSnapPositionOffset = 0.1f;
 }

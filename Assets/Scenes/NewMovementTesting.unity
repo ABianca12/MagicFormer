@@ -894,6 +894,7 @@ GameObject:
   - component: {fileID: 241274364}
   - component: {fileID: 241274363}
   - component: {fileID: 241274365}
+  - component: {fileID: 241274366}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -948,7 +949,8 @@ MonoBehaviour:
   CoyoteTime: 0.15
   JumpBuffer: 0.2
   ThrowingStrength: 25
-  RopeSnapPositionOffset: 0.5
+  VerticalRopeSnapPositionOffset: 0.5
+  HorizontalRopeSnapPositionOffset: 0.5
 --- !u!114 &241274357
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -962,7 +964,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveVars: {fileID: 241274356}
-  climbable: {fileID: 0}
   hasJump: 0
 --- !u!23 &241274360
 MeshRenderer:
@@ -1112,6 +1113,43 @@ MonoBehaviour:
   f: {fileID: 5489159008218696636, guid: da3f8300befa5d948aa4f68465369fd3, type: 3}
   earfKrate: {fileID: 3109656594679393509, guid: 03ce55d3f6da36d41b92af1f37230bf9, type: 3}
   poosh: {fileID: 7775935390947257808, guid: 67a8ac871a2341b48afe7c6b3b2e470d, type: 3}
+--- !u!70 &241274366
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 241274355}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 1
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_Size: {x: 1, y: 2}
+  m_Direction: 0
 --- !u!1001 &249139531
 PrefabInstance:
   m_ObjectHideFlags: 0

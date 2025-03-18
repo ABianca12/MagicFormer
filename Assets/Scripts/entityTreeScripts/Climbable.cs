@@ -4,14 +4,14 @@ using UnityEngine;
 public class Climbable : Destructable
 {
     private CapsuleCollider2D capColl;
-    private float RightTransform;
-    private float LeftTransform;
+    private Vector3 RightTransform;
+    private Vector3 LeftTransform;
 
     private void Start()
     {
         capColl = GetComponent<CapsuleCollider2D>();
-        this.LeftTransform = capColl.bounds.max.x;
-        this.RightTransform = capColl.bounds.min.x;
+        this.LeftTransform = capColl.bounds.max;
+        this.RightTransform = capColl.bounds.min;
         Debug.Log(capColl.bounds.max);
         Debug.Log(capColl.bounds.min);
     }
@@ -46,13 +46,14 @@ public class Climbable : Destructable
         }
     }
 
-    public float GetLeftTransform()
+    public Vector3 GetLeftTransform()
     {
         return LeftTransform;
     }
 
-    public float GetRightTransform()
+    public Vector3 GetRightTransform()
     {
+        Debug.Log(RightTransform);
         return RightTransform;
     }
 }

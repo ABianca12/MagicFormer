@@ -18,7 +18,7 @@ namespace TarodevController
         public Vector2 FrameInput => frameInput.Move;
         public event Action<bool, float> GroundedChanged;
         public event Action Jumped;
-        public Climbable climbable;
+        private Climbable climbable;
 
         public enum PlayerState
         {
@@ -134,7 +134,7 @@ namespace TarodevController
             }
 
             ApplyMovement();
-            Debug.Log(state);
+            //Debug.Log(state);
         }
 
         #region Collisions
@@ -359,6 +359,7 @@ namespace TarodevController
                             state = PlayerState.SingleRope;
 
                             SnapToRope(facing);
+                            
                         }
                     }
                     else if (inRangeOfBar)
@@ -368,7 +369,9 @@ namespace TarodevController
                             velocity.x = 0;
                             velocity.y = 0;
                             state = PlayerState.HorizontalBar;
-                            SnapToRope(facing);
+                            transform.position = new Vector3(transform.position.x,
+                                climbable.GetRightTransform().y - moveVars.HorizontalRopeSnapPositionOffset,
+                                transform.position.z);
                         }
                     }
                     break;
@@ -491,10 +494,10 @@ namespace TarodevController
             switch (facing)
             {
                 case PlayerDirection.Left:
-                    transform.position = new Vector3(climbable.GetLeftTransform() + moveVars.RopeSnapPositionOffset, transform.position.y, transform.position.z);
+                    transform.position = new Vector3(climbable.GetLeftTransform().x + moveVars.VerticalRopeSnapPositionOffset, transform.position.y, transform.position.z);
                     break;
                 case PlayerDirection.Right:
-                    transform.position = new Vector3(climbable.GetRightTransform() - moveVars.RopeSnapPositionOffset, transform.position.y, transform.position.z);
+                    transform.position = new Vector3(climbable.GetRightTransform().x - moveVars.VerticalRopeSnapPositionOffset, transform.position.y, transform.position.z);
                     break;
             }
         }
@@ -645,6 +648,15 @@ namespace TarodevController
         private void OnValidate()
         {
             if (moveVars == null) Debug.LogWarning("Please assign a MovementVaribles asset to the Player Controller's Stats slot", this);
+        }
+
+        private void OnTriggerEnter2D(Collider2D other)
+        {
+            if (other.CompareTag("Single") || other.CompareTag("Horizontal"))
+            {
+                climbable = other.GetComponent<Climbable>();
+            }
+
         }
 #endif
     }
