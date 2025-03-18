@@ -532,28 +532,15 @@ namespace TarodevController
                         RotatePlayer();
                         break;
                     case PlayerState.SingleRope:
-                        if (frameInput.Move.x != 0)
+                        if (frameInput.Move.x == -1)
                         {
-                            switch (facing)
-                            {
-                                case PlayerDirection.Right:
-                                    SnapToRope(facing);
-                                    break;
-                                case PlayerDirection.Left:
-                                    SnapToRope(facing);
-                                    break;
-                            }
-
-                            if (HangingOffRope)
-                            {
-                                state = PlayerState.None;
-                                HangingOffRope = false;
-                            }
-                            else
-                            {
-                                HangingOffRope = true;
-                            }
+                            SnapToRope(PlayerDirection.Right);
                         }
+                        else if (frameInput.Move.x == 1)
+                        {
+                            SnapToRope(PlayerDirection.Left);
+                        }
+                        RotatePlayer();
                         break;
                     case PlayerState.HorizontalBar:
                         velocity.x = Mathf.MoveTowards(velocity.x, frameInput.Move.x * moveVars.MaxHorizontalBarSpeed,
@@ -593,6 +580,29 @@ namespace TarodevController
                         else if (facing == PlayerDirection.Right)
                         {
                             transform.rotation = Quaternion.Euler(0, 0, 180);
+                        }
+                    }
+                    break;
+                case PlayerState.SingleRope:
+                    if (frameInput.Move.x == 1)
+                    {
+                        facing = PlayerDirection.Left;
+                        transform.rotation = Quaternion.Euler(0, 180, 0);
+                    }
+                    else if (frameInput.Move.x == -1)
+                    {
+                        facing = PlayerDirection.Right;
+                        transform.rotation = Quaternion.Euler(0, 0, 0);
+                    }
+                    else
+                    {
+                        if (facing == PlayerDirection.Left)
+                        {
+                            transform.rotation = Quaternion.Euler(0, 180, 0);
+                        }
+                        else if (facing == PlayerDirection.Right)
+                        {
+                            transform.rotation = Quaternion.Euler(0, 0, 0);
                         }
                     }
                     break;
