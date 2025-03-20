@@ -79,7 +79,7 @@ public class MovementVariables : MonoBehaviour
     public float HandStandJumpPower = 50;
 
     [Tooltip("The immediate velocity applied when fully charged horizontal bar jumping")]
-    public float BarJumpPower = 10;
+    public float MaxBarJumpPower = 60;
 
     [Tooltip("The maximum vertical movement speed")]
     public float MaxFallSpeed = 40;

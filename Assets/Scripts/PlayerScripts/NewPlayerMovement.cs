@@ -207,6 +207,17 @@ namespace TarodevController
                 frameLeftGround = time;
                 GroundedChanged?.Invoke(false, 0);
             }
+            else if (!grounded && !groundHit)
+            {
+                if (state == PlayerState.SingleRope || state == PlayerState.DoubleRope || state == PlayerState.HorizontalBar)
+                {
+                    grounded = true;
+                    coyoteUsable = true;
+                    bufferedJumpUsable = true;
+                    endedJumpEarly = false;
+                    GroundedChanged?.Invoke(true, Mathf.Abs(velocity.y));
+                }
+            }
 
             if ((state == PlayerState.SingleRope || state == PlayerState.DoubleRope || state == PlayerState.HorizontalBar) && !inRangeOfRope && !inRangeOfBar)
             {
@@ -278,7 +289,7 @@ namespace TarodevController
                     RotatePlayer();
                     break;
                 case PlayerState.HorizontalBar:
-                    velocity.y = moveVars.BarJumpPower * timeUpHasBeenHeld;
+                    velocity.y = moveVars.MaxBarJumpPower;
                     break;
                 default:
                     state = PlayerState.None;
@@ -343,7 +354,7 @@ namespace TarodevController
         #region Up Input
 
         private float timeUpWasPressed;
-        private float timeUpHasBeenHeld;
+        private float timeUpHasBeenHeld = 6.0f;
 
         private void HandleUp()
         {
@@ -370,7 +381,7 @@ namespace TarodevController
                             velocity.y = 0;
                             state = PlayerState.HorizontalBar;
                             transform.position = new Vector3(transform.position.x,
-                                climbable.GetRightTransform().y - moveVars.HorizontalRopeSnapPositionOffset,
+                            climbable.GetRightTransform().y - moveVars.HorizontalRopeSnapPositionOffset,
                                 transform.position.z);
                         }
                     }
@@ -396,17 +407,7 @@ namespace TarodevController
                     }
                     break;
                 case PlayerState.HorizontalBar:
-                    if (frameInput.Move.y == 1)
-                    {
-                        if (timeUpHasBeenHeld <= 6)
-                        {
-                            timeUpHasBeenHeld += time;
-                        }
-                    }
-                    else
-                    {
-                        timeUpHasBeenHeld = 0;
-                    }
+                    
                     // Rotate player around bar at a speed scaled to how long up has been held
                     break;
                 default:
