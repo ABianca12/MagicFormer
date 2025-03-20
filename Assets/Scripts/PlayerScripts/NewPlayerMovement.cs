@@ -94,6 +94,8 @@ namespace TarodevController
                 PickUpHeld = Input.GetKey(moveVars.pickUp),
                 UpDown = Input.GetKeyDown(moveVars.up),
                 UpHeld = Input.GetKey(moveVars.up),
+                DownDown = Input.GetKeyDown(moveVars.down),
+                DownHeld = Input.GetKey(moveVars.down),
 
                 Move = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"))
             };
@@ -215,7 +217,7 @@ namespace TarodevController
             }
             else if (!grounded && !groundHit)
             {
-                if (state == PlayerState.SingleRope || state == PlayerState.DoubleRope || state == PlayerState.HorizontalBar)
+                if (state == PlayerState.SingleRope || state == PlayerState.DoubleRope || state == PlayerState.HorizontalBar || state == PlayerState.Crouching)
                 {
                     grounded = true;
                     coyoteUsable = true;
@@ -280,11 +282,6 @@ namespace TarodevController
 
         private void ExecuteJump()
         {
-            endedJumpEarly = false;
-            timeJumpWasPressed = 0;
-            bufferedJumpUsable = false;
-            coyoteUsable = false;
-
             timeSinceHandstandSetupLanded = time - timeHandstandSetupLanded;
 
             switch (state)
@@ -330,6 +327,11 @@ namespace TarodevController
                     }
                     break;
             }
+            endedJumpEarly = false;
+            timeJumpWasPressed = 0;
+            bufferedJumpUsable = false;
+            coyoteUsable = false;
+
             Jumped?.Invoke();
         }
 
@@ -742,6 +744,8 @@ namespace TarodevController
         public bool PickUpHeld;
         public bool UpDown;
         public bool UpHeld;
+        public bool DownDown;
+        public bool DownHeld;
         public Vector2 Move;
     }
 
