@@ -140,6 +140,7 @@ namespace TarodevController
         #region Collisions
 
         private float frameLeftGround = float.MinValue;
+        private float timeHandstandSetupLanded;
         private bool grounded;
         private static bool inRangeOfRope;
         private static bool inRangeOfBar;
@@ -199,6 +200,11 @@ namespace TarodevController
                 bufferedJumpUsable = true;
                 endedJumpEarly = false;
                 GroundedChanged?.Invoke(true, Mathf.Abs(velocity.y));
+
+                if (canHandstandJump)
+                {
+                    timeHandstandSetupLanded = time;
+                }
             }
             // Left the Ground
             else if (grounded && !groundHit)
@@ -246,6 +252,8 @@ namespace TarodevController
         private bool endedJumpEarly;
         private bool coyoteUsable;
         private float timeJumpWasPressed;
+        private bool canHandstandJump;
+        private float timeSinceHandstandSetupLanded;
 
         private bool HasBufferedJump => bufferedJumpUsable && time < timeJumpWasPressed + moveVars.JumpBuffer;
         private bool CanUseCoyote => coyoteUsable && !grounded && time < frameLeftGround + moveVars.CoyoteTime;
@@ -276,6 +284,9 @@ namespace TarodevController
             timeJumpWasPressed = 0;
             bufferedJumpUsable = false;
             coyoteUsable = false;
+
+            timeSinceHandstandSetupLanded = time - timeHandstandSetupLanded;
+
             switch (state)
             {
                 case PlayerState.Crouching:
@@ -284,16 +295,39 @@ namespace TarodevController
                     RotatePlayer();
                     break;
                 case PlayerState.Handstand:
-                    velocity.y = moveVars.HandStandJumpPower;
+                    velocity.y = moveVars.JumpPower;
+                    canHandstandJump = true;
+
                     state = PlayerState.None;
                     RotatePlayer();
+
                     break;
                 case PlayerState.HorizontalBar:
-                    velocity.y = moveVars.MaxBarJumpPower;
+                    if (timeUpHasBeenHeld >= moveVars.MaxBarUpHoldTime)
+                    {
+                        velocity.y = moveVars.MaxBarJumpPower;
+                    }
+                    else
+                    {
+                        velocity.y = moveVars.MinBarJumpPower * timeUpHasBeenHeld;
+                    }
+
+                    timeUpHasBeenHeld = 0;
+
                     break;
                 default:
                     state = PlayerState.None;
-                    velocity.y = moveVars.JumpPower;
+                    Debug.Log(canHandstandJump);
+                    if (canHandstandJump && timeSinceHandstandSetupLanded <= moveVars.HandStandJumpTime)
+                    {
+                        velocity.y = moveVars.HandStandJumpPower;
+                        canHandstandJump = false;
+                    }
+                    else
+                    {
+                        velocity.y = moveVars.JumpPower;
+                        canHandstandJump = false;
+                    }
                     break;
             }
             Jumped?.Invoke();
@@ -354,7 +388,7 @@ namespace TarodevController
         #region Up Input
 
         private float timeUpWasPressed;
-        private float timeUpHasBeenHeld = 6.0f;
+        private float timeUpHasBeenHeld;
 
         private void HandleUp()
         {
@@ -407,7 +441,35 @@ namespace TarodevController
                     }
                     break;
                 case PlayerState.HorizontalBar:
-                    
+                    if (frameInput.UpDown)
+                    {
+                        timeUpWasPressed = time;
+                    }
+
+                    if (frameInput.UpHeld)
+                    {
+                        if (timeUpHasBeenHeld >= moveVars.MaxBarUpHoldTime)
+                        {
+                            timeUpHasBeenHeld = moveVars.MaxBarUpHoldTime;
+                        }
+                        else
+                        {
+                            timeUpHasBeenHeld = time - timeUpWasPressed;
+                        }
+                    }
+                    else
+                    {
+                        if (timeUpHasBeenHeld <= 0)
+                        {
+                            timeUpHasBeenHeld = 0;
+                        }
+                        else
+                        {
+                            timeUpHasBeenHeld = timeUpHasBeenHeld - moveVars.BarSpeedDecay;
+                        }
+                    }
+
+                    Debug.Log(timeUpHasBeenHeld);
                     // Rotate player around bar at a speed scaled to how long up has been held
                     break;
                 default:
