@@ -12,8 +12,6 @@ public class Climbable : Destructable
         capColl = GetComponent<CapsuleCollider2D>();
         this.LeftTransform = capColl.bounds.max;
         this.RightTransform = capColl.bounds.min;
-        Debug.Log(capColl.bounds.max);
-        Debug.Log(capColl.bounds.min);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

@@ -136,7 +136,6 @@ namespace TarodevController
             }
 
             ApplyMovement();
-            //Debug.Log(state);
         }
 
         #region Collisions
@@ -207,6 +206,8 @@ namespace TarodevController
                 {
                     timeHandstandSetupLanded = time;
                 }
+
+                canCrouch = true;
             }
             // Left the Ground
             else if (grounded && !groundHit)
@@ -214,6 +215,7 @@ namespace TarodevController
                 grounded = false;
                 frameLeftGround = time;
                 GroundedChanged?.Invoke(false, 0);
+                canCrouch = false;
             }
             else if (!grounded && !groundHit)
             {
@@ -231,6 +233,9 @@ namespace TarodevController
             {
                 state = PlayerState.None;
             }
+
+            Debug.Log("Grounded: " + grounded);
+            Debug.Log("Grounded hit: " + groundHit);
 
             Physics2D.queriesStartInColliders = startInColliders;
         }
@@ -294,10 +299,8 @@ namespace TarodevController
                 case PlayerState.Handstand:
                     velocity.y = moveVars.JumpPower;
                     canHandstandJump = true;
-
                     state = PlayerState.None;
                     RotatePlayer();
-
                     break;
                 case PlayerState.HorizontalBar:
                     if (timeUpHasBeenHeld >= moveVars.MaxBarUpHoldTime)
@@ -310,11 +313,18 @@ namespace TarodevController
                     }
 
                     timeUpHasBeenHeld = 0;
-
+                    break;
+                case PlayerState.SingleRope:
+                    state = PlayerState.None;
+                    velocity.y = moveVars.JumpPower;
+                    canHandstandJump = false;
+                    break;
+                case PlayerState.DoubleRope:
+                    state = PlayerState.None;
+                    velocity.y = moveVars.JumpPower;
+                    canHandstandJump = false;
                     break;
                 default:
-                    state = PlayerState.None;
-                    Debug.Log(canHandstandJump);
                     if (canHandstandJump && timeSinceHandstandSetupLanded <= moveVars.HandStandJumpTime)
                     {
                         velocity.y = moveVars.HandStandJumpPower;
@@ -340,13 +350,14 @@ namespace TarodevController
         #region Down Input
 
         private float timeDownWasPressed;
+        private bool canCrouch;
 
         private void HandleDown()
         {
             switch (state)
             {
                 case PlayerState.None:
-                    if (frameInput.Move.y == -1)
+                    if (frameInput.Move.y == -1 && canCrouch)
                     {
                         transform.localScale = new Vector3(1, 0.5f, 1);
                         state = PlayerState.Crouching;
