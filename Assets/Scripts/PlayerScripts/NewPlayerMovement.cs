@@ -123,8 +123,8 @@ namespace TarodevController
         {
             CheckCollisions();
 
-            HandleJump();
             HandleDown();
+            HandleJump();
             HandleUp();
             HandleDirection();
 

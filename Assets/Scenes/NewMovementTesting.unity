@@ -942,7 +942,11 @@ MonoBehaviour:
   JumpPower: 36
   HandStandTransitionJumpPower: 18
   HandStandJumpPower: 45
-  BarJumpPower: 50
+  HandStandJumpTime: 1
+  MaxBarJumpPower: 60
+  MinBarJumpPower: 15
+  BarSpeedDecay: 0.05
+  MaxBarUpHoldTime: 4
   MaxFallSpeed: 40
   FallAcceleration: 110
   JumpEndEarlyGravityModifier: 2.5
