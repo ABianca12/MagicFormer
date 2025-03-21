@@ -16,6 +16,7 @@ public class SwitchBlock : Ground
         }
     }
 
+    //swaps block to differnet material and swaps its collision
     public void swapState()
     {
         if (activeState)
@@ -26,9 +27,9 @@ public class SwitchBlock : Ground
         {
             turnOn();
         }
-
     }
 
+    //disables collision and swaps material of active block
     public void turnOff()
     {
         activeState = false;
@@ -36,6 +37,7 @@ public class SwitchBlock : Ground
         gameObject.GetComponent<BoxCollider2D>().enabled = false;
     }
 
+    //enables collision and swaps material of active block
     public void turnOn()
     {
         activeState = true;

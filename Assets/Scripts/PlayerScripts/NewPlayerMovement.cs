@@ -10,7 +10,7 @@ namespace TarodevController
         private Rigidbody2D rb;
         private CapsuleCollider2D capCollider;
         private FrameInput frameInput;
-        private Vector2 velocity;
+        public Vector2 velocity;
         private bool startInColliders = false;
 
         #region Interface

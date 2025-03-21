@@ -1,5 +1,7 @@
 using System.Linq;
+using TarodevController;
 using UnityEngine;
+using UnityEngine.Diagnostics;
 
 public class MovingPlatform : Ground
 {
@@ -22,6 +24,7 @@ public class MovingPlatform : Ground
         speed = s;
     }
 
+    //makes a platform and sets its velocity based on public variables
     private void Start()
     {
         initPlatform(gameObject.transform.position, material, endPos, baseMoving, speed);
@@ -53,7 +56,7 @@ public class MovingPlatform : Ground
         }
     }
 
-
+    //updates velocity and swaps velocity once a platform reaches its endpoint
     private void Update()
     {
         if(baseMoving)
@@ -87,6 +90,7 @@ public class MovingPlatform : Ground
         CheckMat();
     }
 
+    //swaps a switch platforms material based on if its on/off
     private void CheckMat()
     {
         if (baseMoving) 
@@ -99,6 +103,7 @@ public class MovingPlatform : Ground
         }
     }
 
+    //adds force when encounters Force Push spell
     public override void addForce(Vector2 force, float strength = 2.0f)
     {
         //If platform is moving along the x axis
@@ -112,4 +117,21 @@ public class MovingPlatform : Ground
         }
     }
 
+    //binds players movement to set platform
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "Player")
+        {
+            collision.gameObject.transform.SetParent(transform, true);
+        }
+    }
+
+    //unbinds players movement
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "Player")
+        {
+            transform.DetachChildren();
+        }
+    }
 }
