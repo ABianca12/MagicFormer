@@ -44,6 +44,9 @@ public class MovementVariables : MonoBehaviour
     [Tooltip("The top downwards movement speed when on a double rope")]
     public float MaxDownwardsDoubleRopeSpeed = 4;
 
+    [Tooltip("The top horizontal movement speed when on a horizontal bar")]
+    public float MaxHorizontalBarSpeed = 5;
+
     [Tooltip("The player's capacity to gain horizontal speed")]
     public float Acceleration = 120;
 
@@ -75,6 +78,21 @@ public class MovementVariables : MonoBehaviour
     [Tooltip("The immediate velocity applied when handstand jumping")]
     public float HandStandJumpPower = 50;
 
+    [Tooltip("The amount of time in seconds that the player has to proform a handstand jump after setting one up")]
+    public float HandStandJumpTime = 1;
+
+    [Tooltip("The immediate velocity applied when fully charged horizontal bar jumping")]
+    public float MaxBarJumpPower = 60;
+
+    [Tooltip("The immediate velocity applied when there is no charge on a horizontal bar")]
+    public float MinBarJumpPower = 10;
+
+    [Tooltip("The amount of speed that is removed from the player when on a horizontal bar")]
+    public float BarSpeedDecay = 0.5f;
+
+    [Tooltip("The amount of time in seconds, the player needs to hold up to achieve max height from the bar")]
+    public float MaxBarUpHoldTime = 4;
+
     [Tooltip("The maximum vertical movement speed")]
     public float MaxFallSpeed = 40;
 
@@ -96,5 +114,8 @@ public class MovementVariables : MonoBehaviour
 
     [Header("Climbing")]
     [Tooltip("The offset of the player's position when snaping to a rope"), Range(0.01f, 0.99f)]
-    public float RopeSnapPositionOffset = 0.5f;
+    public float VerticalRopeSnapPositionOffset = 0.5f;
+
+    [Tooltip("The offset of the player's position when snaping to a rope"), Range(0.01f, 0.99f)]
+    public float HorizontalRopeSnapPositionOffset = 0.1f;
 }

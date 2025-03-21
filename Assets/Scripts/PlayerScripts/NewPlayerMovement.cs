@@ -18,6 +18,7 @@ namespace TarodevController
         public Vector2 FrameInput => frameInput.Move;
         public event Action<bool, float> GroundedChanged;
         public event Action Jumped;
+        private Climbable climbable;
 
         public enum PlayerState
         {
@@ -79,7 +80,7 @@ namespace TarodevController
 
             if (Input.GetKeyDown(KeyCode.O))
             {
-                hasJump = true;
+                grounded = true;
             }
         }
 
@@ -91,6 +92,10 @@ namespace TarodevController
                 JumpHeld = Input.GetButton("Jump") || Input.GetKey(moveVars.jump),
                 PickUpDown = Input.GetKeyDown(moveVars.pickUp),
                 PickUpHeld = Input.GetKey(moveVars.pickUp),
+                UpDown = Input.GetKeyDown(moveVars.up),
+                UpHeld = Input.GetKey(moveVars.up),
+                DownDown = Input.GetKeyDown(moveVars.down),
+                DownHeld = Input.GetKey(moveVars.down),
 
                 Move = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"))
             };
@@ -109,18 +114,23 @@ namespace TarodevController
                 hasJump = true;
                 timeJumpWasPressed = time;
             }
+
+            if (frameInput.UpDown)
+            {
+                timeUpWasPressed = time;
+            }
         }
 
         private void FixedUpdate()
         {
             CheckCollisions();
 
-            HandleJump();
             HandleDown();
+            HandleJump();
             HandleUp();
             HandleDirection();
 
-            if (!(state == PlayerState.SingleRope || state == PlayerState.DoubleRope))
+            if (!(state == PlayerState.SingleRope || state == PlayerState.DoubleRope || state == PlayerState.HorizontalBar))
             {
                 HandleGravity();
             }
@@ -131,8 +141,10 @@ namespace TarodevController
         #region Collisions
 
         private float frameLeftGround = float.MinValue;
+        private float timeHandstandSetupLanded;
         private bool grounded;
         private static bool inRangeOfRope;
+        private static bool inRangeOfBar;
         private bool isOnTopOfPickup;
         private bool ceilingHit = false;
         private RaycastHit2D hit;
@@ -189,6 +201,13 @@ namespace TarodevController
                 bufferedJumpUsable = true;
                 endedJumpEarly = false;
                 GroundedChanged?.Invoke(true, Mathf.Abs(velocity.y));
+
+                if (canHandstandJump)
+                {
+                    timeHandstandSetupLanded = time;
+                }
+
+                canCrouch = true;
             }
             // Left the Ground
             else if (grounded && !groundHit)
@@ -196,12 +215,27 @@ namespace TarodevController
                 grounded = false;
                 frameLeftGround = time;
                 GroundedChanged?.Invoke(false, 0);
+                canCrouch = false;
+            }
+            else if (!grounded && !groundHit)
+            {
+                if (state == PlayerState.SingleRope || state == PlayerState.DoubleRope || state == PlayerState.HorizontalBar || state == PlayerState.Crouching)
+                {
+                    grounded = true;
+                    coyoteUsable = true;
+                    bufferedJumpUsable = true;
+                    endedJumpEarly = false;
+                    GroundedChanged?.Invoke(true, Mathf.Abs(velocity.y));
+                }
             }
 
-            if ((state == PlayerState.SingleRope || state == PlayerState.DoubleRope) && !inRangeOfRope)
+            if ((state == PlayerState.SingleRope || state == PlayerState.DoubleRope || state == PlayerState.HorizontalBar) && !inRangeOfRope && !inRangeOfBar)
             {
                 state = PlayerState.None;
             }
+
+            Debug.Log("Grounded: " + grounded);
+            Debug.Log("Grounded hit: " + groundHit);
 
             Physics2D.queriesStartInColliders = startInColliders;
         }
@@ -209,6 +243,11 @@ namespace TarodevController
         public static void setInRangeOfRope(bool newValue)
         {
             inRangeOfRope = newValue;
+        }
+
+        public static void setInRangeOfBar(bool newValue)
+        {
+            inRangeOfBar = newValue;
         }
 
         #endregion
@@ -220,6 +259,8 @@ namespace TarodevController
         private bool endedJumpEarly;
         private bool coyoteUsable;
         private float timeJumpWasPressed;
+        private bool canHandstandJump;
+        private float timeSinceHandstandSetupLanded;
 
         private bool HasBufferedJump => bufferedJumpUsable && time < timeJumpWasPressed + moveVars.JumpBuffer;
         private bool CanUseCoyote => coyoteUsable && !grounded && time < frameLeftGround + moveVars.CoyoteTime;
@@ -246,10 +287,8 @@ namespace TarodevController
 
         private void ExecuteJump()
         {
-            endedJumpEarly = false;
-            timeJumpWasPressed = 0;
-            bufferedJumpUsable = false;
-            coyoteUsable = false;
+            timeSinceHandstandSetupLanded = time - timeHandstandSetupLanded;
+
             switch (state)
             {
                 case PlayerState.Crouching:
@@ -258,14 +297,51 @@ namespace TarodevController
                     RotatePlayer();
                     break;
                 case PlayerState.Handstand:
-                    velocity.y = moveVars.HandStandJumpPower;
+                    velocity.y = moveVars.JumpPower;
+                    canHandstandJump = true;
                     state = PlayerState.None;
                     RotatePlayer();
                     break;
-                default:
+                case PlayerState.HorizontalBar:
+                    if (timeUpHasBeenHeld >= moveVars.MaxBarUpHoldTime)
+                    {
+                        velocity.y = moveVars.MaxBarJumpPower;
+                    }
+                    else
+                    {
+                        velocity.y = moveVars.MinBarJumpPower * timeUpHasBeenHeld;
+                    }
+
+                    timeUpHasBeenHeld = 0;
+                    break;
+                case PlayerState.SingleRope:
+                    state = PlayerState.None;
                     velocity.y = moveVars.JumpPower;
+                    canHandstandJump = false;
+                    break;
+                case PlayerState.DoubleRope:
+                    state = PlayerState.None;
+                    velocity.y = moveVars.JumpPower;
+                    canHandstandJump = false;
+                    break;
+                default:
+                    if (canHandstandJump && timeSinceHandstandSetupLanded <= moveVars.HandStandJumpTime)
+                    {
+                        velocity.y = moveVars.HandStandJumpPower;
+                        canHandstandJump = false;
+                    }
+                    else
+                    {
+                        velocity.y = moveVars.JumpPower;
+                        canHandstandJump = false;
+                    }
                     break;
             }
+            endedJumpEarly = false;
+            timeJumpWasPressed = 0;
+            bufferedJumpUsable = false;
+            coyoteUsable = false;
+
             Jumped?.Invoke();
         }
 
@@ -274,13 +350,14 @@ namespace TarodevController
         #region Down Input
 
         private float timeDownWasPressed;
+        private bool canCrouch;
 
         private void HandleDown()
         {
             switch (state)
             {
                 case PlayerState.None:
-                    if (frameInput.Move.y == -1)
+                    if (frameInput.Move.y == -1 && canCrouch)
                     {
                         transform.localScale = new Vector3(1, 0.5f, 1);
                         state = PlayerState.Crouching;
@@ -308,6 +385,12 @@ namespace TarodevController
                         velocity.y = -moveVars.MaxDownwardsDoubleRopeSpeed;
                     }
                     break;
+                case PlayerState.HorizontalBar:
+                    if (frameInput.Move.y == -1)
+                    {
+                        state = PlayerState.None;
+                    }
+                    break;
                 default:
                     break;
             }
@@ -318,6 +401,7 @@ namespace TarodevController
         #region Up Input
 
         private float timeUpWasPressed;
+        private float timeUpHasBeenHeld;
 
         private void HandleUp()
         {
@@ -331,7 +415,21 @@ namespace TarodevController
                             velocity.x = 0;
                             velocity.y = 0;
                             state = PlayerState.SingleRope;
+
                             SnapToRope(facing);
+                            
+                        }
+                    }
+                    else if (inRangeOfBar)
+                    {
+                        if (frameInput.Move.y == 1)
+                        {
+                            velocity.x = 0;
+                            velocity.y = 0;
+                            state = PlayerState.HorizontalBar;
+                            transform.position = new Vector3(transform.position.x,
+                            climbable.GetRightTransform().y - moveVars.HorizontalRopeSnapPositionOffset,
+                                transform.position.z);
                         }
                     }
                     break;
@@ -354,6 +452,38 @@ namespace TarodevController
                     {
                         velocity.y = 0;
                     }
+                    break;
+                case PlayerState.HorizontalBar:
+                    if (frameInput.UpDown)
+                    {
+                        timeUpWasPressed = time;
+                    }
+
+                    if (frameInput.UpHeld)
+                    {
+                        if (timeUpHasBeenHeld >= moveVars.MaxBarUpHoldTime)
+                        {
+                            timeUpHasBeenHeld = moveVars.MaxBarUpHoldTime;
+                        }
+                        else
+                        {
+                            timeUpHasBeenHeld = time - timeUpWasPressed;
+                        }
+                    }
+                    else
+                    {
+                        if (timeUpHasBeenHeld <= 0)
+                        {
+                            timeUpHasBeenHeld = 0;
+                        }
+                        else
+                        {
+                            timeUpHasBeenHeld = timeUpHasBeenHeld - moveVars.BarSpeedDecay;
+                        }
+                    }
+
+                    Debug.Log(timeUpHasBeenHeld);
+                    // Rotate player around bar at a speed scaled to how long up has been held
                     break;
                 default:
                     break;
@@ -441,10 +571,10 @@ namespace TarodevController
             switch (facing)
             {
                 case PlayerDirection.Left:
-                    transform.position = new Vector3(Climbable.GetLeftTransform() + moveVars.RopeSnapPositionOffset, transform.position.y, transform.position.z);
+                    transform.position = new Vector3(climbable.GetLeftTransform().x + moveVars.VerticalRopeSnapPositionOffset, transform.position.y, transform.position.z);
                     break;
                 case PlayerDirection.Right:
-                    transform.position = new Vector3(Climbable.GetRightTransform() - moveVars.RopeSnapPositionOffset, transform.position.y, transform.position.z);
+                    transform.position = new Vector3(climbable.GetRightTransform().x - moveVars.VerticalRopeSnapPositionOffset, transform.position.y, transform.position.z);
                     break;
             }
         }
@@ -479,28 +609,20 @@ namespace TarodevController
                         RotatePlayer();
                         break;
                     case PlayerState.SingleRope:
-                        if (frameInput.Move.x != 0)
+                        if (frameInput.Move.x == -1)
                         {
-                            switch (facing)
-                            {
-                                case PlayerDirection.Right:
-                                    SnapToRope(facing);
-                                    break;
-                                case PlayerDirection.Left:
-                                    SnapToRope(facing);
-                                    break;
-                            }
-
-                            if (HangingOffRope)
-                            {
-                                state = PlayerState.None;
-                                HangingOffRope = false;
-                            }
-                            else
-                            {
-                                HangingOffRope = true;
-                            }
+                            SnapToRope(PlayerDirection.Right);
                         }
+                        else if (frameInput.Move.x == 1)
+                        {
+                            SnapToRope(PlayerDirection.Left);
+                        }
+                        RotatePlayer();
+                        break;
+                    case PlayerState.HorizontalBar:
+                        velocity.x = Mathf.MoveTowards(velocity.x, frameInput.Move.x * moveVars.MaxHorizontalBarSpeed,
+                            moveVars.Acceleration * Time.fixedDeltaTime);
+                        RotatePlayer();
                         break;
                     default:
                         velocity.x = Mathf.MoveTowards(velocity.x, frameInput.Move.x * moveVars.MaxSpeed,
@@ -515,29 +637,6 @@ namespace TarodevController
         {
             switch(state)
             {
-                default:
-                    if (frameInput.Move.x == -1)
-                    {
-                        facing = PlayerDirection.Left;
-                        transform.rotation = Quaternion.Euler(0, 180, 0);
-                    }
-                    else if (frameInput.Move.x == 1)
-                    {
-                        facing = PlayerDirection.Right;
-                        transform.rotation = Quaternion.Euler(0, 0, 0);
-                    }
-                    else
-                    {
-                        if (facing == PlayerDirection.Left)
-                        {
-                            transform.rotation = Quaternion.Euler(0, 180, 0);
-                        }
-                        else if (facing == PlayerDirection.Right)
-                        {
-                            transform.rotation = Quaternion.Euler(0, 0, 0);
-                        }
-                    }
-                    break;
                 case PlayerState.Handstand:
                     if (frameInput.Move.x == -1)
                     {
@@ -558,6 +657,52 @@ namespace TarodevController
                         else if (facing == PlayerDirection.Right)
                         {
                             transform.rotation = Quaternion.Euler(0, 0, 180);
+                        }
+                    }
+                    break;
+                case PlayerState.SingleRope:
+                    if (frameInput.Move.x == 1)
+                    {
+                        facing = PlayerDirection.Left;
+                        transform.rotation = Quaternion.Euler(0, 180, 0);
+                    }
+                    else if (frameInput.Move.x == -1)
+                    {
+                        facing = PlayerDirection.Right;
+                        transform.rotation = Quaternion.Euler(0, 0, 0);
+                    }
+                    else
+                    {
+                        if (facing == PlayerDirection.Left)
+                        {
+                            transform.rotation = Quaternion.Euler(0, 180, 0);
+                        }
+                        else if (facing == PlayerDirection.Right)
+                        {
+                            transform.rotation = Quaternion.Euler(0, 0, 0);
+                        }
+                    }
+                    break;
+                default:
+                    if (frameInput.Move.x == -1)
+                    {
+                        facing = PlayerDirection.Left;
+                        transform.rotation = Quaternion.Euler(0, 180, 0);
+                    }
+                    else if (frameInput.Move.x == 1)
+                    {
+                        facing = PlayerDirection.Right;
+                        transform.rotation = Quaternion.Euler(0, 0, 0);
+                    }
+                    else
+                    {
+                        if (facing == PlayerDirection.Left)
+                        {
+                            transform.rotation = Quaternion.Euler(0, 180, 0);
+                        }
+                        else if (facing == PlayerDirection.Right)
+                        {
+                            transform.rotation = Quaternion.Euler(0, 0, 0);
                         }
                     }
                     break;
@@ -591,6 +736,15 @@ namespace TarodevController
         {
             if (moveVars == null) Debug.LogWarning("Please assign a MovementVaribles asset to the Player Controller's Stats slot", this);
         }
+
+        private void OnTriggerEnter2D(Collider2D other)
+        {
+            if (other.CompareTag("Single") || other.CompareTag("Horizontal"))
+            {
+                climbable = other.GetComponent<Climbable>();
+            }
+
+        }
 #endif
     }
 
@@ -600,6 +754,10 @@ namespace TarodevController
         public bool JumpHeld;
         public bool PickUpDown; 
         public bool PickUpHeld;
+        public bool UpDown;
+        public bool UpHeld;
+        public bool DownDown;
+        public bool DownHeld;
         public Vector2 Move;
     }
 

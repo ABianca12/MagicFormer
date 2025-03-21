@@ -4,16 +4,14 @@ using UnityEngine;
 public class Climbable : Destructable
 {
     private CapsuleCollider2D capColl;
-    private static float RightTransform;
-    private static float LeftTransform;
+    private Vector3 RightTransform;
+    private Vector3 LeftTransform;
 
     private void Start()
     {
         capColl = GetComponent<CapsuleCollider2D>();
-        LeftTransform = capColl.bounds.max.x;
-        RightTransform = capColl.bounds.min.x;
-        Debug.Log(capColl.bounds.max);
-        Debug.Log(capColl.bounds.min);
+        this.LeftTransform = capColl.bounds.max;
+        this.RightTransform = capColl.bounds.min;
     }
 
     public void initClimbable()
@@ -33,7 +31,14 @@ public class Climbable : Destructable
     {
         if (collision.gameObject.tag == "Player")
         {
-            PlayerController.setInRangeOfRope(true);
+            if (transform.CompareTag("Single"))
+            {
+                PlayerController.setInRangeOfRope(true);
+            }
+            else if (transform.CompareTag("Horizontal"))
+            {
+                PlayerController.setInRangeOfBar(true);
+            }
         }
     }
 
@@ -41,17 +46,25 @@ public class Climbable : Destructable
     {
         if (collision.gameObject.tag == "Player")
         {
-            PlayerController.setInRangeOfRope(false);
+            if (transform.CompareTag("Single"))
+            {
+                PlayerController.setInRangeOfRope(false);
+            }
+            else if (transform.CompareTag("Horizontal"))
+            {
+                PlayerController.setInRangeOfBar(false);
+            }
         }
     }
 
-    public static float GetLeftTransform()
+    public Vector3 GetLeftTransform()
     {
         return LeftTransform;
     }
 
-    public static float GetRightTransform()
+    public Vector3 GetRightTransform()
     {
+        Debug.Log(RightTransform);
         return RightTransform;
     }
 }
