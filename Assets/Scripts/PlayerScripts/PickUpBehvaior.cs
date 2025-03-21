@@ -26,10 +26,10 @@ public class PickUpBehvaior : MonoBehaviour
     private Vector3 initalPos;
     private Renderer rend;
     private BoxCollider2D coll;
-    private static Rigidbody2D rb;
-    private bool beingCarried;
+    private Rigidbody2D rb;
+    public bool beingCarried;
     private CapsuleCollider2D playerCapColl;
-    private static Vector2 velocity;
+    private Vector2 velocity;
     private bool startInColliders = false;
 
     public void Start()
@@ -40,6 +40,7 @@ public class PickUpBehvaior : MonoBehaviour
         rend = this.GetComponent<Renderer>();
         coll = this.GetComponent<BoxCollider2D>();
         rb = this.GetComponent<Rigidbody2D>();
+        this.beingCarried = false;
         playerCapColl = player.GetComponent<CapsuleCollider2D>();
     }
 
@@ -49,14 +50,13 @@ public class PickUpBehvaior : MonoBehaviour
             player.transform.position.y + playerCapColl.size.y,
             player.transform.position.z);
 
-        if (controller.GetPlayerState() == PlayerController.PlayerState.Carrying)
+        if (controller.GetPlayerState() == PlayerController.PlayerState.Carrying && beingCarried)
         {
             this.transform.position = pickUpPos;
-            beingCarried = true;
         }
         else
         {
-            beingCarried = false;
+            this.beingCarried = false;
         }
     }
 
@@ -141,7 +141,7 @@ public class PickUpBehvaior : MonoBehaviour
         }
     }
 
-    public static void ThrowPickUp(Vector2 direction)
+    public void ThrowPickUp(Vector2 direction)
     {
         velocity.x = direction.x;
         velocity.y = direction.y;

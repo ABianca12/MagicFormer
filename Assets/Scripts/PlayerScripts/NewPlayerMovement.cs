@@ -494,9 +494,9 @@ namespace TarodevController
 
         #region Pickups
 
-        private Pickup ObjectBeingHeld;
+        private PickUpBehvaior ObjectBeingHeld;
 
-        public Pickup GetObjectBeingHeld()
+        public PickUpBehvaior GetObjectBeingHeld()
         {
             return ObjectBeingHeld;
         }
@@ -508,9 +508,10 @@ namespace TarodevController
                 case PlayerState.None:
                     if (frameInput.PickUpDown && isOnTopOfPickup)
                     {
-                        ObjectBeingHeld = ObjectOnTopOf.GetComponent<Pickup>();
-                        ObjectBeingHeld.pickUpObject();
+                        ObjectBeingHeld = ObjectOnTopOf.GetComponent<PickUpBehvaior>();
+                        //ObjectBeingHeld.pickUpObject();
                         state = PlayerState.Carrying;
+                        ObjectBeingHeld.beingCarried = true;
                     }
                     break;
                 case PlayerState.Carrying:
@@ -520,24 +521,24 @@ namespace TarodevController
                         //ObjectBeingHeld = null;
                         if (frameInput.Move.y == 1)
                         {
-                            ObjectBeingHeld.throwPickup(new Vector2(0,
+                            ObjectBeingHeld.ThrowPickUp(new Vector2(0,
                                 moveVars.ThrowingStrength + velocity.y));
                             Debug.Log("Object thrown");
                         }
                         else if (frameInput.Move.y == -1)
                         {
-                            ObjectBeingHeld.throwPickup(new Vector2(0, 0));
+                            ObjectBeingHeld.ThrowPickUp(new Vector2(0, 0));
                             Debug.Log("Object thrown");
                         }
                         else if (frameInput.Move.x == -1)
                         {
-                            ObjectBeingHeld.throwPickup(new Vector2(velocity.x + -moveVars.ThrowingStrength,
+                            ObjectBeingHeld.ThrowPickUp(new Vector2(velocity.x + -moveVars.ThrowingStrength,
                                 moveVars.ThrowingStrength));
                             Debug.Log("Object thrown");
                         }
                         else if (frameInput.Move.x == 1)
                         {
-                            ObjectBeingHeld.throwPickup(new Vector2(velocity.x + moveVars.ThrowingStrength,
+                            ObjectBeingHeld.ThrowPickUp(new Vector2(velocity.x + moveVars.ThrowingStrength,
                                 moveVars.ThrowingStrength));
                             Debug.Log("Object thrown");
                         }
@@ -546,12 +547,12 @@ namespace TarodevController
                             switch (facing)
                             {
                                 case PlayerDirection.Left:
-                                    ObjectBeingHeld.throwPickup(new Vector2(-moveVars.ThrowingStrength,
+                                    ObjectBeingHeld.ThrowPickUp(new Vector2(-moveVars.ThrowingStrength,
                                 moveVars.ThrowingStrength / 2));
                                     Debug.Log("Object thrown");
                                     break;
                                 case PlayerDirection.Right:
-                                    ObjectBeingHeld.throwPickup(new Vector2(moveVars.ThrowingStrength,
+                                    ObjectBeingHeld.ThrowPickUp(new Vector2(moveVars.ThrowingStrength,
                                 moveVars.ThrowingStrength / 2));
                                     Debug.Log("Object thrown");
                                     break;

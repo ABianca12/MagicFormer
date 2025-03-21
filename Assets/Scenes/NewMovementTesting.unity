@@ -1117,6 +1117,7 @@ MonoBehaviour:
   f: {fileID: 5489159008218696636, guid: da3f8300befa5d948aa4f68465369fd3, type: 3}
   earfKrate: {fileID: 3109656594679393509, guid: 03ce55d3f6da36d41b92af1f37230bf9, type: 3}
   poosh: {fileID: 7775935390947257808, guid: 67a8ac871a2341b48afe7c6b3b2e470d, type: 3}
+  vine: {fileID: 0}
 --- !u!70 &241274366
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -1127,7 +1128,7 @@ CapsuleCollider2D:
   m_Enabled: 1
   serializedVersion: 3
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 9ee43051fc898e44d804dcf43e5f2bd7, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -7137,6 +7138,7 @@ GameObject:
   - component: {fileID: 1748201830}
   - component: {fileID: 1748201829}
   - component: {fileID: 1748201828}
+  - component: {fileID: 1748201831}
   m_Layer: 6
   m_Name: Key
   m_TagString: PickUp
@@ -7301,6 +7303,35 @@ MonoBehaviour:
   GroundingForce: -9.81
   MaxFallSpeed: 60
   FallAcceleration: 80
+  defaultLayer:
+    serializedVersion: 2
+    m_Bits: 1
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 8
+  pickUpLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  GroundDeceleration: 60
+  AirDeceleration: 30
+  beingCarried: 0
+--- !u!114 &1748201831
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1748201822}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd3eda0fc9a2f0b43a0b09dbfcd0c457, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  zAxis: 0
+  PickUpGrounderDistance: 0.05
+  GroundingForce: -1.5
+  MaxFallSpeed: 80
+  FallAcceleration: 150
   defaultLayer:
     serializedVersion: 2
     m_Bits: 1
