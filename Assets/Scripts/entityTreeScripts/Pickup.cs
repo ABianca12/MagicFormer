@@ -30,7 +30,6 @@ public class Pickup : Destructable
     private Renderer rend;
     private BoxCollider2D coll;
     private Rigidbody2D rb;
-    private bool beingCarried;
     private CapsuleCollider2D playerCapColl;
     private bool startInColliders = false;
     private bool isPicked = false;
@@ -84,11 +83,10 @@ public class Pickup : Destructable
         {
             base.currentPos = pickUpPos;
             this.transform.position = pickUpPos;
-            beingCarried = true;
         }
         else
         {
-            beingCarried = false;
+
         }
     }
 

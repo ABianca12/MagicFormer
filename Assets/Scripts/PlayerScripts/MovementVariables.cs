@@ -72,6 +72,13 @@ public class MovementVariables : MonoBehaviour
     [Tooltip("The immediate velocity applied when jumping")]
     public float JumpPower = 36;
 
+    [Tooltip("The immediate velocity applied when backflip jumping")]
+    public float BackFlipJumpPower = 45;
+
+    [Tooltip("The amount of time in seconds that the player has to proform a backflip jump after changing direction")]
+    [Range(0.1f, 1.0f)]
+    public float BackFlipJumpTime = 0.5f;
+
     [Tooltip("The immediate velocity applied when transitioning to a handstand")]
     public float HandStandTransitionJumpPower = 18;
 
@@ -79,7 +86,8 @@ public class MovementVariables : MonoBehaviour
     public float HandStandJumpPower = 50;
 
     [Tooltip("The amount of time in seconds that the player has to proform a handstand jump after setting one up")]
-    public float HandStandJumpTime = 1;
+    [Range(0.1f, 1.0f)]
+    public float HandStandJumpTime = 0.5f;
 
     [Tooltip("The immediate velocity applied when fully charged horizontal bar jumping")]
     public float MaxBarJumpPower = 60;
