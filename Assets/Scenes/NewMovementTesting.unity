@@ -3859,6 +3859,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   zAxis: 0
+  player: {fileID: 241274357}
 --- !u!23 &804026497
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -5795,6 +5796,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   zAxis: 0
+  player: {fileID: 0}
 --- !u!23 &1273283091
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -6238,6 +6240,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   zAxis: 0
+  player: {fileID: 0}
 --- !u!23 &1508285306
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -6449,6 +6452,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   zAxis: 0
+  player: {fileID: 0}
 --- !u!23 &1550042787
 MeshRenderer:
   m_ObjectHideFlags: 0
