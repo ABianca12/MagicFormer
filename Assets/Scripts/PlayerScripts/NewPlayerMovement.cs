@@ -81,6 +81,10 @@ namespace TarodevController
             if (Input.GetKeyDown(KeyCode.O))
             {
                 grounded = true;
+                coyoteUsable = true;
+                bufferedJumpUsable = true;
+                endedJumpEarly = false;
+                GroundedChanged?.Invoke(true, Mathf.Abs(velocity.y));
             }
         }
 
@@ -143,8 +147,8 @@ namespace TarodevController
         private float frameLeftGround = float.MinValue;
         private float timeHandstandSetupLanded;
         private bool grounded;
-        private static bool inRangeOfRope;
-        private static bool inRangeOfBar;
+        private bool inRangeOfRope;
+        private bool inRangeOfBar;
         private bool isOnTopOfPickup;
         private bool ceilingHit = false;
         private RaycastHit2D hit;
@@ -237,12 +241,12 @@ namespace TarodevController
             Physics2D.queriesStartInColliders = startInColliders;
         }
 
-        public static void setInRangeOfRope(bool newValue)
+        public void setInRangeOfRope(bool newValue)
         {
             inRangeOfRope = newValue;
         }
 
-        public static void setInRangeOfBar(bool newValue)
+        public void setInRangeOfBar(bool newValue)
         {
             inRangeOfBar = newValue;
         }

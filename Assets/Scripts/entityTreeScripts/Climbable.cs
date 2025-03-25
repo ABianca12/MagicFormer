@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class Climbable : Destructable
 {
+    public PlayerController player;
+
     private CapsuleCollider2D capColl;
     private Vector3 RightTransform;
     private Vector3 LeftTransform;
@@ -10,6 +12,7 @@ public class Climbable : Destructable
     private void Start()
     {
         capColl = GetComponent<CapsuleCollider2D>();
+        player = FindAnyObjectByType<PlayerController>();
         this.LeftTransform = capColl.bounds.max;
         this.RightTransform = capColl.bounds.min;
     }
@@ -33,11 +36,11 @@ public class Climbable : Destructable
         {
             if (transform.CompareTag("Single"))
             {
-                PlayerController.setInRangeOfRope(true);
+                player.setInRangeOfRope(true);
             }
             else if (transform.CompareTag("Horizontal"))
             {
-                PlayerController.setInRangeOfBar(true);
+                player.setInRangeOfBar(true);
             }
         }
     }
@@ -48,11 +51,11 @@ public class Climbable : Destructable
         {
             if (transform.CompareTag("Single"))
             {
-                PlayerController.setInRangeOfRope(false);
+                player.setInRangeOfRope(false);
             }
             else if (transform.CompareTag("Horizontal"))
             {
-                PlayerController.setInRangeOfBar(false);
+                player.setInRangeOfBar(false);
             }
         }
     }
@@ -64,7 +67,6 @@ public class Climbable : Destructable
 
     public Vector3 GetRightTransform()
     {
-        Debug.Log(RightTransform);
         return RightTransform;
     }
 }
