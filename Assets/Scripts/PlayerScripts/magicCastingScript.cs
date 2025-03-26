@@ -5,80 +5,104 @@ using static TarodevController.PlayerController;
 public class magicCastingScript : MonoBehaviour
 {
     //Spell prefabs
-    [SerializeField] private Fireball f;
+    [SerializeField] private Fireball fireball;
     [SerializeField] private Crate earfKrate;
     [SerializeField] private ForcePush poosh;
     [SerializeField] private Climbable vine;
     private PlayerController p;
+    private Inventory inventory;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         p = gameObject.GetComponent<PlayerController>();
+        inventory = GameObject.FindWithTag("Player").GetComponent<Inventory>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        //Casting fireball
-        if (Input.GetKeyDown(KeyCode.Alpha1))
+        if(Input.GetMouseButtonDown(0))
         {
-            //Debug.Log("FIRE:);
-            Fireball fb = Instantiate(f);
-            switch (p.getFaceDirection())
+            switch(inventory.getCurrentItem())
             {
-                case PlayerDirection.Left:
-                    fb.initFireball(gameObject.transform.position - new Vector3(2,0), new Vector2(-20, 0));
-                    break;
-                case PlayerDirection.Right:
-                    fb.initFireball(gameObject.transform.position + new Vector3(2, 0), new Vector2(20, 0));
-                    break;
+                //Casting fireball
+                case 0:
+                    //Debug.Log("FIRE:);
+                    Fireball fb = Instantiate(fireball);
+                    switch (p.getFaceDirection())
+                    {
+                        case PlayerDirection.Left:
+                            fb.initFireball(gameObject.transform.position - new Vector3(2, 0), new Vector2(-20, 0));
+                            break;
+                        case PlayerDirection.Right:
+                            fb.initFireball(gameObject.transform.position + new Vector3(2, 0), new Vector2(20, 0));
+                            break;
+                        default:
+                            fb.initFireball(gameObject.transform.position + new Vector3(2, 0), new Vector2(20, 0));
+                            break;
+
+                    }
+                break;
+                //Casting earth crate
+                case 1:
+                    //Debug.Log("EARTH");
+                    Crate c = Instantiate(earfKrate);
+                    switch (p.getFaceDirection())
+                    {
+                        case PlayerDirection.Left:
+                            c.initCrate(new Vector3(gameObject.transform.position.x - 2, gameObject.transform.position.y, gameObject.transform.position.z));
+                            break;
+                        case PlayerDirection.Right:
+                            c.initCrate(new Vector3(gameObject.transform.position.x + 2, gameObject.transform.position.y, gameObject.transform.position.z));
+                            break;
+                        default:
+                            c.initCrate(new Vector3(gameObject.transform.position.x + 2, gameObject.transform.position.y, gameObject.transform.position.z));
+                            break;
+
+                    }
+                break;
+                //Casting Force push
+                case 2:
+                    //Debug.Log("FORCE BURST");
+                    ForcePush f = Instantiate(poosh);
+                    Vector3 screenPoint = Camera.main.WorldToScreenPoint(gameObject.transform.position);
+                    var d = Input.mousePosition - screenPoint;
+                    d.Normalize();
+                    f.initForcePush(gameObject.transform.position, d * 20f);
+                break;
+                //Casting Vines
+                case 3:
+                    //Debug.Log("VINE TIME");
+                    Climbable v = Instantiate(vine);
+                    Vector3 worldPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                    v.initClimbable(Entity.BaseType.GRASS, new Vector3(worldPoint.x, worldPoint.y, transform.position.z));
+                break;
+                //Casting Timestop
+                case 4:
+                break;
+                //Default is fireball
                 default:
-                    fb.initFireball(gameObject.transform.position + new Vector3(2, 0), new Vector2(20, 0));
-                    break;
+                    //Debug.Log("FIRE:);
+                    Fireball fi = Instantiate(fireball);
+                    switch (p.getFaceDirection())
+                    {
+                        case PlayerDirection.Left:
+                            fi.initFireball(gameObject.transform.position - new Vector3(2, 0), new Vector2(-20, 0));
+                            break;
+                        case PlayerDirection.Right:
+                            fi.initFireball(gameObject.transform.position + new Vector3(2, 0), new Vector2(20, 0));
+                            break;
+                        default:
+                            fi.initFireball(gameObject.transform.position + new Vector3(2, 0), new Vector2(20, 0));
+                            break;
 
-            }
-
-        }
-        //Casting earth crate
-        else if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            //Debug.Log("EARTH");
-            Crate c = Instantiate(earfKrate);
-            switch (p.getFaceDirection())
-            {
-                case PlayerDirection.Left:
-                    c.initCrate(new Vector3(gameObject.transform.position.x - 2, gameObject.transform.position.y, gameObject.transform.position.z));
+                    }
                     break;
-                case PlayerDirection.Right:
-                    c.initCrate(new Vector3(gameObject.transform.position.x + 2, gameObject.transform.position.y, gameObject.transform.position.z));
-                    break;
-                default:
-                    c.initCrate(new Vector3(gameObject.transform.position.x + 2, gameObject.transform.position.y, gameObject.transform.position.z));
-                    break;
-
             }
         }
-        //Casting force push
-        else if (Input.GetKeyDown(KeyCode.Alpha3))
-        {
-            //Debug.Log("FORCE BURST");
-            ForcePush f = Instantiate(poosh);
-            Vector3 point = Camera.main.WorldToScreenPoint(gameObject.transform.position);
-            var d = Input.mousePosition - point;
-            d.Normalize();
-            f.initForcePush(gameObject.transform.position, d * 20f);
 
-        }
-        //Casting vine
-        else if (Input.GetKeyDown(KeyCode.Alpha4))
-        {
-            //Debug.Log("VINE TIME");
-            Climbable v = Instantiate(vine);
-            Vector3 point = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            v.initClimbable(Entity.BaseType.GRASS,new Vector3(point.x,point.y, transform.position.z));
-
-        }
 
     }
+
 }

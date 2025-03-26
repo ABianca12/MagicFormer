@@ -21,10 +21,12 @@ public class Collectable : Interactable
 
     void OnCollisionEnter2D(Collision2D c)
     {
+        Debug.Log("COLLUDE");
         //if Player collides with the object
         if(c.gameObject.tag == "Player")
         {
             //Collect Item
+            c.gameObject.GetComponent<Inventory>().addCollectable(gameObject);
 
             Destroy(gameObject);
         }
