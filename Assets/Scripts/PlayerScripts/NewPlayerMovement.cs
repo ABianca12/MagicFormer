@@ -33,6 +33,7 @@ namespace TarodevController
             Falling,
         }
 
+        [SerializeField]
         private PlayerState state = PlayerState.None;
 
         public PlayerState GetPlayerState()
@@ -47,6 +48,7 @@ namespace TarodevController
             Right
         }
 
+        [SerializeField]
         private PlayerDirection facing = PlayerDirection.Right;
         
         public PlayerDirection getFaceDirection()
@@ -132,7 +134,11 @@ namespace TarodevController
             HandleDown();
             HandleJump();
             HandleUp();
-            HandleDirection();
+
+            if (!(state == PlayerState.HorizontalBar && frameInput.Move.y == 1))
+            {
+                HandleDirection();
+            }
 
             if (!(state == PlayerState.SingleRope || state == PlayerState.DoubleRope || state == PlayerState.HorizontalBar))
             {
@@ -151,6 +157,9 @@ namespace TarodevController
         private bool inRangeOfBar;
         private bool isOnTopOfPickup;
         private bool ceilingHit = false;
+        private bool leftRopeHit;
+        private bool rightRopeHit;
+        private bool isAnotherRopeNearby;
         private RaycastHit2D hit;
         private GameObject ObjectOnTopOf;
 
@@ -233,10 +242,15 @@ namespace TarodevController
                 }
             }
 
-            if ((state == PlayerState.SingleRope || state == PlayerState.DoubleRope || state == PlayerState.HorizontalBar) && !inRangeOfRope && !inRangeOfBar)
+            if (state == PlayerState.HorizontalBar && !inRangeOfBar)
             {
                 state = PlayerState.None;
             }
+
+            //if ((state == PlayerState.SingleRope || state == PlayerState.DoubleRope || state == PlayerState.HorizontalBar) && !inRangeOfRope && !inRangeOfBar)
+            //{
+            //    state = PlayerState.None;
+            //}
 
             Physics2D.queriesStartInColliders = startInColliders;
         }
@@ -255,7 +269,7 @@ namespace TarodevController
 
         #region Jumping
 
-        public bool hasJump;
+        private bool hasJump;
         private bool bufferedJumpUsable;
         private bool endedJumpEarly;
         private bool coyoteUsable;
@@ -470,6 +484,8 @@ namespace TarodevController
 
                     if (frameInput.UpHeld)
                     {
+                        velocity.x = 0;
+
                         if (timeUpHasBeenHeld >= moveVars.MaxBarUpHoldTime)
                         {
                             timeUpHasBeenHeld = moveVars.MaxBarUpHoldTime;

@@ -1,7 +1,6 @@
 using System;
 using TarodevController;
 using UnityEngine;
-using static TarodevController.PlayerController;
 
 public class PickUpBehvaior : MonoBehaviour
 {
@@ -9,6 +8,8 @@ public class PickUpBehvaior : MonoBehaviour
     public float GroundingForce = -1.5f;
     public float MaxFallSpeed = 80;
     public float FallAcceleration = 150;
+    public float keyResetTime = 10.0f;
+    private float currentTimerTime;
     public event Action<bool, float> GroundedChanged;
     public LayerMask defaultLayer;
     public LayerMask playerLayer;
@@ -29,8 +30,11 @@ public class PickUpBehvaior : MonoBehaviour
     private Rigidbody2D rb;
     public bool beingCarried;
     private CapsuleCollider2D playerCapColl;
+    [SerializeField]
     private Vector2 velocity;
     private bool startInColliders = false;
+    private bool hasBeenThrown = false;
+    private float time;
 
     public void Start()
     {
@@ -42,10 +46,19 @@ public class PickUpBehvaior : MonoBehaviour
         rb = this.GetComponent<Rigidbody2D>();
         this.beingCarried = false;
         playerCapColl = player.GetComponent<CapsuleCollider2D>();
+
+        currentTimerTime = keyResetTime;
     }
 
     private void Update()
     {
+        time += Time.deltaTime;
+
+        if (hasBeenThrown && velocity.x == 0 && velocity.y == -MaxFallSpeed)
+        {
+            UpdateTimer();
+        }
+
         pickUpPos = new Vector3(player.transform.position.x,
             player.transform.position.y + playerCapColl.size.y,
             player.transform.position.z);
@@ -53,6 +66,8 @@ public class PickUpBehvaior : MonoBehaviour
         if (controller.GetPlayerState() == PlayerController.PlayerState.Carrying && beingCarried)
         {
             this.transform.position = pickUpPos;
+            hasBeenThrown = false;
+            currentTimerTime = keyResetTime;
         }
         else
         {
@@ -135,17 +150,31 @@ public class PickUpBehvaior : MonoBehaviour
             var deceleration = grounded ? GroundDeceleration : AirDeceleration;
             velocity.x = Mathf.MoveTowards(velocity.x, 0, deceleration * Time.fixedDeltaTime);
         }
-        else
-        {
-            
-        }
     }
 
     public void ThrowPickUp(Vector2 direction)
     {
         velocity.x = direction.x;
         velocity.y = direction.y;
+        hasBeenThrown = true;
     }
 
     private void ApplyMovement() => rb.linearVelocity = velocity;
+
+    private void UpdateTimer()
+    {
+        currentTimerTime -= Time.deltaTime;
+
+        if (currentTimerTime <= 0.0)
+        {
+            TimerEnded();
+        }
+    }
+
+    private void TimerEnded()
+    {
+        transform.position = initalPos;
+        currentTimerTime = keyResetTime;
+        hasBeenThrown = false;
+    }
 }
