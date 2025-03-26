@@ -54,7 +54,7 @@ public class PickUpBehvaior : MonoBehaviour
     {
         time += Time.deltaTime;
 
-        if (hasBeenThrown && velocity.x == 0 && velocity.y == -MaxFallSpeed)
+        if (hasBeenThrown /*&& velocity.x == 0 && velocity.y == -MaxFallSpeed*/)
         {
             UpdateTimer();
         }
