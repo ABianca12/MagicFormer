@@ -1,10 +1,13 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Enemy : Pickup
 {
     private Transform playerTransform;
+    private Rigidbody2D enemyRB;
 
-    [SerializeField] private Rigidbody2D enemyRB;
+    [SerializeField] private bool redShell = false;
+
     [SerializeField] private CircleCollider2D enemyDetectionSphere;
     [SerializeField] private float moveSpeed = 5.0f;
 
@@ -13,10 +16,17 @@ public class Enemy : Pickup
     public bool isDetectable = false;
     private bool isRight = false;
 
-    private void Awake()
+    private void Start()
     {
+        initEnemy();
+
         enemyRB = GetComponent<Rigidbody2D>();
-        playerTransform = FindAnyObjectByType<PlayerMovement>().transform;
+        //playerTransform = FindAnyObjectByType<PlayerMovement>().transform;
+    }
+
+    public void initEnemy()
+    {
+        initPickup(BaseType.NONE, transform.position);
     }
 
     private void Update()
@@ -36,6 +46,7 @@ public class Enemy : Pickup
 
     }
 
+    //turns sprite around
     private void Flip()
     {
         Vector3 localScale = transform.localScale;
@@ -75,9 +86,9 @@ public class Enemy : Pickup
         //if facing left
         if (!isRight)
         {
-            if (!Physics2D.OverlapCircle(new Vector2(gameObject.transform.position.x - 0.7f, gameObject.transform.position.y - 1.1f), 0.2f, groundLayer))
+            if (redShell && !Physics2D.OverlapCircle(new Vector2(gameObject.transform.position.x - 0.7f, gameObject.transform.position.y - 1.1f), 0.2f, groundLayer))
             {
-                enemyRB.linearVelocity = new Vector2(enemyRB.linearVelocity.x * -1, enemyRB.linearVelocity.y);
+                updateVelocity(new Vector2(enemyRB.linearVelocity.x * -1, enemyRB.linearVelocity.y));
                 Flip();
                 isRight = true;
             }
@@ -89,9 +100,9 @@ public class Enemy : Pickup
         //if facing right
         else if (isRight)
         {
-            if (!Physics2D.OverlapCircle(new Vector2(gameObject.transform.position.x + 0.7f, gameObject.transform.position.y - 1.1f), 0.2f, groundLayer))
+            if (redShell && !Physics2D.OverlapCircle(new Vector2(gameObject.transform.position.x + 0.7f, gameObject.transform.position.y - 1.1f), 0.2f, groundLayer))
             {
-                enemyRB.linearVelocity = new Vector2(enemyRB.linearVelocity.x * -1, enemyRB.linearVelocity.y);
+                updateVelocity(new Vector2(enemyRB.linearVelocity.x * -1, enemyRB.linearVelocity.y));
                 Flip();
                 isRight = false;
             }
@@ -100,5 +111,9 @@ public class Enemy : Pickup
                 enemyRB.linearVelocity = new Vector2(1 * moveSpeed, enemyRB.linearVelocity.y);
             }
         }
+
+        
     }
+
+
 }
