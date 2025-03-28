@@ -17,6 +17,8 @@ public class magicCastingScript : MonoBehaviour
     {
         p = gameObject.GetComponent<PlayerController>();
         inventory = GameObject.FindWithTag("Player").GetComponent<Inventory>();
+        bool[] temp = { true, true, false, false, false };
+        inventory.initInventory(temp);
     }
 
     // Update is called once per frame
@@ -102,6 +104,14 @@ public class magicCastingScript : MonoBehaviour
             }
         }
 
+        if(Input.GetKeyDown(KeyCode.Q))
+        {
+            inventory.prevItem();
+        }
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            inventory.nextItem();
+        }
 
     }
 

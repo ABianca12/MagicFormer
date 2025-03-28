@@ -1277,10 +1277,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f22014e0cbd743f47aea3635e906001e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fireball: {fileID: 0}
+  fireball: {fileID: 5489159008218696636, guid: da3f8300befa5d948aa4f68465369fd3, type: 3}
   earfKrate: {fileID: 3109656594679393509, guid: 03ce55d3f6da36d41b92af1f37230bf9, type: 3}
   poosh: {fileID: 7775935390947257808, guid: 67a8ac871a2341b48afe7c6b3b2e470d, type: 3}
-  vine: {fileID: 0}
+  vine: {fileID: 8830424203664134594, guid: d86cb52935bc1ed4d9c2d2b12845b28b, type: 3}
 --- !u!114 &241274366
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9351,6 +9351,25 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9282f7554b6bdad498c618e1475cb31e, type: 3}
+--- !u!1 &2056905614 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3082427865026511456, guid: 00734f0629aa127488b89e0b2e5bed75, type: 3}
+  m_PrefabInstance: {fileID: 1236977752796919963}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2056905620
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2056905614}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0356ebea2bf17624e82e4641486b1b17, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  zAxis: 0
+  magicIndex: 2
 --- !u!4 &2088176843 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5340992240992585500, guid: 28dbda10d19939742a30915f5f791954, type: 3}
@@ -9530,7 +9549,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1207219047661573232, guid: 00734f0629aa127488b89e0b2e5bed75, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 6.37
+      value: 7.79
       objectReference: {fileID: 0}
     - target: {fileID: 1207219047661573232, guid: 00734f0629aa127488b89e0b2e5bed75, type: 3}
       propertyPath: m_LocalPosition.z
@@ -9568,10 +9587,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: collectableTest
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 6063490024638916145, guid: 00734f0629aa127488b89e0b2e5bed75, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3082427865026511456, guid: 00734f0629aa127488b89e0b2e5bed75, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2056905620}
   m_SourcePrefab: {fileID: 100100000, guid: 00734f0629aa127488b89e0b2e5bed75, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

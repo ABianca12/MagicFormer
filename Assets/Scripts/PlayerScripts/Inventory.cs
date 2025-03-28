@@ -1,17 +1,17 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 
 public class Inventory : MonoBehaviour
 {
-    private bool[] allItems;
+    private bool[] allItems = new bool[5];
     private int currentItem = 0;
     private List<GameObject> collectables;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        allItems = new bool[5];
         collectables = new List<GameObject>();
     }
 
@@ -25,6 +25,10 @@ public class Inventory : MonoBehaviour
     public void initInventory(bool[] init)
     {
         allItems = init;
+        foreach (bool item in allItems)
+        {
+            Debug.Log(item);
+        }
     }
 
     //Functions for current inventory slot
@@ -36,17 +40,46 @@ public class Inventory : MonoBehaviour
     //function to go to next available item in inventory that the player has
     public void nextItem()
     {
+        int start = currentItem;
         currentItem++;
         if(currentItem > 4)
         {
             currentItem = 0;
         }
-        while (!allItems[currentItem])
+        //Debug.Log("CURRENT: " + currentItem + " " + allItems[currentItem]);
+        while (allItems[currentItem] == false)
         {
             currentItem++;
             if (currentItem > 4)
             {
                 currentItem = 0;
+            }
+            if(currentItem == start)
+            {
+                break;
+            }
+        }
+    }
+    //Funcion to go to previous available item in inventory that player has
+    public void prevItem()
+    {
+        int start = currentItem;
+        currentItem--;
+        if (currentItem < 0)
+        {
+            currentItem = 4;
+        }
+        //Debug.Log("CURRENT: " + currentItem + " " + allItems[currentItem]);
+        while (allItems[currentItem] == false)
+        {
+            currentItem--;
+            if (currentItem < 0)
+            {
+                currentItem = 4;
+            }
+            if (currentItem == start)
+            {
+                break;
             }
         }
     }

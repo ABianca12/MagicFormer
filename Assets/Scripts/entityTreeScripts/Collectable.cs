@@ -9,13 +9,18 @@ public class Collectable : Interactable
     //init functions
     public void initCollectable()
     {
-        initInteractable();
         pInventory = GameObject.FindWithTag("Inventory").GetComponent<Inventory>();
+        initInteractable();
     }
     public void initCollectable(Vector3 start)
     {
-        initInteractable(start);
         pInventory = GameObject.FindWithTag("Inventory").GetComponent<Inventory>();
+        initInteractable(start);
+    }
+    public void initCollectable(Vector3 start, BaseType m)
+    {
+        pInventory = GameObject.FindWithTag("Inventory").GetComponent<Inventory>();
+        initInteractable(start, m);
     }
 
 
