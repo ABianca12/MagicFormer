@@ -11,6 +11,8 @@ public class magicCastingScript : MonoBehaviour
     [SerializeField] private Climbable vine;
     private PlayerController p;
     private Inventory inventory;
+    private float planeDistance;
+    private Plane nearPlane;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -19,6 +21,8 @@ public class magicCastingScript : MonoBehaviour
         inventory = GameObject.FindWithTag("Player").GetComponent<Inventory>();
         bool[] temp = { true, true, false, false, false };
         inventory.initInventory(temp);
+        planeDistance = 0.3f;
+        nearPlane = new Plane(Vector3.forward, planeDistance);
     }
 
     // Update is called once per frame
@@ -77,8 +81,14 @@ public class magicCastingScript : MonoBehaviour
                 case 3:
                     //Debug.Log("VINE TIME");
                     Climbable v = Instantiate(vine);
-                    Vector3 worldPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                    v.initClimbable(Entity.BaseType.GRASS, new Vector3(worldPoint.x, worldPoint.y, transform.position.z));
+                    Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                    float enter = 0.0f;
+                    //Raycast to the near plane on the camera
+                    if(nearPlane.Raycast(ray, out enter))
+                    {
+                        Vector3 hitPoint = ray.GetPoint(enter);
+                        v.initClimbable(Entity.BaseType.GRASS, new Vector3(hitPoint.x, hitPoint.y, transform.position.z));
+                    }
                 break;
                 //Casting Timestop
                 case 4:
