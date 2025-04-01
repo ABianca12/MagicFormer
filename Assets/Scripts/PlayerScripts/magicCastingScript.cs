@@ -19,7 +19,7 @@ public class magicCastingScript : MonoBehaviour
     {
         p = gameObject.GetComponent<PlayerController>();
         inventory = GameObject.FindWithTag("Player").GetComponent<Inventory>();
-        bool[] temp = { true, true, false, false, false };
+        bool[] temp = { true, true, false, true, false };
         inventory.initInventory(temp);
         planeDistance = 0.3f;
         nearPlane = new Plane(Vector3.forward, planeDistance);
@@ -92,6 +92,8 @@ public class magicCastingScript : MonoBehaviour
                 break;
                 //Casting Timestop
                 case 4:
+                    //Debug.Log("ZA WARUDOOOOOOO");
+
                 break;
                 //Default is fireball
                 default:
