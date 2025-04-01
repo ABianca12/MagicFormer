@@ -4,6 +4,9 @@ using static TarodevController.PlayerController;
 
 public class magicCastingScript : MonoBehaviour
 {
+    [Header("UI Canvas")]
+    [SerializeField] private SpellUI spellUI;
+
     //Spell prefabs
     [SerializeField] private Fireball fireball;
     [SerializeField] private Crate earfKrate;
@@ -19,7 +22,7 @@ public class magicCastingScript : MonoBehaviour
     {
         p = gameObject.GetComponent<PlayerController>();
         inventory = GameObject.FindWithTag("Player").GetComponent<Inventory>();
-        bool[] temp = { true, true, false, true, false };
+        bool[] temp = { true, true, true, true, false };
         inventory.initInventory(temp);
         planeDistance = 0.3f;
         nearPlane = new Plane(Vector3.forward, planeDistance);
@@ -123,6 +126,7 @@ public class magicCastingScript : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.E))
         {
             inventory.nextItem();
+            spellUI.cycleSpells();
         }
 
     }
