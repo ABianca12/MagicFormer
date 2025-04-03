@@ -47,7 +47,8 @@ namespace TarodevController
         {
             None,
             Left,
-            Right
+            Right,
+            Straight
         }
 
         [SerializeField]
@@ -82,9 +83,61 @@ namespace TarodevController
             GatherInput();
             HandlePickUp();
 
-            if (!(state == PlayerState.HorizontalBar && frameInput.Move.y == 1))
+            if (state == PlayerState.SingleRope)
             {
-                HandleDirection();
+                if (frameInput.LeftDown)
+                {
+                    if (facing == PlayerDirection.Right && LeftRopeHit && LeftClimbable != climbable)
+                    {
+                        state = PlayerState.DoubleRope;
+                        SnapToMiddle();
+                        RotatePlayer();
+                    }
+                    else
+                    {
+                        SnapToRope(PlayerDirection.Right);
+                        RotatePlayer();
+                    }
+                }
+                else if (frameInput.RightDown)
+                {
+                    if (facing == PlayerDirection.Left && RightRopeHit && RightClimbable != climbable)
+                    {
+                        state = PlayerState.DoubleRope;
+                        SnapToMiddle();
+                        RotatePlayer();
+                    }
+                    else
+                    {
+                        SnapToRope(PlayerDirection.Left);
+                        RotatePlayer();
+                    }
+                }
+            }
+            else if (state == PlayerState.DoubleRope)
+            {
+                if (frameInput.LeftDown)
+                {
+                    if (facing == PlayerDirection.Straight && LeftRopeHit /*&& LeftClimbable != climbable*/)
+                    {
+                        state = PlayerState.SingleRope;
+                        facing = PlayerDirection.Left;
+                        SnapToLeftRope();
+                        RotatePlayer();
+                        Debug.Log("went to left rope");
+                    }
+                }
+                else if (frameInput.RightDown)
+                {
+                    if (facing == PlayerDirection.Straight && RightRopeHit /*&& RightClimbable != climbable*/)
+                    {
+                        state = PlayerState.SingleRope;
+                        facing = PlayerDirection.Right;
+                        SnapToRightRope();
+                        RotatePlayer();
+                        Debug.Log("went to right rope");
+                    }
+                }
             }
 
             if (Input.GetKeyDown(KeyCode.O))
@@ -143,6 +196,11 @@ namespace TarodevController
             HandleDown();
             HandleJump();
             HandleUp();
+
+            if (!(state == PlayerState.HorizontalBar && frameInput.Move.y == 1))
+            {
+                HandleDirection();
+            }
 
             if (!(state == PlayerState.SingleRope || state == PlayerState.DoubleRope || state == PlayerState.HorizontalBar))
             {
@@ -230,6 +288,7 @@ namespace TarodevController
                 }
 
                 canCrouch = true;
+                
             }
             // Left the Ground
             else if (grounded && !groundHit)
@@ -354,8 +413,6 @@ namespace TarodevController
                     {
                         velocity.y = moveVars.MinBarJumpPower * timeUpHasBeenHeld;
                     }
-
-                    timeUpHasBeenHeld = 0;
                     break;
                 case PlayerState.SingleRope:
                     state = PlayerState.None;
@@ -452,6 +509,11 @@ namespace TarodevController
         private float timeUpWasPressed;
         private float timeUpHasBeenHeld;
 
+        public float getTimeUpHasBeenHeld()
+        {
+            return timeUpHasBeenHeld;
+        }
+
         private void HandleUp()
         {
             switch (state)
@@ -466,7 +528,6 @@ namespace TarodevController
                             state = PlayerState.SingleRope;
 
                             SnapToRope(facing);
-                            
                         }
                     }
                     else if (inRangeOfBar)
@@ -639,7 +700,14 @@ namespace TarodevController
 
         private void SnapToRightRope()
         {
-            transform.position = new Vector3(RightClimbable.GetRightTransform().x - moveVars.VerticalRopeSnapPositionOffset, transform.position.y, transform.position.z);
+            transform.position = new Vector3(RightClimbable.GetLeftTransform().x - moveVars.VerticalRopeSnapPositionOffset, transform.position.y, transform.position.z);
+        }
+
+        private void SnapToMiddle()
+        {
+            float newX = (LeftClimbable.GetRightTransform().x - RightClimbable.GetLeftTransform().x) / 2 ;
+            transform.position = new Vector3(LeftClimbable.GetRightTransform().x - newX, transform.position.y, transform.position.z);
+
         }
 
         #endregion
@@ -673,31 +741,8 @@ namespace TarodevController
                         RotatePlayer();
                         break;
                     case PlayerState.SingleRope:
-                        if (frameInput.LeftDown)
-                        {
-                            if (facing == PlayerDirection.Right && LeftRopeHit && LeftClimbable != climbable)
-                            {
-                                SnapToLeftRope();
-                                RotatePlayer();
-                            }
-                            else
-                            {
-                                SnapToRope(PlayerDirection.Right);
-                            }
-                        }
-                        else if (frameInput.RightDown)
-                        {
-                            if (facing == PlayerDirection.Left && RightRopeHit && RightClimbable != climbable)
-                            {
-                                SnapToRightRope();
-                                RotatePlayer();
-                            }
-                            else
-                            {
-                                SnapToRope(PlayerDirection.Left);
-                            }
-                        }
-                        RotatePlayer();
+                        break;
+                    case PlayerState.DoubleRope:
                         break;
                     case PlayerState.HorizontalBar:
                         velocity.x = Mathf.MoveTowards(velocity.x, frameInput.Move.x * moveVars.MaxHorizontalBarSpeed,
@@ -762,6 +807,10 @@ namespace TarodevController
                             transform.rotation = Quaternion.Euler(0, 0, 0);
                         }
                     }
+                    break;
+                case PlayerState.DoubleRope:
+                    facing = PlayerDirection.Straight;
+                    transform.rotation = Quaternion.Euler(0, 91, 0);
                     break;
                 default:
                     if (frameInput.Move.x == -1)
