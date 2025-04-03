@@ -1,5 +1,6 @@
 using System;
 using TarodevController;
+using TMPro;
 using UnityEngine;
 
 public class PickUpBehvaior : MonoBehaviour
@@ -8,9 +9,13 @@ public class PickUpBehvaior : MonoBehaviour
     public float GroundingForce = -1.5f;
     public float MaxFallSpeed = 80;
     public float FallAcceleration = 150;
+
+    [Tooltip("The time in seconds until the key will return to it's origonal position after being thrown")]
     public float keyResetTime = 10.0f;
     private float currentTimerTime;
+
     public event Action<bool, float> GroundedChanged;
+
     public LayerMask defaultLayer;
     public LayerMask playerLayer;
     public LayerMask pickUpLayer;
@@ -20,6 +25,8 @@ public class PickUpBehvaior : MonoBehaviour
 
     [Tooltip("Deceleration in air only after stopping input mid-air")]
     public float AirDeceleration = 30;
+
+    public TextMeshProUGUI keyTimerText;
 
     private GameObject player;
     private PlayerController controller;
@@ -48,14 +55,17 @@ public class PickUpBehvaior : MonoBehaviour
         playerCapColl = player.GetComponent<CapsuleCollider2D>();
 
         currentTimerTime = keyResetTime;
+        keyTimerText.text = currentTimerTime.ToString("F1");
+        keyTimerText.gameObject.SetActive(false);
     }
 
     private void Update()
     {
         time += Time.deltaTime;
 
-        if (hasBeenThrown /*&& velocity.x == 0 && velocity.y == -MaxFallSpeed*/)
+        if (hasBeenThrown && gameObject.name == "Key" /*&& velocity.x == 0 && velocity.y == -MaxFallSpeed*/)
         {
+            keyTimerText.gameObject.SetActive(true);
             UpdateTimer();
         }
 
@@ -68,6 +78,11 @@ public class PickUpBehvaior : MonoBehaviour
             this.transform.position = pickUpPos;
             hasBeenThrown = false;
             currentTimerTime = keyResetTime;
+
+            if (gameObject.name == "Key")
+            {
+                keyTimerText.gameObject.SetActive(false);
+            }
         }
         else
         {
@@ -165,6 +180,10 @@ public class PickUpBehvaior : MonoBehaviour
     {
         currentTimerTime -= Time.deltaTime;
 
+        keyTimerText.gameObject.SetActive(true);
+
+        keyTimerText.text = currentTimerTime.ToString("F1");
+
         if (currentTimerTime <= 0.0)
         {
             TimerEnded();
@@ -176,5 +195,6 @@ public class PickUpBehvaior : MonoBehaviour
         transform.position = initalPos;
         currentTimerTime = keyResetTime;
         hasBeenThrown = false;
+        keyTimerText.gameObject.SetActive(false);
     }
 }

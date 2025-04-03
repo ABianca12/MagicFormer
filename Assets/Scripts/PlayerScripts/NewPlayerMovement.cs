@@ -19,6 +19,8 @@ namespace TarodevController
         public event Action<bool, float> GroundedChanged;
         public event Action Jumped;
         private Climbable climbable;
+        private Climbable LeftClimbable;
+        private Climbable RightClimbable;
 
         public enum PlayerState
         {
@@ -80,6 +82,11 @@ namespace TarodevController
             GatherInput();
             HandlePickUp();
 
+            if (!(state == PlayerState.HorizontalBar && frameInput.Move.y == 1))
+            {
+                HandleDirection();
+            }
+
             if (Input.GetKeyDown(KeyCode.O))
             {
                 grounded = true;
@@ -102,6 +109,8 @@ namespace TarodevController
                 UpHeld = Input.GetKey(moveVars.up),
                 DownDown = Input.GetKeyDown(moveVars.down),
                 DownHeld = Input.GetKey(moveVars.down),
+                LeftDown = Input.GetKeyDown(moveVars.left),
+                RightDown = Input.GetKeyDown(moveVars.right),
 
                 Move = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"))
             };
@@ -135,11 +144,6 @@ namespace TarodevController
             HandleJump();
             HandleUp();
 
-            if (!(state == PlayerState.HorizontalBar && frameInput.Move.y == 1))
-            {
-                HandleDirection();
-            }
-
             if (!(state == PlayerState.SingleRope || state == PlayerState.DoubleRope || state == PlayerState.HorizontalBar))
             {
                 HandleGravity();
@@ -157,10 +161,9 @@ namespace TarodevController
         private bool inRangeOfBar;
         private bool isOnTopOfPickup;
         private bool ceilingHit = false;
-        private bool leftRopeHit;
-        private bool rightRopeHit;
-        private bool isAnotherRopeNearby;
         private RaycastHit2D hit;
+        private RaycastHit2D LeftRopeHit;
+        private RaycastHit2D RightRopeHit;
         private GameObject ObjectOnTopOf;
 
         private void CheckCollisions()
@@ -173,6 +176,12 @@ namespace TarodevController
             
             hit = Physics2D.CapsuleCast(capCollider.bounds.center, capCollider.size, capCollider.direction,
                 0, Vector2.down, moveVars.GrounderDistance, ~moveVars.PlayerLayer);
+
+            LeftRopeHit = Physics2D.CapsuleCast(capCollider.bounds.center, capCollider.size, capCollider.direction,
+                0, Vector2.left, moveVars.RopeGrabbingRange, moveVars.ClimbableLayer);
+
+            RightRopeHit = Physics2D.CapsuleCast(capCollider.bounds.center, capCollider.size, capCollider.direction,
+                0, Vector2.right, moveVars.RopeGrabbingRange, moveVars.ClimbableLayer);
 
             if (hit)
             {
@@ -247,10 +256,27 @@ namespace TarodevController
                 state = PlayerState.None;
             }
 
-            //if ((state == PlayerState.SingleRope || state == PlayerState.DoubleRope || state == PlayerState.HorizontalBar) && !inRangeOfRope && !inRangeOfBar)
-            //{
-            //    state = PlayerState.None;
-            //}
+            if (state == PlayerState.SingleRope || state == PlayerState.DoubleRope)
+            {
+                bool leftRopeInRange = Physics2D.CapsuleCast(capCollider.bounds.center, capCollider.size, capCollider.direction,
+                0, Vector2.left, moveVars.RopeGrabbingRange, moveVars.ClimbableLayer);
+
+                if (leftRopeInRange)
+                {
+                    LeftClimbable = LeftRopeHit.transform.GetComponent<Climbable>();
+                }
+
+                bool rightRopeInRange = Physics2D.CapsuleCast(capCollider.bounds.center, capCollider.size, capCollider.direction,
+                0, Vector2.right, moveVars.RopeGrabbingRange, moveVars.ClimbableLayer);
+
+                if (rightRopeInRange)
+                {
+                    RightClimbable = RightRopeHit.transform.GetComponent<Climbable>();
+                }
+
+                Debug.DrawRay(transform.position, Vector2.left, Color.blue);
+                Debug.DrawRay(transform.position, Vector2.right, Color.red);
+            }
 
             Physics2D.queriesStartInColliders = startInColliders;
         }
@@ -606,6 +632,16 @@ namespace TarodevController
             }
         }
 
+        private void SnapToLeftRope()
+        {
+            transform.position = new Vector3(LeftClimbable.GetRightTransform().x + moveVars.VerticalRopeSnapPositionOffset, transform.position.y, transform.position.z);
+        }
+
+        private void SnapToRightRope()
+        {
+            transform.position = new Vector3(RightClimbable.GetRightTransform().x - moveVars.VerticalRopeSnapPositionOffset, transform.position.y, transform.position.z);
+        }
+
         #endregion
 
         #region Horizontal
@@ -637,13 +673,29 @@ namespace TarodevController
                         RotatePlayer();
                         break;
                     case PlayerState.SingleRope:
-                        if (frameInput.Move.x == -1)
+                        if (frameInput.LeftDown)
                         {
-                            SnapToRope(PlayerDirection.Right);
+                            if (facing == PlayerDirection.Right && LeftRopeHit && LeftClimbable != climbable)
+                            {
+                                SnapToLeftRope();
+                                RotatePlayer();
+                            }
+                            else
+                            {
+                                SnapToRope(PlayerDirection.Right);
+                            }
                         }
-                        else if (frameInput.Move.x == 1)
+                        else if (frameInput.RightDown)
                         {
-                            SnapToRope(PlayerDirection.Left);
+                            if (facing == PlayerDirection.Left && RightRopeHit && RightClimbable != climbable)
+                            {
+                                SnapToRightRope();
+                                RotatePlayer();
+                            }
+                            else
+                            {
+                                SnapToRope(PlayerDirection.Left);
+                            }
                         }
                         RotatePlayer();
                         break;
@@ -689,12 +741,12 @@ namespace TarodevController
                     }
                     break;
                 case PlayerState.SingleRope:
-                    if (frameInput.Move.x == 1)
+                    if (frameInput.RightDown)
                     {
                         facing = PlayerDirection.Left;
                         transform.rotation = Quaternion.Euler(0, 180, 0);
                     }
-                    else if (frameInput.Move.x == -1)
+                    else if (frameInput.LeftDown)
                     {
                         facing = PlayerDirection.Right;
                         transform.rotation = Quaternion.Euler(0, 0, 0);
@@ -796,6 +848,8 @@ namespace TarodevController
         public bool UpHeld;
         public bool DownDown;
         public bool DownHeld;
+        public bool LeftDown;
+        public bool RightDown;
         public Vector2 Move;
     }
 

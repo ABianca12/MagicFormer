@@ -7,10 +7,13 @@ public class MovementVariables : MonoBehaviour
     public KeyCode down = KeyCode.S;
     public KeyCode jump = KeyCode.Space;
     public KeyCode pickUp = KeyCode.R;
+    public KeyCode left = KeyCode.A;
+    public KeyCode right = KeyCode.D;
 
     [Header("LAYERS")]
     [Tooltip("Player Layer")]
     public LayerMask PlayerLayer;
+    public LayerMask ClimbableLayer;
 
     [Header("INPUT")]
     [Tooltip("Makes all Input snap to an integer. Prevents gamepads from walking slowly. Recommended value is true to ensure gamepad/keyboard parity.")]
@@ -126,4 +129,7 @@ public class MovementVariables : MonoBehaviour
 
     [Tooltip("The offset of the player's position when snaping to a rope"), Range(0.01f, 0.99f)]
     public float HorizontalRopeSnapPositionOffset = 0.1f;
+
+    [Tooltip("The offset of the player's position when snaping to a rope"), Range(0.01f, 0.99f)]
+    public float RopeGrabbingRange = 0.1f;
 }
