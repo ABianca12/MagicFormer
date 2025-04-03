@@ -7,10 +7,13 @@ public class MovementVariables : MonoBehaviour
     public KeyCode down = KeyCode.S;
     public KeyCode jump = KeyCode.Space;
     public KeyCode pickUp = KeyCode.R;
+    public KeyCode left = KeyCode.A;
+    public KeyCode right = KeyCode.D;
 
     [Header("LAYERS")]
     [Tooltip("Player Layer")]
     public LayerMask PlayerLayer;
+    public LayerMask ClimbableLayer;
 
     [Header("INPUT")]
     [Tooltip("Makes all Input snap to an integer. Prevents gamepads from walking slowly. Recommended value is true to ensure gamepad/keyboard parity.")]
@@ -72,6 +75,13 @@ public class MovementVariables : MonoBehaviour
     [Tooltip("The immediate velocity applied when jumping")]
     public float JumpPower = 36;
 
+    [Tooltip("The immediate velocity applied when backflip jumping")]
+    public float BackFlipJumpPower = 45;
+
+    [Tooltip("The amount of time in seconds that the player has to proform a backflip jump after changing direction")]
+    [Range(0.1f, 1.0f)]
+    public float BackFlipJumpTime = 0.5f;
+
     [Tooltip("The immediate velocity applied when transitioning to a handstand")]
     public float HandStandTransitionJumpPower = 18;
 
@@ -79,7 +89,8 @@ public class MovementVariables : MonoBehaviour
     public float HandStandJumpPower = 50;
 
     [Tooltip("The amount of time in seconds that the player has to proform a handstand jump after setting one up")]
-    public float HandStandJumpTime = 1;
+    [Range(0.1f, 1.0f)]
+    public float HandStandJumpTime = 0.5f;
 
     [Tooltip("The immediate velocity applied when fully charged horizontal bar jumping")]
     public float MaxBarJumpPower = 60;
@@ -118,4 +129,7 @@ public class MovementVariables : MonoBehaviour
 
     [Tooltip("The offset of the player's position when snaping to a rope"), Range(0.01f, 0.99f)]
     public float HorizontalRopeSnapPositionOffset = 0.1f;
+
+    [Tooltip("The offset of the player's position when snaping to a rope"), Range(0.01f, 0.99f)]
+    public float RopeGrabbingRange = 0.1f;
 }
