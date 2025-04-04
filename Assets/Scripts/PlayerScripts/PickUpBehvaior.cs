@@ -5,33 +5,14 @@ using UnityEngine;
 
 public class PickUpBehvaior : MonoBehaviour
 {
-    public float PickUpGrounderDistance = 0.05f;
-    public float GroundingForce = -1.5f;
-    public float MaxFallSpeed = 80;
-    public float FallAcceleration = 150;
-
-    [Tooltip("The time in seconds until the key will return to it's origonal position after being thrown")]
-    public float keyResetTime = 10.0f;
-    private float currentTimerTime;
-
     public event Action<bool, float> GroundedChanged;
 
-    public LayerMask defaultLayer;
-    public LayerMask playerLayer;
-    public LayerMask pickUpLayer;
-
-    [Tooltip("The pace at which the throwable comes to a stop")]
-    public float GroundDeceleration = 60;
-
-    [Tooltip("Deceleration in air only after stopping input mid-air")]
-    public float AirDeceleration = 30;
-
-    public TextMeshProUGUI keyTimerText;
+    public ThrowingVariables throwingVars;
 
     private GameObject player;
     private PlayerController controller;
     private Vector3 pickUpPos;
-    private Vector3 initalPos;
+    public Vector3 initalPos;
     private Renderer rend;
     private BoxCollider2D coll;
     private Rigidbody2D rb;
@@ -40,12 +21,13 @@ public class PickUpBehvaior : MonoBehaviour
     [SerializeField]
     private Vector2 velocity;
     private bool startInColliders = false;
-    private bool hasBeenThrown = false;
+    public bool hasBeenThrown = false;
     private float time;
 
     public void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
+        throwingVars = GameObject.FindGameObjectWithTag("ThrowingVars").GetComponent<ThrowingVariables>();
         controller = player.GetComponent<PlayerController>();
         initalPos = transform.position;
         rend = this.GetComponent<Renderer>();
@@ -53,22 +35,10 @@ public class PickUpBehvaior : MonoBehaviour
         rb = this.GetComponent<Rigidbody2D>();
         this.beingCarried = false;
         playerCapColl = player.GetComponent<CapsuleCollider2D>();
-
-        currentTimerTime = keyResetTime;
-        keyTimerText.text = currentTimerTime.ToString("F1");
-        keyTimerText.gameObject.SetActive(false);
     }
 
     private void Update()
     {
-        time += Time.deltaTime;
-
-        if (hasBeenThrown && gameObject.name == "Key" /*&& velocity.x == 0 && velocity.y == -MaxFallSpeed*/)
-        {
-            keyTimerText.gameObject.SetActive(true);
-            UpdateTimer();
-        }
-
         pickUpPos = new Vector3(player.transform.position.x,
             player.transform.position.y + playerCapColl.size.y,
             player.transform.position.z);
@@ -77,12 +47,6 @@ public class PickUpBehvaior : MonoBehaviour
         {
             this.transform.position = pickUpPos;
             hasBeenThrown = false;
-            currentTimerTime = keyResetTime;
-
-            if (gameObject.name == "Key")
-            {
-                keyTimerText.gameObject.SetActive(false);
-            }
         }
         else
         {
@@ -102,12 +66,12 @@ public class PickUpBehvaior : MonoBehaviour
     {
         if (grounded && velocity.y <= 0f)
         {
-            velocity.y = GroundingForce;
+            velocity.y = throwingVars.GroundingForce;
         }
         else
         {
-            var inAirGravity = FallAcceleration;
-            velocity.y = Mathf.MoveTowards(velocity.y, -MaxFallSpeed, inAirGravity * Time.fixedDeltaTime);
+            var inAirGravity = throwingVars.FallAcceleration;
+            velocity.y = Mathf.MoveTowards(velocity.y, -throwingVars.MaxFallSpeed, inAirGravity * Time.fixedDeltaTime);
         }
     }
 
@@ -119,16 +83,16 @@ public class PickUpBehvaior : MonoBehaviour
 
         // Ground and Ceiling
         bool groundHit = Physics2D.BoxCast(coll.bounds.center, coll.size, 0, Vector2.down,
-            PickUpGrounderDistance, defaultLayer);
+            throwingVars.PickUpGrounderDistance, throwingVars.defaultLayer);
 
         bool ceilingHit = Physics2D.BoxCast(coll.bounds.center, coll.size, 0, Vector2.up,
-            PickUpGrounderDistance, defaultLayer);
+            throwingVars.PickUpGrounderDistance, throwingVars.defaultLayer);
 
         bool leftHit = Physics2D.BoxCast(coll.bounds.center, coll.size, 0, Vector2.left,
-            PickUpGrounderDistance, defaultLayer);
+            throwingVars.PickUpGrounderDistance, throwingVars.defaultLayer);
 
         bool rightHit = Physics2D.BoxCast(coll.bounds.center, coll.size, 0, Vector2.right,
-            PickUpGrounderDistance, defaultLayer);
+            throwingVars.PickUpGrounderDistance, throwingVars.defaultLayer);
 
         // Hit a Ceiling
         if (ceilingHit)
@@ -162,7 +126,7 @@ public class PickUpBehvaior : MonoBehaviour
     {
         if (velocity.x > 0 || velocity.x < 0)
         {
-            var deceleration = grounded ? GroundDeceleration : AirDeceleration;
+            var deceleration = grounded ? throwingVars.GroundDeceleration : throwingVars.AirDeceleration;
             velocity.x = Mathf.MoveTowards(velocity.x, 0, deceleration * Time.fixedDeltaTime);
         }
     }
@@ -175,26 +139,4 @@ public class PickUpBehvaior : MonoBehaviour
     }
 
     private void ApplyMovement() => rb.linearVelocity = velocity;
-
-    private void UpdateTimer()
-    {
-        currentTimerTime -= Time.deltaTime;
-
-        keyTimerText.gameObject.SetActive(true);
-
-        keyTimerText.text = currentTimerTime.ToString("F1");
-
-        if (currentTimerTime <= 0.0)
-        {
-            TimerEnded();
-        }
-    }
-
-    private void TimerEnded()
-    {
-        transform.position = initalPos;
-        currentTimerTime = keyResetTime;
-        hasBeenThrown = false;
-        keyTimerText.gameObject.SetActive(false);
-    }
 }

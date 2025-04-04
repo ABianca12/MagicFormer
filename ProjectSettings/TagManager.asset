@@ -10,6 +10,7 @@ TagManager:
   - Fireball
   - Horizontal
   - Single
+  - ThrowingVars
   layers:
   - Default
   - TransparentFX
