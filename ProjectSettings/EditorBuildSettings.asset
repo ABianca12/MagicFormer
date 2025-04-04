@@ -17,6 +17,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/NewMovementTesting.unity
     guid: bcf80a0f013fe974b9cecd508c5a9bdc
+  - enabled: 1
+    path: Assets/Scenes/End.unity
+    guid: 234cda38b6b66d745ad49a8e9ec56be0
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0
