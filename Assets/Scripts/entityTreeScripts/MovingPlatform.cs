@@ -42,7 +42,7 @@ public class MovingPlatform : Ground
                 disableX = false;
             }
 
-            if (currentPos.y < endPos.y)
+            else if (currentPos.y < endPos.y)
             {
                 updateVelocity((new Vector2(0, 1.0f)) * speed);
                 disableX = true;

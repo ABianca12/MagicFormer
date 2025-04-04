@@ -17,8 +17,8 @@ public class Scenemanager : MonoBehaviour
         }
 
     }
-public void restartLevel()
+    public void restartLevel()
     {
-        SceneManager.LoadScene("NewMovementTesting");
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }
