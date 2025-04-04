@@ -115,5 +115,22 @@ public class Enemy : Pickup
         
     }
 
+    ////binds players movement to set platform
+    //private void OnCollisionEnter2D(Collision2D collision)
+    //{
+    //    if (collision.gameObject.tag == "Player" || collision.gameObject.CompareTag("PickUp"))
+    //    {
+    //        collision.gameObject.transform.SetParent(transform, true);
+    //    }
+    //}
+
+    ////unbinds players movement
+    //private void OnCollisionExit2D(Collision2D collision)
+    //{
+    //    if (collision.gameObject.tag == "Player" || collision.gameObject.CompareTag("PickUp"))
+    //    {
+    //        transform.DetachChildren();
+    //    }
+    //}
 
 }
