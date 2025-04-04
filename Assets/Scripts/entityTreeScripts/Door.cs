@@ -17,7 +17,7 @@ public class Door : Ground
             if (collision.gameObject.GetComponent<PlayerController>().GetObjectBeingHeld() != null && collision.gameObject.GetComponent<PlayerController>().GetObjectBeingHeld().name == "Key")
             {
                 //End level
-                s.restartLevel();
+                s.nextLevel();
             }
         }
     }
