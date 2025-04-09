@@ -80,6 +80,8 @@ namespace TarodevController
         private void Update()
         {
             time += Time.deltaTime;
+
+            CheckCollisions();
             GatherInput();
             HandlePickUp();
 
@@ -191,8 +193,6 @@ namespace TarodevController
 
         private void FixedUpdate()
         {
-            CheckCollisions();
-
             HandleDown();
             HandleJump();
             HandleUp();
@@ -255,17 +255,17 @@ namespace TarodevController
                 }
             }
 
-            //if (state == PlayerState.Crouching)
-            //{
-            //    ceilingHit = Physics2D.CapsuleCast(capCollider.bounds.center, new Vector2(capCollider.size.x, capCollider.size.y * 10 ), capCollider.direction,
-            //    0, Vector2.up, moveVars.GrounderDistance, ~moveVars.PlayerLayer);
-            //    Debug.DrawRay(transform.position, transform.up * capCollider.size.y, Color.yellow);
-            //}
-            //else
-            //{
-            //    ceilingHit = Physics2D.CapsuleCast(capCollider.bounds.center, capCollider.size, capCollider.direction,
-            //    0, Vector2.up, moveVars.GrounderDistance, ~moveVars.PlayerLayer);
-            //}
+            if (state == PlayerState.Crouching)
+            {
+                ceilingHit = Physics2D.CapsuleCast(capCollider.bounds.center, new Vector2(capCollider.size.x, capCollider.size.y * 10), capCollider.direction,
+                0, Vector2.up, moveVars.GrounderDistance, ~moveVars.PlayerLayer);
+                Debug.DrawRay(transform.position, transform.up * capCollider.size.y, Color.yellow);
+            }
+            else
+            {
+                ceilingHit = Physics2D.CapsuleCast(capCollider.bounds.center, capCollider.size, capCollider.direction,
+                0, Vector2.up, moveVars.GrounderDistance, ~moveVars.PlayerLayer);
+            }
 
             // Hit a Ceiling
             if (ceilingHit && state == PlayerState.None)
@@ -324,18 +324,12 @@ namespace TarodevController
                     Debug.Log("Player is lower than bottom");
                 }
 
-                bool leftRopeInRange = Physics2D.CapsuleCast(capCollider.bounds.center, capCollider.size, capCollider.direction,
-                0, Vector2.left, moveVars.RopeGrabbingRange, moveVars.ClimbableLayer);
-
-                if (leftRopeInRange)
+                if (LeftRopeHit)
                 {
                     LeftClimbable = LeftRopeHit.transform.GetComponent<Climbable>();
                 }
 
-                bool rightRopeInRange = Physics2D.CapsuleCast(capCollider.bounds.center, capCollider.size, capCollider.direction,
-                0, Vector2.right, moveVars.RopeGrabbingRange, moveVars.ClimbableLayer);
-
-                if (rightRopeInRange)
+                if (RightRopeHit)
                 {
                     RightClimbable = RightRopeHit.transform.GetComponent<Climbable>();
                 }
