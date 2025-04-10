@@ -39,6 +39,8 @@ public class PickUpBehvaior : MonoBehaviour
 
     private void Update()
     {
+        CheckCollisions();
+
         pickUpPos = new Vector3(player.transform.position.x,
             player.transform.position.y + playerCapColl.size.y,
             player.transform.position.z);
@@ -56,7 +58,6 @@ public class PickUpBehvaior : MonoBehaviour
 
     private void FixedUpdate()
     {
-        CheckCollisions();
         HandleGravity();
         HandleDirection();
         ApplyMovement();

@@ -18,8 +18,10 @@ public class UiManager : MonoBehaviour
     public ThrowingVariables throwVars;
 
     [Header("Player Ui Elements")]
+    public Canvas HorizontalBarCanvas;
     public TextMeshProUGUI HorizontalBarText;
     public TextMeshProUGUI keyTimerText;
+    public float HorizontalBarCanvasOffset = 2;
 
     private float time;
     private float currentTimerTime;
@@ -32,6 +34,11 @@ public class UiManager : MonoBehaviour
         HorizontalBarText.gameObject.SetActive(false);
 
         pickUpBehvaior = Key.GetComponent<PickUpBehvaior>();
+
+        HorizontalBarCanvas.gameObject.transform.position =
+            new Vector3(Player.transform.position.x,
+            Player.transform.position.y,
+            Player.transform.position.z - HorizontalBarCanvasOffset);
 
         currentTimerTime = throwVars.keyResetTime;
         keyTimerText.text = currentTimerTime.ToString("F1");
@@ -52,6 +59,10 @@ public class UiManager : MonoBehaviour
         {
             HorizontalBarText.gameObject.SetActive(true);
             HorizontalBarText.text = playerController.getTimeUpHasBeenHeld().ToString("F1");
+            HorizontalBarCanvas.gameObject.transform.position =
+                new Vector3(Player.transform.position.x,
+                Player.transform.position.y,
+                Player.transform.position.z - HorizontalBarCanvasOffset);
         }
         else
         {
