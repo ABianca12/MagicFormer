@@ -2,8 +2,9 @@ using UnityEngine;
 
 public class Crate : Pickup
 {
-    
+
     //member variables
+    private Rigidbody2D rb;
 
     //Init functions
     public void initCrate()
@@ -23,13 +24,25 @@ public class Crate : Pickup
         base.initPickup(b, start);
     }
 
+    private void Start()
+    {
+        rb = gameObject.GetComponent<Rigidbody2D>();
+    }
+
     private void FixedUpdate()
     {
-        base.fixedUpdateCall();
+
     }
 
     private void Update()
     {
-        updatePickup();
+        if(frozen)
+        {
+            rb.constraints = RigidbodyConstraints2D.FreezeAll;
+        }
+        else
+        {
+            rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+        }
     }
 }

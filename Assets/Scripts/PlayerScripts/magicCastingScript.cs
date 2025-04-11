@@ -12,17 +12,20 @@ public class magicCastingScript : MonoBehaviour
     [SerializeField] private Crate earfKrate;
     [SerializeField] private ForcePush poosh;
     [SerializeField] private Climbable vine;
+    [SerializeField] private Timestop sigil;
     private PlayerController p;
     private Inventory inventory;
     private float planeDistance;
     private Plane nearPlane;
+    private bool sigilOut = false;
+    private Timestop outStop;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         p = gameObject.GetComponent<PlayerController>();
         inventory = GameObject.FindWithTag("Player").GetComponent<Inventory>();
-        bool[] temp = { true, true, true, true, false };
+        bool[] temp = { true, true, true, true, true };
         inventory.initInventory(temp);
         planeDistance = 0.3f;
         nearPlane = new Plane(Vector3.forward, planeDistance);
@@ -78,7 +81,7 @@ public class magicCastingScript : MonoBehaviour
                     Vector3 screenPoint = Camera.main.WorldToScreenPoint(gameObject.transform.position);
                     var d = Input.mousePosition - screenPoint;
                     d.Normalize();
-                    f.initForcePush(gameObject.transform.position, d * 20f);
+                    f.initForcePush(gameObject.transform.position + d * 2.0f, d * 50f);
                 break;
                 //Casting Vines
                 case 3:
@@ -96,8 +99,23 @@ public class magicCastingScript : MonoBehaviour
                 //Casting Timestop
                 case 4:
                     //Debug.Log("ZA WARUDOOOOOOO");
-
-                break;
+                    if(!sigilOut)
+                    {
+                        outStop = Instantiate(sigil);
+                        Ray r = Camera.main.ScreenPointToRay(Input.mousePosition);
+                        float e = 0.0f;
+                        if (nearPlane.Raycast(r, out e))
+                        {
+                            Vector3 hitPoint = r.GetPoint(e);
+                            outStop.initTimestop(new Vector3(hitPoint.x, hitPoint.y, transform.position.z));
+                        }
+                    }
+                    else
+                    {
+                        outStop.releaseTimestop();
+                    }
+                    sigilOut = !sigilOut;
+                    break;
                 //Default is fireball
                 default:
                     //Debug.Log("FIRE:);
@@ -122,11 +140,12 @@ public class magicCastingScript : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.Q))
         {
             inventory.prevItem();
+            spellUI.cycleSpells(false);
         }
         if (Input.GetKeyDown(KeyCode.E))
         {
             inventory.nextItem();
-            spellUI.cycleSpells();
+            spellUI.cycleSpells(true);
         }
 
     }

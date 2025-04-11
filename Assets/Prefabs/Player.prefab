@@ -254,6 +254,7 @@ MonoBehaviour:
   earfKrate: {fileID: 3109656594679393509, guid: 03ce55d3f6da36d41b92af1f37230bf9, type: 3}
   poosh: {fileID: 7775935390947257808, guid: 67a8ac871a2341b48afe7c6b3b2e470d, type: 3}
   vine: {fileID: 8830424203664134594, guid: d86cb52935bc1ed4d9c2d2b12845b28b, type: 3}
+  sigil: {fileID: 6542698411256796280, guid: 29ea5ae2d0c7261459f7ed22cd0f6265, type: 3}
 --- !u!82 &8954802387107831023
 AudioSource:
   m_ObjectHideFlags: 0

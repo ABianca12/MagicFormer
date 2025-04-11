@@ -21,6 +21,7 @@ public class Entity : MonoBehaviour
     protected Vector2 velocity;
     protected BaseType material;
     [SerializeField] protected float zAxis;
+    protected bool frozen = false;
 
     //Init functions
     public void initEntity(Vector3 start, Vector2 v, BaseType m)
@@ -81,8 +82,11 @@ public class Entity : MonoBehaviour
     //updates position based on velocity
     public virtual void updateEntity(float deltaTime)
     {
-        currentPos = new Vector3(currentPos.x + velocity.x*deltaTime, currentPos.y + velocity.y*deltaTime, zAxis);
-        gameObject.transform.position = currentPos;
+        if(!frozen)
+        {
+            currentPos = new Vector3(currentPos.x + velocity.x * deltaTime, currentPos.y + velocity.y * deltaTime, zAxis);
+            gameObject.transform.position = currentPos;
+        }
     }
 
     //Function to edit velocity value
@@ -102,5 +106,14 @@ public class Entity : MonoBehaviour
     {
         Vector2 f = force.normalized;
         velocity += f * strength;
+    }
+
+    public void freeze()
+    {
+        frozen = true;
+    }
+    public void unfreeze()
+    {
+        frozen = false;
     }
 }
