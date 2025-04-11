@@ -5717,10 +5717,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4148338395634353276, guid: 0889bab4af64bf74ca208c9a801c96b8, type: 3}
-      propertyPath: player
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 5220096550551453133, guid: 0889bab4af64bf74ca208c9a801c96b8, type: 3}
       propertyPath: m_Name
       value: DoubleRope
