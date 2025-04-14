@@ -59,17 +59,38 @@ public class magicCastingScript : MonoBehaviour
                 //Casting earth crate
                 case 1:
                     //Debug.Log("EARTH");
+                    Vector3 leftFace = new Vector3(gameObject.transform.position.x - 2, gameObject.transform.position.y, gameObject.transform.position.z);
+                    Vector3 rightFace = new Vector3(gameObject.transform.position.x + 2, gameObject.transform.position.y, gameObject.transform.position.z);
+                    LayerMask crate = LayerMask.GetMask("PickUp");
                     Crate c = Instantiate(earfKrate);
                     switch (p.getFaceDirection())
                     {
                         case PlayerDirection.Left:
-                            c.initCrate(new Vector3(gameObject.transform.position.x - 2, gameObject.transform.position.y, gameObject.transform.position.z));
+                            if(Physics2D.Raycast(transform.position, transform.position - rightFace, 2.5f, crate))
+                            {
+                                //Destroy crate
+                                Destroy(c.gameObject);
+                                Debug.Log("Something in the way");
+                            }
+                            else
+                            {
+                                c.initCrate(leftFace);
+                            }
                             break;
                         case PlayerDirection.Right:
-                            c.initCrate(new Vector3(gameObject.transform.position.x + 2, gameObject.transform.position.y, gameObject.transform.position.z));
+                            if (Physics2D.Raycast(transform.position, transform.position - leftFace, 2.5f, crate))
+                            {
+                                //Destroy crate
+                                Destroy(c.gameObject);
+                                Debug.Log("Something in the way");
+                            }
+                            else
+                            {
+                                c.initCrate(rightFace);
+                            }
                             break;
                         default:
-                            c.initCrate(new Vector3(gameObject.transform.position.x + 2, gameObject.transform.position.y, gameObject.transform.position.z));
+                            c.initCrate(rightFace);
                             break;
 
                     }
