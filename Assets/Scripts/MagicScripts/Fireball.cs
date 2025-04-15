@@ -33,6 +33,11 @@ public class Fireball : Projectile
         else
         {
             //add fire particle fx
+            //checks if colliding with other entity, if so calls the handle collision script
+            if(collision.gameObject.GetComponent<Entity>() != null)
+            {
+                matManager.handleCollision(this, collision.gameObject.GetComponent<Entity>());
+            }
             Destroy(gameObject);
         }
         

@@ -22,6 +22,7 @@ public class Entity : MonoBehaviour
     protected BaseType material;
     [SerializeField] protected float zAxis;
     protected bool frozen = false;
+    protected MaterialManager matManager;
 
     //Init functions
     public void initEntity(Vector3 start, Vector2 v, BaseType m)
@@ -31,6 +32,7 @@ public class Entity : MonoBehaviour
         velocity = v;
         material = m;
         transform.position = startPos;
+        matManager = GameObject.FindWithTag("MaterialManager").GetComponent<MaterialManager>();
     }
     public void initEntity(Vector3 start)
     {
@@ -39,6 +41,7 @@ public class Entity : MonoBehaviour
         velocity = Vector2.zero;
         material = BaseType.NONE;
         transform.position = startPos;
+        matManager = GameObject.FindWithTag("MaterialManager").GetComponent<MaterialManager>();
     }
     public void initEntity(BaseType m)
     {
@@ -47,6 +50,7 @@ public class Entity : MonoBehaviour
         velocity = Vector2.zero;
         material = m;
         transform.position = startPos;
+        matManager = GameObject.FindWithTag("MaterialManager").GetComponent<MaterialManager>();
     }
     public void initEntity(Vector3 sPos, BaseType m)
     {
@@ -55,6 +59,7 @@ public class Entity : MonoBehaviour
         velocity = Vector2.zero;
         material = m;
         transform.position = startPos;
+        matManager = GameObject.FindWithTag("MaterialManager").GetComponent<MaterialManager>();
     }
     public void initEntity(Vector3 start, Vector2 v)
     {
@@ -63,6 +68,7 @@ public class Entity : MonoBehaviour
         velocity = v;
         material = BaseType.NONE;
         transform.position = startPos;
+        matManager = GameObject.FindWithTag("MaterialManager").GetComponent<MaterialManager>();
     }
     public void initEntity()
     {
@@ -71,6 +77,7 @@ public class Entity : MonoBehaviour
         velocity = Vector2.zero;
         material = BaseType.NONE;
         transform.position = startPos;
+        matManager = GameObject.FindWithTag("MaterialManager").GetComponent<MaterialManager>();
     }
 
     //Get function for material

@@ -11,6 +11,7 @@ TagManager:
   - Horizontal
   - Single
   - ThrowingVars
+  - MaterialManager
   layers:
   - Default
   - TransparentFX
