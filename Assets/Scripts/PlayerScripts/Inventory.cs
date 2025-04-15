@@ -7,7 +7,7 @@ public class Inventory : MonoBehaviour
 {
     private bool[] allItems = new bool[5];
     private int currentItem = 0;
-    private List<GameObject> collectables;
+    public List<GameObject> collectables;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()

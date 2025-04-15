@@ -225,6 +225,7 @@ namespace TarodevController
 
         private float frameLeftGround = float.MinValue;
         private float timeHandstandSetupLanded;
+        [SerializeField]
         private bool grounded;
         private bool inRangeOfRope;
         private bool inRangeOfBar;

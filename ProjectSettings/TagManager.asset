@@ -11,6 +11,10 @@ TagManager:
   - Horizontal
   - Single
   - ThrowingVars
+  - RedOrb
+  - YellowOrb
+  - BlueOrb
+  - LevelData
   layers:
   - Default
   - TransparentFX

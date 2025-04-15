@@ -33,7 +33,8 @@ public class Collectable : Interactable
             //Collect Item
             c.gameObject.GetComponent<Inventory>().addCollectable(gameObject);
 
-            Destroy(gameObject);
+            this.gameObject.GetComponent<Renderer>().enabled = false;
+            this.gameObject.GetComponent<CircleCollider2D>().enabled = false;
         }
     }
 
