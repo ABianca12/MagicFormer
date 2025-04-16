@@ -31,6 +31,11 @@ public class magicCastingScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (PauseSystem.GetIsPaused())
+        {
+            return;
+        }
+
         if(Input.GetMouseButtonDown(0))
         {
             switch(inventory.getCurrentItem())
