@@ -4,16 +4,17 @@ using UnityEngine.SceneManagement;
 
 public class LevelSelection : MonoBehaviour
 {
+    [SerializeField] private PauseSystem p;
     private void Start()
     {
-        //pauseSystem = Object.FindFirstObjectByType<PauseSystem>();
+        p = Object.FindFirstObjectByType<PauseSystem>();
     }
 
     public void LoadLevel(string levelString)
     {
-        if (PauseSystem.GetIsPaused())
+        if (p.GetIsPaused())
         {
-            PauseSystem.PauseGame();
+            p.PauseGame();
         }
 
         SceneManager.LoadScene(levelString);

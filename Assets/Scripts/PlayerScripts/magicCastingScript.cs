@@ -27,6 +27,7 @@ public class magicCastingScript : MonoBehaviour
         inventory = GameObject.FindWithTag("Player").GetComponent<Inventory>();
         planeDistance = 0.3f;
         nearPlane = new Plane(Vector3.forward, planeDistance);
+        spellUI = GameObject.FindWithTag("Canvas").GetComponent<SpellUI>();
     }
 
     // Update is called once per frame

@@ -114,6 +114,7 @@ MonoBehaviour:
   CrouchingPlayer: {fileID: 3687882734872739484}
   state: 0
   facing: 2
+  grounded: 0
 --- !u!114 &6843214527722805175
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -251,7 +252,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f22014e0cbd743f47aea3635e906001e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spellUI: {fileID: 0}
+  spellUI: {fileID: 8859816908750062562, guid: c88fda7b85aba1d4e8232e708a55099b, type: 3}
   fireball: {fileID: 5489159008218696636, guid: da3f8300befa5d948aa4f68465369fd3, type: 3}
   earfKrate: {fileID: 3109656594679393509, guid: 03ce55d3f6da36d41b92af1f37230bf9, type: 3}
   poosh: {fileID: 7775935390947257808, guid: 67a8ac871a2341b48afe7c6b3b2e470d, type: 3}
@@ -276,7 +277,7 @@ AudioSource:
   Mute: 1
   Spatialize: 0
   SpatializePostEffects: 0
-  Priority: 128
+  Priority: 104
   DopplerLevel: 1
   MinDistance: 1
   MaxDistance: 500
@@ -463,6 +464,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 729756d924ff20a4eb983054d58acc37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  collectables: []
 --- !u!1 &2149207654179587109
 GameObject:
   m_ObjectHideFlags: 0

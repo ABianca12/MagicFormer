@@ -67,7 +67,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 594ea882c5a793440b60ff72d896021e, type: 2}
+  - {fileID: 2100000, guid: 18bf036aba724984e9002a0b82ccfa6b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -104,6 +104,7 @@ MonoBehaviour:
   zAxis: 1
   lifeTime: 0
   temporary: 1
+  finale: {fileID: 8517393727115958344, guid: 1f81585e162e8b74da07bc616e515637, type: 3}
 --- !u!58 &4679206296023518621
 CircleCollider2D:
   m_ObjectHideFlags: 0

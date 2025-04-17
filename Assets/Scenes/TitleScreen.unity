@@ -412,7 +412,8 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 8411495930533442208, guid: 06eb38bafed16534fa6b820832b4093f, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 06eb38bafed16534fa6b820832b4093f, type: 3}
@@ -820,9 +821,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: LevelSelection, Assembly-CSharp
-        m_MethodName: LoadLevel
+      - m_Target: {fileID: 2141272294}
+        m_TargetAssemblyTypeName: Scenemanager, Assembly-CSharp
+        m_MethodName: loadLevelByName
         m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -831,7 +832,7 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: LevelSelect
           m_BoolArgument: 0
-        m_CallState: 2
+        m_CallState: 1
 --- !u!114 &1038861622
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1516,6 +1517,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1933693215}
   m_CullTransparentMesh: 1
+--- !u!114 &2141272294 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4399317632433013120, guid: 06eb38bafed16534fa6b820832b4093f, type: 3}
+  m_PrefabInstance: {fileID: 632175908}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1565a5fab73e2b3459cd91c30765b6a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2146594413
 GameObject:
   m_ObjectHideFlags: 0

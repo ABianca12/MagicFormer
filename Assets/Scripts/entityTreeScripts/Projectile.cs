@@ -66,11 +66,14 @@ public class Projectile : Entity
         //Reduces lifetime if the projectile has a lifespan
         if(temporary)
         {
-            lifeTime -= deltaTime;
-            //Destroys projectile if lifetime is expired
-            if (lifeTime <= 0)
+            if(!frozen)
             {
-                Destroy(gameObject);
+                lifeTime -= deltaTime;
+                //Destroys projectile if lifetime is expired
+                if (lifeTime <= 0)
+                {
+                    Destroy(gameObject);
+                }
             }
         }
     }

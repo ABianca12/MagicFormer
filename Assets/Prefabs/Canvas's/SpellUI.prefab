@@ -158,8 +158,8 @@ GameObject:
   - component: {fileID: 5755958807698550541}
   - component: {fileID: 8859816908750062562}
   m_Layer: 5
-  m_Name: Canvas
-  m_TagString: Untagged
+  m_Name: SpellUI
+  m_TagString: Canvas
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

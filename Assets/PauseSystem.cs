@@ -2,14 +2,13 @@ using UnityEngine;
 
 public class PauseSystem : MonoBehaviour
 {
-    public static Canvas PauseMenu;
+    public Canvas PauseMenu;
 
-    [SerializeField]
-    private static bool isPaused = false;
+    private bool isPaused = false;
 
     private void Start()
     {
-        PauseMenu = GameObject.FindGameObjectWithTag("PauseMenu").GetComponent<Canvas>();
+        PauseMenu = GameObject.FindWithTag("PauseMenu").GetComponent<Canvas>();
     }
 
     void Update()
@@ -20,14 +19,14 @@ public class PauseSystem : MonoBehaviour
         }
     }
 
-    public static void PauseGame()
+    public void PauseGame()
     {
         isPaused = !isPaused;
         Time.timeScale = isPaused ? 0 : 1;
         PauseMenu.enabled = isPaused;
     }
 
-    public static bool GetIsPaused()
+    public bool GetIsPaused()
     {
         return isPaused;
     }
