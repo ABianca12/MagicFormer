@@ -9,9 +9,14 @@ namespace TarodevController
         [SerializeField] private MovementVariables moveVars;
         private Rigidbody2D rb;
         private CapsuleCollider2D capCollider;
+        private Renderer MainPlayerRenderer;
+        public GameObject Hat;
+        private Renderer HatRenderer;
         private FrameInput frameInput;
         public Vector2 velocity;
         private bool startInColliders = false;
+
+        public GameObject CrouchingPlayer;
 
         #region Interface
 
@@ -74,14 +79,23 @@ namespace TarodevController
         {
             rb = GetComponent<Rigidbody2D>();
             capCollider = GetComponent<CapsuleCollider2D>();
+            MainPlayerRenderer = GetComponent<Renderer>();
+
+            HatRenderer = Hat.GetComponent<Renderer>();
+
+            CrouchingPlayer.gameObject.SetActive(false);
+
             startInColliders = Physics2D.queriesStartInColliders; 
         }
 
         private void Update()
         {
             time += Time.deltaTime;
+
+            CheckCollisions();
             GatherInput();
             HandlePickUp();
+            HandleJump();
 
             if (state == PlayerState.SingleRope)
             {
@@ -191,10 +205,7 @@ namespace TarodevController
 
         private void FixedUpdate()
         {
-            CheckCollisions();
-
             HandleDown();
-            HandleJump();
             HandleUp();
 
             if (!(state == PlayerState.HorizontalBar && frameInput.Move.y == 1))
@@ -214,12 +225,13 @@ namespace TarodevController
 
         private float frameLeftGround = float.MinValue;
         private float timeHandstandSetupLanded;
+        [SerializeField]
         private bool grounded;
         private bool inRangeOfRope;
         private bool inRangeOfBar;
         private bool isOnTopOfPickup;
-        private bool ceilingHit = false;
-        private RaycastHit2D hit;
+        private bool ceilingHit;
+        private RaycastHit2D groundHit;
         private RaycastHit2D LeftRopeHit;
         private RaycastHit2D RightRopeHit;
         private GameObject ObjectOnTopOf;
@@ -229,11 +241,11 @@ namespace TarodevController
             Physics2D.queriesStartInColliders = false;
 
             // Ground and Ceiling
-            bool groundHit = Physics2D.CapsuleCast(capCollider.bounds.center, capCollider.size, capCollider.direction,
+            groundHit = Physics2D.CapsuleCast(capCollider.bounds.center, capCollider.size, capCollider.direction,
                 0, Vector2.down, moveVars.GrounderDistance, ~moveVars.PlayerLayer);
-            
-            hit = Physics2D.CapsuleCast(capCollider.bounds.center, capCollider.size, capCollider.direction,
-                0, Vector2.down, moveVars.GrounderDistance, ~moveVars.PlayerLayer);
+
+            ceilingHit = Physics2D.CapsuleCast(capCollider.bounds.center, capCollider.size, capCollider.direction,
+                0, Vector2.up, moveVars.GrounderDistance, ~moveVars.PlayerLayer);
 
             LeftRopeHit = Physics2D.CapsuleCast(capCollider.bounds.center, capCollider.size, capCollider.direction,
                 0, Vector2.left, moveVars.RopeGrabbingRange, moveVars.ClimbableLayer);
@@ -241,12 +253,12 @@ namespace TarodevController
             RightRopeHit = Physics2D.CapsuleCast(capCollider.bounds.center, capCollider.size, capCollider.direction,
                 0, Vector2.right, moveVars.RopeGrabbingRange, moveVars.ClimbableLayer);
 
-            if (hit)
+            if (groundHit)
             {
-                if (hit.transform.tag == "PickUp")
+                if (groundHit.transform.tag == "PickUp")
                 {
                     isOnTopOfPickup = true;
-                    ObjectOnTopOf = hit.transform.gameObject;
+                    ObjectOnTopOf = groundHit.transform.gameObject;
                 }
                 else
                 {
@@ -255,17 +267,12 @@ namespace TarodevController
                 }
             }
 
-            //if (state == PlayerState.Crouching)
-            //{
-            //    ceilingHit = Physics2D.CapsuleCast(capCollider.bounds.center, new Vector2(capCollider.size.x, capCollider.size.y * 10 ), capCollider.direction,
-            //    0, Vector2.up, moveVars.GrounderDistance, ~moveVars.PlayerLayer);
-            //    Debug.DrawRay(transform.position, transform.up * capCollider.size.y, Color.yellow);
-            //}
-            //else
-            //{
-            //    ceilingHit = Physics2D.CapsuleCast(capCollider.bounds.center, capCollider.size, capCollider.direction,
-            //    0, Vector2.up, moveVars.GrounderDistance, ~moveVars.PlayerLayer);
-            //}
+            if (state == PlayerState.Crouching)
+            {
+                ceilingHit = Physics2D.CapsuleCast(capCollider.bounds.center, new Vector2(capCollider.size.x, capCollider.size.y * 10), capCollider.direction,
+                0, Vector2.up, moveVars.GrounderDistance, ~moveVars.PlayerLayer);
+                Debug.DrawRay(transform.position, transform.up * capCollider.size.y, Color.yellow);
+            }
 
             // Hit a Ceiling
             if (ceilingHit && state == PlayerState.None)
@@ -324,18 +331,12 @@ namespace TarodevController
                     Debug.Log("Player is lower than bottom");
                 }
 
-                bool leftRopeInRange = Physics2D.CapsuleCast(capCollider.bounds.center, capCollider.size, capCollider.direction,
-                0, Vector2.left, moveVars.RopeGrabbingRange, moveVars.ClimbableLayer);
-
-                if (leftRopeInRange)
+                if (LeftRopeHit)
                 {
                     LeftClimbable = LeftRopeHit.transform.GetComponent<Climbable>();
                 }
 
-                bool rightRopeInRange = Physics2D.CapsuleCast(capCollider.bounds.center, capCollider.size, capCollider.direction,
-                0, Vector2.right, moveVars.RopeGrabbingRange, moveVars.ClimbableLayer);
-
-                if (rightRopeInRange)
+                if (RightRopeHit)
                 {
                     RightClimbable = RightRopeHit.transform.GetComponent<Climbable>();
                 }
@@ -472,19 +473,31 @@ namespace TarodevController
                 case PlayerState.None:
                     if (frameInput.Move.y == -1 && canCrouch)
                     {
-                        transform.localScale = new Vector3(1, 0.5f, 1);
+                        capCollider.size = new Vector2(capCollider.size.x, 1);
+                        MainPlayerRenderer.enabled = false;
+                        HatRenderer.enabled = false;
+                        CrouchingPlayer.gameObject.SetActive(true);
+                        //transform.localScale = new Vector3(1, 0.5f, 1);
                         state = PlayerState.Crouching;
                     }
                     break;
                 case PlayerState.Crouching:
                     if (frameInput.Move.y == 0 && !ceilingHit)
                     {
-                        transform.localScale = new Vector3(1, 1, 1);
+                        //transform.localScale = new Vector3(1, 1, 1);
+                        capCollider.size = new Vector2(capCollider.size.x, 2);
+                        MainPlayerRenderer.enabled = true;
+                        HatRenderer.enabled = true;
+                        CrouchingPlayer.gameObject.SetActive(false);
                         state = PlayerState.None;
                     }
                     break;
                 case PlayerState.Handstand:
-                    transform.localScale = new Vector3(1, 1, 1);
+                    capCollider.size = new Vector2(capCollider.size.x, 2);
+                    MainPlayerRenderer.enabled = true;
+                    HatRenderer.enabled = true;
+                    CrouchingPlayer.gameObject.SetActive(false);
+                    //transform.localScale = new Vector3(1, 1, 1);
                     break;
                 case PlayerState.SingleRope:
                     if (frameInput.Move.y == -1)

@@ -13,7 +13,10 @@ public class MovingPlatform : Ground
 
     [SerializeField] private Material offMat, onMat;
 
+    [SerializeField] private PlayerController player;
+
     private bool disableX;
+    private bool playerIsOnTop;
 
     public void initPlatform() { initGround(); }
     public void initPlatform(Vector3 startPos, BaseType m, Vector3 endingPos, bool startMove, float s)
@@ -27,6 +30,8 @@ public class MovingPlatform : Ground
     //makes a platform and sets its velocity based on public variables
     private void Start()
     {
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+
         initPlatform(gameObject.transform.position, material, endPos, baseMoving, speed);
 
         if (baseMoving)
@@ -120,9 +125,14 @@ public class MovingPlatform : Ground
     //binds players movement to set platform
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.tag == "Player" || collision.gameObject.CompareTag("PickUp"))
+        if (collision.gameObject.tag == "Player")
         {
+            //collision.gameObject.GetComponent<PlayerController>().velocity += base.velocity;
             collision.gameObject.transform.SetParent(transform, true);
+        }
+        else if (collision.gameObject.CompareTag("PickUp"))
+        {
+
         }
     }
 

@@ -33,7 +33,22 @@ public class Collectable : Interactable
             //Collect Item
             c.gameObject.GetComponent<Inventory>().addCollectable(gameObject);
 
-            Destroy(gameObject);
+            this.gameObject.GetComponent<Renderer>().enabled = false;
+            this.gameObject.GetComponent<CircleCollider2D>().enabled = false;
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D c)
+    {
+        Debug.Log("COLLUDE");
+        //if Player collides with the object
+        if (c.gameObject.tag == "Player")
+        {
+            //Collect Item
+            c.gameObject.GetComponent<Inventory>().addCollectable(gameObject);
+
+            this.gameObject.GetComponent<Renderer>().enabled = false;
+            this.gameObject.GetComponent<CircleCollider2D>().enabled = false;
         }
     }
 

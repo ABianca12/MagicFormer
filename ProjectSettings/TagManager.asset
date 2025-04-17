@@ -11,7 +11,11 @@ TagManager:
   - Horizontal
   - Single
   - ThrowingVars
-  - MaterialManager
+  - RedOrb
+  - YellowOrb
+  - BlueOrb
+  - LevelData
+  - PauseMenu
   layers:
   - Default
   - TransparentFX
