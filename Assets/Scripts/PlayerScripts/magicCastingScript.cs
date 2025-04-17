@@ -25,8 +25,6 @@ public class magicCastingScript : MonoBehaviour
     {
         p = gameObject.GetComponent<PlayerController>();
         inventory = GameObject.FindWithTag("Player").GetComponent<Inventory>();
-        bool[] temp = { true, true, true, true, true };
-        inventory.initInventory(temp);
         planeDistance = 0.3f;
         nearPlane = new Plane(Vector3.forward, planeDistance);
     }
