@@ -230,7 +230,7 @@ namespace TarodevController
         private bool inRangeOfRope;
         private bool inRangeOfBar;
         private bool isOnTopOfPickup;
-        private bool ceilingHit = false;
+        private bool ceilingHit;
         private RaycastHit2D groundHit;
         private RaycastHit2D LeftRopeHit;
         private RaycastHit2D RightRopeHit;
@@ -243,6 +243,9 @@ namespace TarodevController
             // Ground and Ceiling
             groundHit = Physics2D.CapsuleCast(capCollider.bounds.center, capCollider.size, capCollider.direction,
                 0, Vector2.down, moveVars.GrounderDistance, ~moveVars.PlayerLayer);
+
+            ceilingHit = Physics2D.CapsuleCast(capCollider.bounds.center, capCollider.size, capCollider.direction,
+                0, Vector2.up, moveVars.GrounderDistance, ~moveVars.PlayerLayer);
 
             LeftRopeHit = Physics2D.CapsuleCast(capCollider.bounds.center, capCollider.size, capCollider.direction,
                 0, Vector2.left, moveVars.RopeGrabbingRange, moveVars.ClimbableLayer);
@@ -269,11 +272,6 @@ namespace TarodevController
                 ceilingHit = Physics2D.CapsuleCast(capCollider.bounds.center, new Vector2(capCollider.size.x, capCollider.size.y * 10), capCollider.direction,
                 0, Vector2.up, moveVars.GrounderDistance, ~moveVars.PlayerLayer);
                 Debug.DrawRay(transform.position, transform.up * capCollider.size.y, Color.yellow);
-            }
-            else
-            {
-                ceilingHit = Physics2D.CapsuleCast(capCollider.bounds.center, capCollider.size, capCollider.direction,
-                0, Vector2.up, moveVars.GrounderDistance, ~moveVars.PlayerLayer);
             }
 
             // Hit a Ceiling
