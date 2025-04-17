@@ -169,7 +169,7 @@ MonoBehaviour:
   MaxBarJumpPower: 55
   MinBarJumpPower: 15
   BarSpeedDecay: 0.05
-  MaxBarUpHoldTime: 4
+  MaxBarUpHoldTime: 3
   MaxFallSpeed: 40
   FallAcceleration: 110
   JumpEndEarlyGravityModifier: 2.5
@@ -261,6 +261,7 @@ MonoBehaviour:
   poosh: {fileID: 7775935390947257808, guid: 67a8ac871a2341b48afe7c6b3b2e470d, type: 3}
   vine: {fileID: 8830424203664134594, guid: d86cb52935bc1ed4d9c2d2b12845b28b, type: 3}
   sigil: {fileID: 6542698411256796280, guid: 29ea5ae2d0c7261459f7ed22cd0f6265, type: 3}
+  pause: {fileID: 0}
 --- !u!82 &8954802387107831023
 AudioSource:
   m_ObjectHideFlags: 0
@@ -271,13 +272,13 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 0b9bf0ce93bccbf4099c2ddd102107af, type: 3}
-  m_Resource: {fileID: 8300000, guid: 0b9bf0ce93bccbf4099c2ddd102107af, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 45a12c7bde4ea7f4aa8ecd59863fc092, type: 3}
+  m_Resource: {fileID: 8300000, guid: 45a12c7bde4ea7f4aa8ecd59863fc092, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 0.1
   m_Pitch: 1
   Loop: 1
-  Mute: 1
+  Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
   Priority: 104

@@ -13,8 +13,8 @@ public class Climbable : Destructable
     {
         capColl = GetComponent<CapsuleCollider2D>();
         player = FindAnyObjectByType<PlayerController>();
-        this.LeftTransform = capColl.bounds.max;
-        this.RightTransform = capColl.bounds.min;
+        LeftTransform = capColl.bounds.max;
+        RightTransform = capColl.bounds.min;
     }
 
     public void initClimbable()

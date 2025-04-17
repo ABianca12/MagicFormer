@@ -14,10 +14,11 @@ TagManager:
   - RedOrb
   - YellowOrb
   - BlueOrb
-  - LevelData
   - PauseMenu
   - MaterialManager
   - Canvas
+  - LevelData
+  - PauseManager
   layers:
   - Default
   - TransparentFX

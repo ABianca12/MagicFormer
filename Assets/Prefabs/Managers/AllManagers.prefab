@@ -49,6 +49,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: LevelManager
       objectReference: {fileID: 0}
+    - target: {fileID: 3749498785111453408, guid: 2e9d50dad7dfaae4f98277eaa7aa5255, type: 3}
+      propertyPath: m_TagString
+      value: LevelData
+      objectReference: {fileID: 0}
     - target: {fileID: 7132376287287134000, guid: 2e9d50dad7dfaae4f98277eaa7aa5255, type: 3}
       propertyPath: m_LocalPosition.x
       value: 331.73972
@@ -365,7 +369,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5285888638300691042, guid: c50099c4e84a81e4993059b19145fe2f, type: 3}
       propertyPath: m_TagString
-      value: Untagged
+      value: PauseManager
       objectReference: {fileID: 0}
     - target: {fileID: 9103021165522037276, guid: c50099c4e84a81e4993059b19145fe2f, type: 3}
       propertyPath: m_LocalPosition.x
