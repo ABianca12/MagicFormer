@@ -127,12 +127,11 @@ public class MovingPlatform : Ground
     {
         if (collision.gameObject.tag == "Player")
         {
-            //collision.gameObject.GetComponent<PlayerController>().velocity += base.velocity;
             collision.gameObject.transform.SetParent(transform, true);
         }
         else if (collision.gameObject.CompareTag("PickUp"))
         {
-
+            collision.gameObject.transform.SetParent(transform, true);
         }
     }
 

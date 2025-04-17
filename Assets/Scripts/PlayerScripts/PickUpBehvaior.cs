@@ -1,4 +1,6 @@
+using NUnit.Framework;
 using System;
+using System.Collections.Generic;
 using TarodevController;
 using TMPro;
 using UnityEngine;
@@ -14,7 +16,9 @@ public class PickUpBehvaior : MonoBehaviour
     private Vector3 pickUpPos;
     public Vector3 initalPos;
     private Renderer rend;
+    private BoxCollider2D[] allColliders;
     private BoxCollider2D coll;
+    private BoxCollider2D playerPickUpColl;
     private Rigidbody2D rb;
     public bool beingCarried;
     private CapsuleCollider2D playerCapColl;
@@ -31,7 +35,9 @@ public class PickUpBehvaior : MonoBehaviour
         controller = player.GetComponent<PlayerController>();
         initalPos = transform.position;
         rend = this.GetComponent<Renderer>();
-        coll = this.GetComponent<BoxCollider2D>();
+        allColliders = this.GetComponents<BoxCollider2D>();
+        coll = allColliders[0];
+        playerPickUpColl = allColliders[1];
         rb = this.GetComponent<Rigidbody2D>();
         this.beingCarried = false;
         playerCapColl = player.GetComponent<CapsuleCollider2D>();

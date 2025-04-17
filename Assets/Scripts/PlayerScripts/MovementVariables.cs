@@ -14,6 +14,7 @@ public class MovementVariables : MonoBehaviour
     [Tooltip("Player Layer")]
     public LayerMask PlayerLayer;
     public LayerMask ClimbableLayer;
+    public LayerMask DefaultLayer;
 
     [Header("INPUT")]
     [Tooltip("Makes all Input snap to an integer. Prevents gamepads from walking slowly. Recommended value is true to ensure gamepad/keyboard parity.")]
