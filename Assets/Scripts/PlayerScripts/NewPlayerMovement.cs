@@ -230,7 +230,8 @@ namespace TarodevController
         private bool inRangeOfRope;
         private bool inRangeOfBar;
         private bool isOnTopOfPickup;
-        private bool ceilingHit;
+        private RaycastHit2D ceilingHit;
+        private RaycastHit2D CrouchingCeilingHit;
         private RaycastHit2D groundHit;
         private RaycastHit2D LeftRopeHit;
         private RaycastHit2D RightRopeHit;
@@ -269,9 +270,23 @@ namespace TarodevController
 
             if (state == PlayerState.Crouching)
             {
-                ceilingHit = Physics2D.CapsuleCast(capCollider.bounds.center, new Vector2(capCollider.size.x, capCollider.size.y * 10), capCollider.direction,
-                0, Vector2.up, moveVars.GrounderDistance, ~moveVars.PlayerLayer);
-                Debug.DrawRay(transform.position, transform.up * capCollider.size.y, Color.yellow);
+                Vector2 sizeVector = new Vector2(capCollider.size.x, capCollider.size.y * 2);
+
+                CrouchingCeilingHit = Physics2D.CapsuleCast(capCollider.bounds.center, capCollider.size, capCollider.direction,
+                0, Vector2.up, 10, moveVars.DefaultLayer);
+
+                Debug.Log(CrouchingCeilingHit.collider);
+
+                Debug.DrawRay(transform.position, transform.up, Color.yellow);
+
+                if (CrouchingCeilingHit)
+                {
+                    canUncrouch = false;
+                }
+                else
+                {
+                    canUncrouch = true;
+                }
             }
 
             // Hit a Ceiling
@@ -465,6 +480,7 @@ namespace TarodevController
 
         private float timeDownWasPressed;
         private bool canCrouch;
+        private bool canUncrouch;
 
         private void HandleDown()
         {
@@ -482,7 +498,7 @@ namespace TarodevController
                     }
                     break;
                 case PlayerState.Crouching:
-                    if (frameInput.Move.y == 0 && !ceilingHit)
+                    if (frameInput.Move.y == 0 && canUncrouch)
                     {
                         //transform.localScale = new Vector3(1, 1, 1);
                         capCollider.size = new Vector2(capCollider.size.x, 2);
