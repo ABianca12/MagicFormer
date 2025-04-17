@@ -273,7 +273,7 @@ namespace TarodevController
                 Vector2 sizeVector = new Vector2(capCollider.size.x, capCollider.size.y * 2);
 
                 CrouchingCeilingHit = Physics2D.CapsuleCast(capCollider.bounds.center, capCollider.size, capCollider.direction,
-                0, Vector2.up, 10, moveVars.DefaultLayer);
+                0, Vector2.up, 1, moveVars.DefaultLayer);
 
                 Debug.Log(CrouchingCeilingHit.collider);
 
@@ -417,9 +417,12 @@ namespace TarodevController
             switch (state)
             {
                 case PlayerState.Crouching:
-                    velocity.y = moveVars.HandStandTransitionJumpPower;
-                    state = PlayerState.Handstand;
-                    RotatePlayer();
+                    if (canUncrouch)
+                    {
+                        velocity.y = moveVars.HandStandTransitionJumpPower;
+                        state = PlayerState.Handstand;
+                        RotatePlayer();
+                    }
                     break;
                 case PlayerState.Handstand:
                     velocity.y = moveVars.JumpPower;
