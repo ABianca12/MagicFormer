@@ -96,6 +96,8 @@ namespace TarodevController
             GatherInput();
             HandlePickUp();
             HandleJump();
+            HandleDown();
+            HandleUp();
 
             if (state == PlayerState.SingleRope)
             {
@@ -205,8 +207,6 @@ namespace TarodevController
 
         private void FixedUpdate()
         {
-            HandleDown();
-            HandleUp();
 
             if (!(state == PlayerState.HorizontalBar && frameInput.Move.y == 1))
             {
@@ -519,19 +519,19 @@ namespace TarodevController
                     //transform.localScale = new Vector3(1, 1, 1);
                     break;
                 case PlayerState.SingleRope:
-                    if (frameInput.Move.y == -1)
+                    if (frameInput.DownHeld)
                     {
                         velocity.y = -moveVars.MaxDownwardsSingleRopeSpeed;
                     }
                     break;
                 case PlayerState.DoubleRope:
-                    if (frameInput.Move.y == -1)
+                    if (frameInput.DownHeld)
                     {
                         velocity.y = -moveVars.MaxDownwardsDoubleRopeSpeed;
                     }
                     break;
                 case PlayerState.HorizontalBar:
-                    if (frameInput.Move.y == -1)
+                    if (frameInput.DownHeld)
                     {
                         state = PlayerState.None;
                     }
@@ -583,16 +583,18 @@ namespace TarodevController
                     }
                     break;
                 case PlayerState.SingleRope:
-                    if (frameInput.Move.y == 1)
+                    velocity.x = 0;
+                    if (frameInput.UpHeld)
                     {
                         velocity.y = moveVars.MaxUpwardsSingleRopeSpeed;
                     }
-                    else if (frameInput.Move.y == 0)
+                    else if (!frameInput.UpHeld && !frameInput.DownHeld)
                     {
                         velocity.y = 0;
                     }
                     break;
                 case PlayerState.DoubleRope:
+                    velocity.x = 0;
                     if (frameInput.Move.y == 1)
                     {
                         velocity.y = moveVars.MaxUpwardsDoubleRopeSpeed;
@@ -672,7 +674,7 @@ namespace TarodevController
                         if (frameInput.Move.y == 1)
                         {
                             ObjectBeingHeld.ThrowPickUp(new Vector2(0,
-                                moveVars.ThrowingStrength + velocity.y));
+                                moveVars.ThrowingStrength + (velocity.y / 2)));
                             Debug.Log("Object thrown");
                         }
                         else if (frameInput.Move.y == -1)
@@ -682,13 +684,13 @@ namespace TarodevController
                         }
                         else if (frameInput.Move.x == -1)
                         {
-                            ObjectBeingHeld.ThrowPickUp(new Vector2(velocity.x + -moveVars.ThrowingStrength,
+                            ObjectBeingHeld.ThrowPickUp(new Vector2((velocity.x / 2) + -moveVars.ThrowingStrength,
                                 moveVars.ThrowingStrength));
                             Debug.Log("Object thrown");
                         }
                         else if (frameInput.Move.x == 1)
                         {
-                            ObjectBeingHeld.ThrowPickUp(new Vector2(velocity.x + moveVars.ThrowingStrength,
+                            ObjectBeingHeld.ThrowPickUp(new Vector2((velocity.x / 2) + moveVars.ThrowingStrength,
                                 moveVars.ThrowingStrength));
                             Debug.Log("Object thrown");
                         }

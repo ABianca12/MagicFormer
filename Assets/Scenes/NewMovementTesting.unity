@@ -5800,14 +5800,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 88586010161200065, guid: a56d1fa1466ddca47b35869f61782df3, type: 3}
-      propertyPath: GroundingForce
-      value: -1
-      objectReference: {fileID: 0}
-    - target: {fileID: 88586010161200065, guid: a56d1fa1466ddca47b35869f61782df3, type: 3}
-      propertyPath: FallAcceleration
-      value: 70
-      objectReference: {fileID: 0}
     - target: {fileID: 2722294526160925094, guid: a56d1fa1466ddca47b35869f61782df3, type: 3}
       propertyPath: m_Name
       value: ThrowingVaribles

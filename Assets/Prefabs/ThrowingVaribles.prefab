@@ -45,13 +45,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PickUpGrounderDistance: 0.05
-  GroundingForce: -1.5
+  GroundingForce: -1
   MaxFallSpeed: 80
-  FallAcceleration: 150
+  FallAcceleration: 80
   GroundDeceleration: 60
   AirDeceleration: 30
-  ThrowingStrength: 100
-  GrounderDistance: 0.05
+  ThrowingStrength: 80
   keyResetTime: 10
   defaultLayer:
     serializedVersion: 2
