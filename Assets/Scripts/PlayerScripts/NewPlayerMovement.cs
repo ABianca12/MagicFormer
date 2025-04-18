@@ -207,7 +207,6 @@ namespace TarodevController
 
         private void FixedUpdate()
         {
-
             if (!(state == PlayerState.HorizontalBar && frameInput.Move.y == 1))
             {
                 HandleDirection();
@@ -578,12 +577,11 @@ namespace TarodevController
                             state = PlayerState.HorizontalBar;
                             transform.position = new Vector3(transform.position.x,
                             climbable.GetRightTransform().y - moveVars.HorizontalRopeSnapPositionOffset,
-                                transform.position.z);
+                            transform.position.z);
                         }
                     }
                     break;
                 case PlayerState.SingleRope:
-                    velocity.x = 0;
                     if (frameInput.UpHeld)
                     {
                         velocity.y = moveVars.MaxUpwardsSingleRopeSpeed;
@@ -594,7 +592,6 @@ namespace TarodevController
                     }
                     break;
                 case PlayerState.DoubleRope:
-                    velocity.x = 0;
                     if (frameInput.Move.y == 1)
                     {
                         velocity.y = moveVars.MaxUpwardsDoubleRopeSpeed;
@@ -911,12 +908,6 @@ namespace TarodevController
 
         private void ApplyMovement() => rb.linearVelocity = velocity;
 
-#if UNITY_EDITOR
-        private void OnValidate()
-        {
-            if (moveVars == null) Debug.LogWarning("Please assign a MovementVaribles asset to the Player Controller's Stats slot", this);
-        }
-
         private void OnTriggerEnter2D(Collider2D other)
         {
             if (other.CompareTag("Single") || other.CompareTag("Horizontal"))
@@ -924,6 +915,12 @@ namespace TarodevController
                 climbable = other.GetComponent<Climbable>();
             }
 
+        }
+
+#if UNITY_EDITOR
+        private void OnValidate()
+        {
+            if (moveVars == null) Debug.LogWarning("Please assign a MovementVaribles asset to the Player Controller's Stats slot", this);
         }
 #endif
     }
