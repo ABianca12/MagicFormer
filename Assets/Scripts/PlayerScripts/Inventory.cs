@@ -35,7 +35,14 @@ public class Inventory : MonoBehaviour
     //Function to get the index of the currently selected item
     public int getCurrentItem()
     {
-        return currentItem;
+        foreach (bool b in allItems)
+        {
+            if(b)
+            {
+                return currentItem;
+            }
+        }
+        return -1;
     }
     //function to go to next available item in inventory that the player has
     public void nextItem()

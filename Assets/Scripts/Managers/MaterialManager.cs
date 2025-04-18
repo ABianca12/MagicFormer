@@ -17,6 +17,11 @@ public class MaterialManager : MonoBehaviour
             switch(collider.getMaterial())
             {
                 case Entity.BaseType.FIRE:
+                    //Fire object kills enemies
+                    if(collidee.gameObject.GetComponent<Enemy>() != null)
+                    {
+                        c2.destroyObject();
+                    }
                     //Fire object destroys wood, grass, and ice
                     if(collidee.getMaterial() == Entity.BaseType.WOOD || collidee.getMaterial() == Entity.BaseType.GRASS || collidee.getMaterial() == Entity.BaseType.ICE)
                     {

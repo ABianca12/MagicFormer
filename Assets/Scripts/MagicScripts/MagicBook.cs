@@ -24,7 +24,6 @@ public class MagicBook : Collectable
 
     void OnCollisionEnter2D(Collision2D c)
     {
-        Debug.Log("COLLUDE");
         //if Player collides with the object
         if (c.gameObject.tag == "Player")
         {

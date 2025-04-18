@@ -141,23 +141,9 @@ public class magicCastingScript : MonoBehaviour
                         }
                         sigilOut = !sigilOut;
                         break;
-                    //Default is fireball
+                    //Default has nothing if no spell
                     default:
-                        //Debug.Log("FIRE:);
-                        Fireball fi = Instantiate(fireball);
-                        switch (p.getFaceDirection())
-                        {
-                            case PlayerDirection.Left:
-                                fi.initFireball(gameObject.transform.position - new Vector3(2, 0), new Vector2(-20, 0));
-                                break;
-                            case PlayerDirection.Right:
-                                fi.initFireball(gameObject.transform.position + new Vector3(2, 0), new Vector2(20, 0));
-                                break;
-                            default:
-                                fi.initFireball(gameObject.transform.position + new Vector3(2, 0), new Vector2(20, 0));
-                                break;
-
-                        }
+                        Debug.Log("YOU HAVE NO POWER HERE");
                         break;
                     }
                 }
