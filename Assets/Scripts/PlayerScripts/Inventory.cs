@@ -27,7 +27,7 @@ public class Inventory : MonoBehaviour
         allItems = init;
         foreach (bool item in allItems)
         {
-            Debug.Log(item);
+            //Debug.Log(item);
         }
     }
 
