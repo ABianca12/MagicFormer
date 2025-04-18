@@ -12,20 +12,20 @@ EditorBuildSettings:
     path: Assets/Scenes/LevelSelect.unity
     guid: 5a1767f2bdc82434f898a85b1064aee7
   - enabled: 1
-    path: Assets/Scenes/Level4.unity
-    guid: eca5d1f3be2000546910b0d9c2fa2ec1
-  - enabled: 1
     path: Assets/Scenes/Level1.unity
-    guid: 1b720301659039e4090af7ed284ce8a0
+    guid: bd97d90470cf9bd4d8487b7462594d81
   - enabled: 1
     path: Assets/Scenes/Level2.unity
+    guid: 1b720301659039e4090af7ed284ce8a0
+  - enabled: 1
+    path: Assets/Scenes/Level3.unity
     guid: ade7caa7f549bc14ebd0c391a1bc7144
   - enabled: 1
     path: Assets/Scenes/Level4.unity
-    guid: b27bdb5da1a58e8409e66b0f6fe98415
+    guid: 122837f2d4a0ee84fac3d29e48e7c925
   - enabled: 1
     path: Assets/Scenes/Level5.unity
-    guid: 6e5eb18c59184b4469f3520aab1732d0
+    guid: b27bdb5da1a58e8409e66b0f6fe98415
   - enabled: 1
     path: Assets/Scenes/Level6.unity
     guid: 7bc1f205edac6ac4098adb0a8e592f63
@@ -34,7 +34,7 @@ EditorBuildSettings:
     guid: 9d125b05fd8746f4d898832899539f82
   - enabled: 1
     path: Assets/Scenes/Level8.unity
-    guid: abf0f280b50e19b4c9b507fa88b47df2
+    guid: 6e5eb18c59184b4469f3520aab1732d0
   - enabled: 1
     path: Assets/Scenes/NewMovementTesting.unity
     guid: bcf80a0f013fe974b9cecd508c5a9bdc

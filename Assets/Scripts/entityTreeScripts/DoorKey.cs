@@ -2,8 +2,6 @@ using UnityEngine;
 
 public class DoorKey : Pickup
 {
-    [SerializeField] private float lifetime = 10.0f;
-
     public void initKey()
     {
         base.initPickup(BaseType.MYSTIC, transform.position);

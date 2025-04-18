@@ -15,7 +15,7 @@ MonoBehaviour:
   HasCollectedRedOrb: 0
   HasCollectedYellowOrb: 0
   HasCollectedBlueOrb: 0
-  PlayerStartsWithFireball: 1
+  PlayerStartsWithFireball: 0
   PlayerStartsWithEarthCrate: 0
   PlayerStartsWithForcePush: 0
   PlayerStartsWithVine: 0

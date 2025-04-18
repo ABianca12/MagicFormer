@@ -345,6 +345,13 @@ namespace TarodevController
                     Debug.Log("Player is lower than bottom");
                 }
 
+                if (transform.position.y > climbable.GetLeftTransform().y)
+                {
+                    state = PlayerState.None;
+                    Debug.Log(climbable.GetRightTransform().y);
+                    Debug.Log("Player is Higher than top");
+                }
+
                 if (LeftRopeHit)
                 {
                     LeftClimbable = LeftRopeHit.transform.GetComponent<Climbable>();
