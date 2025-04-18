@@ -40,7 +40,7 @@ public class ForcePush : Projectile
             if (g.GetComponent<Entity>().getMaterial() != BaseType.MYSTIC)
             {
                 //Checks if object can be pushed
-                if (g.GetComponent<Pickup>() != null || g.GetComponent<MovingPlatform>() != null)
+                if (g.GetComponent<Pickup>() != null || g.GetComponent<MovingPlatform>() != null || g.GetComponent<Block>() != null)
                 {
                     g.GetComponent<Entity>().addForce(base.velocity, strength);
                 }

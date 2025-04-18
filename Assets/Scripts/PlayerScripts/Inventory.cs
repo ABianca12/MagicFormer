@@ -103,6 +103,7 @@ public class Inventory : MonoBehaviour
         {
             allItems[spell] = true;
         }
+        currentItem = spell;
     }
 
     //Unique getter functions

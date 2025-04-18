@@ -29,7 +29,6 @@ public class MagicBook : Collectable
         {
             //Collect Item
             c.gameObject.GetComponent<Inventory>().addSpell(magicIndex);
-
             Destroy(gameObject);
         }
     }
