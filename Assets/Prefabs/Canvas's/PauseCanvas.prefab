@@ -121,7 +121,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 3745482714309405854, guid: 2e9d50dad7dfaae4f98277eaa7aa5255, type: 3}
         m_TargetAssemblyTypeName: LevelSelection, Assembly-CSharp
         m_MethodName: LoadLevel
         m_Mode: 5
@@ -970,7 +970,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 3745482714309405854, guid: 2e9d50dad7dfaae4f98277eaa7aa5255, type: 3}
         m_TargetAssemblyTypeName: LevelSelection, Assembly-CSharp
         m_MethodName: LoadLevel
         m_Mode: 5

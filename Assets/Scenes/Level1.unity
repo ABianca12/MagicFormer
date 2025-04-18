@@ -655,6 +655,17 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 74881488}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &112885620 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1712931676350985128, guid: 06eb38bafed16534fa6b820832b4093f, type: 3}
+  m_PrefabInstance: {fileID: 411578486}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c605a720e35ad8f40b3812b125947d48, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &153932187
 GameObject:
   m_ObjectHideFlags: 0
@@ -1412,6 +1423,10 @@ PrefabInstance:
       propertyPath: HorizontalBarCanvas
       value: 
       objectReference: {fileID: 786446000}
+    - target: {fileID: 1712931676350985128, guid: 06eb38bafed16534fa6b820832b4093f, type: 3}
+      propertyPath: p
+      value: 
+      objectReference: {fileID: 1516526779}
     - target: {fileID: 4643056817794610278, guid: 06eb38bafed16534fa6b820832b4093f, type: 3}
       propertyPath: PauseMenu
       value: 
@@ -3771,6 +3786,30 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 90503966202055477, guid: 83288128ca7a10d4d96e785361c6eaac, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 112885620}
+    - target: {fileID: 90503966202055477, guid: 83288128ca7a10d4d96e785361c6eaac, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: LoadLevel
+      objectReference: {fileID: 0}
+    - target: {fileID: 2171205734845593753, guid: 83288128ca7a10d4d96e785361c6eaac, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2171205734845593753, guid: 83288128ca7a10d4d96e785361c6eaac, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 3745482714309405854, guid: 2e9d50dad7dfaae4f98277eaa7aa5255, type: 3}
+    - target: {fileID: 2171205734845593753, guid: 83288128ca7a10d4d96e785361c6eaac, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: LoadLevel
+      objectReference: {fileID: 0}
+    - target: {fileID: 2171205734845593753, guid: 83288128ca7a10d4d96e785361c6eaac, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: LevelSelection, Assembly-CSharp
+      objectReference: {fileID: 0}
     - target: {fileID: 2806360700998134554, guid: 83288128ca7a10d4d96e785361c6eaac, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -3886,6 +3925,14 @@ PrefabInstance:
     - target: {fileID: 7946217422060961838, guid: 83288128ca7a10d4d96e785361c6eaac, type: 3}
       propertyPath: m_Name
       value: PauseCanvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 8504971004264718656, guid: 83288128ca7a10d4d96e785361c6eaac, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 3745482714309405854, guid: 2e9d50dad7dfaae4f98277eaa7aa5255, type: 3}
+    - target: {fileID: 8504971004264718656, guid: 83288128ca7a10d4d96e785361c6eaac, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: LoadLevel
       objectReference: {fileID: 0}
     - target: {fileID: 8818938057133707945, guid: 83288128ca7a10d4d96e785361c6eaac, type: 3}
       propertyPath: m_AnchorMax.y

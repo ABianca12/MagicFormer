@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 8273967145899993757}
   - component: {fileID: -2853669019120561522}
   - component: {fileID: 4871515042606881648}
+  - component: {fileID: 3358385097214552637}
   m_Layer: 6
   m_Name: EarthCrate
   m_TagString: PickUp
@@ -106,16 +107,16 @@ MonoBehaviour:
   PickUpGrounderDistance: 0.05
   GroundingForce: -9.81
   MaxFallSpeed: 80
-  FallAcceleration: 1000
+  FallAcceleration: 70
   defaultLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 1
   playerLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 8
   pickUpLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
   GroundDeceleration: 60
   AirDeceleration: 30
   collider: {fileID: 8273967145899993757}
@@ -132,10 +133,10 @@ BoxCollider2D:
   m_Material: {fileID: 6200000, guid: 9ee43051fc898e44d804dcf43e5f2bd7, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 65
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 8
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
@@ -209,3 +210,49 @@ MonoBehaviour:
   beingCarried: 0
   velocity: {x: 0, y: 0}
   hasBeenThrown: 0
+--- !u!61 &3358385097214552637
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7282807202652238559}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 6200000, guid: 9ee43051fc898e44d804dcf43e5f2bd7, type: 2}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 136
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 247
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0.46090406}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 1, y: 0.07819185}
+  m_EdgeRadius: 0
