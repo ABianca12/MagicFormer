@@ -27,11 +27,11 @@ public class DoorKey : Pickup
 
     private void Update()
     {
-        base.updatePickup();
+        //base.updatePickup();
     }
 
     private void FixedUpdate()
     {
-        base.fixedUpdateCall();
+        //base.fixedUpdateCall();
     }
 }

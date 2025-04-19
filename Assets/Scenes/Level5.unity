@@ -1830,6 +1830,10 @@ PrefabInstance:
       propertyPath: HorizontalBarCanvas
       value: 
       objectReference: {fileID: 786446000}
+    - target: {fileID: 1605620502322633737, guid: 06eb38bafed16534fa6b820832b4093f, type: 3}
+      propertyPath: levelData
+      value: 
+      objectReference: {fileID: 11400000, guid: 9cd022d058db6914abe15c826dbafa5f, type: 2}
     - target: {fileID: 1712931676350985128, guid: 06eb38bafed16534fa6b820832b4093f, type: 3}
       propertyPath: p
       value: 

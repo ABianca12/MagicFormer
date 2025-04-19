@@ -33,7 +33,7 @@ EditorBuildSettings:
     path: Assets/Scenes/Level7.unity
     guid: 9d125b05fd8746f4d898832899539f82
   - enabled: 1
-    path: Assets/Scenes/Level8.unity
+    path: Assets/Scenes/Level5.unity
     guid: 6e5eb18c59184b4469f3520aab1732d0
   - enabled: 1
     path: Assets/Scenes/NewMovementTesting.unity
