@@ -17,6 +17,14 @@ public class Climbable : Destructable
         RightTransform = capColl.bounds.min;
     }
 
+    void Update()
+    {
+        capColl = GetComponent<CapsuleCollider2D>();
+        player = FindAnyObjectByType<PlayerController>();
+        LeftTransform = capColl.bounds.max;
+        RightTransform = capColl.bounds.min;
+    }
+
     public void initClimbable()
     {
         base.initDestructable();
