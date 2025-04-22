@@ -257,9 +257,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spellUI: {fileID: 8859816908750062562, guid: c88fda7b85aba1d4e8232e708a55099b, type: 3}
   fireball: {fileID: 5489159008218696636, guid: da3f8300befa5d948aa4f68465369fd3, type: 3}
-  earfKrate: {fileID: 3109656594679393509, guid: 03ce55d3f6da36d41b92af1f37230bf9, type: 3}
+  earfKrate: {fileID: -7753852756156537449, guid: 4e5b66d2d0253a3408233ec24224f2d4, type: 3}
   poosh: {fileID: 7775935390947257808, guid: 67a8ac871a2341b48afe7c6b3b2e470d, type: 3}
   vine: {fileID: 8830424203664134594, guid: d86cb52935bc1ed4d9c2d2b12845b28b, type: 3}
+  maxVines: 0
   sigil: {fileID: 6542698411256796280, guid: 29ea5ae2d0c7261459f7ed22cd0f6265, type: 3}
   pause: {fileID: 0}
 --- !u!82 &8954802387107831023

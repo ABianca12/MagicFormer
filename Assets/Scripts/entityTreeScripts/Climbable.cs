@@ -20,14 +20,26 @@ public class Climbable : Destructable
     public void initClimbable()
     {
         base.initDestructable();
+        capColl = GetComponent<CapsuleCollider2D>();
+        player = FindAnyObjectByType<PlayerController>();
+        LeftTransform = capColl.bounds.max;
+        RightTransform = capColl.bounds.min;
     }
     public void initClimbable(BaseType m)
     {
         base.initDestructable(m);
+        capColl = GetComponent<CapsuleCollider2D>();
+        player = FindAnyObjectByType<PlayerController>();
+        LeftTransform = capColl.bounds.max;
+        RightTransform = capColl.bounds.min;
     }
     public void initClimbable(BaseType m, Vector3 start)
     {
         base.initDestructable(m, start);
+        capColl = GetComponent<CapsuleCollider2D>();
+        player = FindAnyObjectByType<PlayerController>();
+        LeftTransform = capColl.bounds.max;
+        RightTransform = capColl.bounds.min;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

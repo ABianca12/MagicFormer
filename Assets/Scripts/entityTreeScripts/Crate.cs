@@ -5,7 +5,6 @@ public class Crate : Pickup
 
     //member variables
     private Rigidbody2D rb;
-    [SerializeField] private BoxCollider2D collider;
 
     //Init functions
     public void initCrate()
@@ -33,7 +32,6 @@ public class Crate : Pickup
     private void Start()
     {
         rb = gameObject.GetComponent<Rigidbody2D>();
-        collider.isTrigger = false;
     }
 
     private void FixedUpdate()
@@ -55,7 +53,7 @@ public class Crate : Pickup
 
     private void checkSpawn()
     {
-        collider.isTrigger = true;
+
     }
 
     private void OnTriggerEnter(Collider collision)

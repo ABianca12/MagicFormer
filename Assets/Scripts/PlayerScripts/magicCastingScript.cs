@@ -12,6 +12,7 @@ public class magicCastingScript : MonoBehaviour
     [SerializeField] private Crate earfKrate;
     [SerializeField] private ForcePush poosh;
     [SerializeField] private Climbable vine;
+    [SerializeField] private int maxVines = 5;
     [SerializeField] private Timestop sigil;
     private PlayerController p;
     private Inventory inventory;
@@ -19,6 +20,7 @@ public class magicCastingScript : MonoBehaviour
     private Plane nearPlane;
     private bool sigilOut = false;
     private Timestop outStop;
+    private int currVines = 0;
     [SerializeField]
     private PauseSystem pause;
 
