@@ -159,7 +159,7 @@ GameObject:
   - component: {fileID: 8859816908750062562}
   m_Layer: 5
   m_Name: SpellUI
-  m_TagString: Canvas
+  m_TagString: SpellUI
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -266,6 +266,7 @@ MonoBehaviour:
   Wind: {fileID: 2800000, guid: 0b28b2c3829c6f74792b8196adc1efb0, type: 3}
   Vine: {fileID: 2800000, guid: 0f7b7054c0de8d04fbace1a7faf85034, type: 3}
   Timestop: {fileID: 2800000, guid: 9777a920bee687e41980f6c294b94117, type: 3}
+  None: {fileID: 2800000, guid: 42e0664ae4c5c424ebcd980a10687e18, type: 3}
   currImage: {fileID: 6862944532246045455}
   nxtImage: {fileID: 534232075168111009}
   prevImage: {fileID: 6208389589516193406}

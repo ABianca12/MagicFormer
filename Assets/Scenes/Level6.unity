@@ -2736,6 +2736,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SpellUI
       objectReference: {fileID: 0}
+    - target: {fileID: 8859816908750062562, guid: c88fda7b85aba1d4e8232e708a55099b, type: 3}
+      propertyPath: None
+      value: 
+      objectReference: {fileID: 2800000, guid: 42e0664ae4c5c424ebcd980a10687e18, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

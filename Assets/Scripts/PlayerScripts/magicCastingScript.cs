@@ -1,6 +1,8 @@
+using NUnit.Framework;
 using TarodevController;
 using UnityEngine;
 using static TarodevController.PlayerController;
+using System.Collections.Generic;
 
 public class magicCastingScript : MonoBehaviour
 {
@@ -10,10 +12,12 @@ public class magicCastingScript : MonoBehaviour
     //Spell prefabs
     [SerializeField] private Fireball fireball;
     [SerializeField] private Crate earfKrate;
+    [SerializeField] private int maxCrates = 5;
     [SerializeField] private ForcePush poosh;
     [SerializeField] private Climbable vine;
     [SerializeField] private int maxVines = 5;
     [SerializeField] private Timestop sigil;
+
     private PlayerController p;
     private Inventory inventory;
     private float planeDistance;
@@ -21,6 +25,8 @@ public class magicCastingScript : MonoBehaviour
     private bool sigilOut = false;
     private Timestop outStop;
     private int currVines = 0;
+    private Queue<Crate> spawnedCrates;
+    private Queue<Climbable> spawnedVines;
     [SerializeField]
     private PauseSystem pause;
 
@@ -33,6 +39,8 @@ public class magicCastingScript : MonoBehaviour
         nearPlane = new Plane(Vector3.forward, planeDistance);
         spellUI = GameObject.FindWithTag("Canvas").GetComponent<SpellUI>();
         pause = GameObject.FindWithTag("PauseManager").GetComponent<PauseSystem>();
+        spawnedCrates = new Queue<Crate>();
+        spawnedVines = new Queue<Climbable>();
     }
 
     // Update is called once per frame
@@ -65,8 +73,8 @@ public class magicCastingScript : MonoBehaviour
                     //Casting earth crate
                     case 1:
                         //Debug.Log("EARTH");
-                        Vector3 leftFace = new Vector3(gameObject.transform.position.x - 2, gameObject.transform.position.y, gameObject.transform.position.z);
-                        Vector3 rightFace = new Vector3(gameObject.transform.position.x + 2, gameObject.transform.position.y, gameObject.transform.position.z);
+                        Vector3 leftFace = new Vector3(gameObject.transform.position.x - 2.5f, gameObject.transform.position.y, gameObject.transform.position.z);
+                        Vector3 rightFace = new Vector3(gameObject.transform.position.x + 2.5f, gameObject.transform.position.y, gameObject.transform.position.z);
                         LayerMask crate = LayerMask.GetMask("PickUp");
                         Crate c = Instantiate(earfKrate);
                         switch (p.getFaceDirection())
@@ -81,6 +89,7 @@ public class magicCastingScript : MonoBehaviour
                                 else
                                 {
                                     c.initCrate(leftFace);
+                                    spawnedCrates.Enqueue(c);
                                 }
                                 break;
                             case PlayerDirection.Right:
@@ -93,12 +102,21 @@ public class magicCastingScript : MonoBehaviour
                                 else
                                 {
                                     c.initCrate(rightFace);
+                                    spawnedCrates.Enqueue(c);
                                 }
                                 break;
                             default:
-                                c.initCrate(rightFace);
+                                Destroy(c.gameObject);
+                                //Debug.Log("DEFAULT");
                                 break;
 
+                        }
+                        //Deletes oldest crate to make room for the new one
+                        if(spawnedCrates.Count > maxCrates)
+                        {
+                            Debug.Log("too many crates");
+                            Crate dead = spawnedCrates.Dequeue();
+                            dead.destroyObject();
                         }
                     break;
                     //Casting Force push
@@ -156,12 +174,12 @@ public class magicCastingScript : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.Q))
         {
             inventory.prevItem();
-            spellUI.cycleSpells(false);
+            spellUI.cycleSpells();
         }
         if (Input.GetKeyDown(KeyCode.E))
         {
             inventory.nextItem();
-            spellUI.cycleSpells(true);
+            spellUI.cycleSpells();
         }
 
     }

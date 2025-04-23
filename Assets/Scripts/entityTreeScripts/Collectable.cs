@@ -9,24 +9,23 @@ public class Collectable : Interactable
     //init functions
     public void initCollectable()
     {
-        pInventory = GameObject.FindWithTag("Inventory").GetComponent<Inventory>();
+        pInventory = GameObject.FindWithTag("Player").GetComponent<Inventory>();
         initInteractable();
     }
     public void initCollectable(Vector3 start)
     {
-        pInventory = GameObject.FindWithTag("Inventory").GetComponent<Inventory>();
+        pInventory = GameObject.FindWithTag("Player").GetComponent<Inventory>();
         initInteractable(start);
     }
     public void initCollectable(Vector3 start, BaseType m)
     {
-        pInventory = GameObject.FindWithTag("Inventory").GetComponent<Inventory>();
+        pInventory = GameObject.FindWithTag("Player").GetComponent<Inventory>();
         initInteractable(start, m);
     }
 
 
     void OnCollisionEnter2D(Collision2D c)
     {
-        Debug.Log("COLLUDE");
         //if Player collides with the object
         if(c.gameObject.tag == "Player")
         {
@@ -40,7 +39,6 @@ public class Collectable : Interactable
 
     private void OnTriggerEnter2D(Collider2D c)
     {
-        Debug.Log("COLLUDE");
         //if Player collides with the object
         if (c.gameObject.tag == "Player")
         {

@@ -31,6 +31,12 @@ public class Inventory : MonoBehaviour
         }
     }
 
+    //function to see if inventory contains an item by index
+    public bool hasItem(int index)
+    {
+        return allItems[index];
+    }
+
     //Functions for current inventory slot
     //Function to get the index of the currently selected item
     public int getCurrentItem()
@@ -42,6 +48,7 @@ public class Inventory : MonoBehaviour
                 return currentItem;
             }
         }
+        //Debug.Log("NOPE");
         return -1;
     }
     //function to go to next available item in inventory that the player has
