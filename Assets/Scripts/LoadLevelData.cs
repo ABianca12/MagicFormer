@@ -5,10 +5,12 @@ public class LoadLevelData : MonoBehaviour
     public LevelData levelData;
     private Inventory inventory;
     private bool[] spells = new bool[5];
+    private SpellUI spellUI;
 
     void Start()
     {
         inventory = GameObject.FindGameObjectWithTag("Player").GetComponent<Inventory>();
+        spellUI = GameObject.FindGameObjectWithTag("SpellUI").GetComponent<SpellUI>();
 
         if (levelData.PlayerStartsWithFireball)
         {
@@ -56,6 +58,7 @@ public class LoadLevelData : MonoBehaviour
         }
 
         inventory.initInventory(spells);
+        spellUI.cycleSpells();
     }
 
     private void Update()

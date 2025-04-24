@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SwitchBlock : Ground
 {
-    private bool activeState;
+    [SerializeField] private bool activeState;
 
     [SerializeField] private Material offMat, onMat;
 
@@ -13,6 +13,12 @@ public class SwitchBlock : Ground
         if (!activeState)
         {
             gameObject.GetComponent<BoxCollider2D>().enabled = false;
+            turnOff();
+        }
+        else if (activeState)
+        {
+            gameObject.GetComponent<BoxCollider2D>().enabled = false;
+            turnOn();
         }
     }
 
