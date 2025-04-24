@@ -27,8 +27,14 @@ public class magicCastingScript : MonoBehaviour
     private int currVines = 0;
     private Queue<Crate> spawnedCrates;
     private Queue<Climbable> spawnedVines;
-    [SerializeField]
-    private PauseSystem pause;
+
+    private AudioSource[] allAudios;
+    [SerializeField] private PauseSystem pause;
+    private AudioSource fireSound;
+    private AudioSource earthSound;
+    private AudioSource pushSound;
+    private AudioSource vineSound;
+    private AudioSource timestopSound;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -41,6 +47,31 @@ public class magicCastingScript : MonoBehaviour
         pause = GameObject.FindWithTag("PauseManager").GetComponent<PauseSystem>();
         spawnedCrates = new Queue<Crate>();
         spawnedVines = new Queue<Climbable>();
+        allAudios = GetComponents<AudioSource>();
+
+        foreach (AudioSource audio in allAudios)
+        {
+            if (audio.resource.name == "fireball")
+            {
+                fireSound = audio;
+            }
+            if(audio.resource.name == "Earth")
+            {
+                earthSound = audio;
+            }
+            if(audio.resource.name == "ForcePush")
+            {
+                pushSound = audio;
+            }
+            if (audio.resource.name == "Vine")
+            {
+                vineSound = audio;
+            }
+            if (audio.resource.name == "Timestop")
+            {
+                timestopSound = audio;
+            }
+        }
     }
 
     // Update is called once per frame
@@ -56,6 +87,8 @@ public class magicCastingScript : MonoBehaviour
                     case 0:
                         //Debug.Log("FIRE:);
                         Fireball fb = Instantiate(fireball);
+                        fireSound.Stop();
+                        fireSound.Play();
                         switch (p.getFaceDirection())
                         {
                             case PlayerDirection.Left:
@@ -77,6 +110,7 @@ public class magicCastingScript : MonoBehaviour
                         Vector3 rightFace = new Vector3(gameObject.transform.position.x + 2.5f, gameObject.transform.position.y, gameObject.transform.position.z);
                         LayerMask crate = LayerMask.GetMask("PickUp");
                         Crate c = Instantiate(earfKrate);
+                        earthSound.Stop();
                         switch (p.getFaceDirection())
                         {
                             case PlayerDirection.Left:
@@ -90,6 +124,7 @@ public class magicCastingScript : MonoBehaviour
                                 {
                                     c.initCrate(leftFace);
                                     spawnedCrates.Enqueue(c);
+                                    earthSound.Play();
                                 }
                                 break;
                             case PlayerDirection.Right:
@@ -103,6 +138,7 @@ public class magicCastingScript : MonoBehaviour
                                 {
                                     c.initCrate(rightFace);
                                     spawnedCrates.Enqueue(c);
+                                    earthSound.Play();
                                 }
                                 break;
                             default:
@@ -127,6 +163,8 @@ public class magicCastingScript : MonoBehaviour
                         var d = Input.mousePosition - screenPoint;
                         d.Normalize();
                         f.initForcePush(gameObject.transform.position + d * 2.0f, d * 50f);
+                        pushSound.Stop();
+                        pushSound.Play();
                     break;
                     //Casting Vines
                     case 3:
@@ -139,6 +177,12 @@ public class magicCastingScript : MonoBehaviour
                         {
                             Vector3 hitPoint = ray.GetPoint(enter);
                             v.initClimbable(Entity.BaseType.GRASS, new Vector3(hitPoint.x, hitPoint.y, transform.position.z));
+                            spawnedVines.Enqueue(v);
+                        }
+                        if(spawnedVines.Count > maxVines)
+                        {
+                            Debug.Log("Too many vines");
+                            spawnedVines.Dequeue().destroyObject();
                         }
                     break;
                     //Casting Timestop
@@ -154,6 +198,7 @@ public class magicCastingScript : MonoBehaviour
                                 Vector3 hitPoint = r.GetPoint(e);
                                 outStop.initTimestop(new Vector3(hitPoint.x, hitPoint.y, transform.position.z));
                             }
+                            timestopSound.Play();
                         }
                         else
                         {
