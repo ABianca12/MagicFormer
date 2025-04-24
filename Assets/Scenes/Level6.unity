@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
+  m_SkyboxMaterial: {fileID: 2100000, guid: cede08c9fc471e64884909cd4bbeaf59, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -896,6 +896,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 847687114}
     m_Modifications:
+    - target: {fileID: 2008120243752296783, guid: 79829519eaca76f43b6badd7cbc78c0f, type: 3}
+      propertyPath: activeState
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2828886455394430541, guid: 79829519eaca76f43b6badd7cbc78c0f, type: 3}
       propertyPath: m_LocalScale.x
       value: 1
@@ -1321,6 +1325,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 847687114}
     m_Modifications:
+    - target: {fileID: 2008120243752296783, guid: 79829519eaca76f43b6badd7cbc78c0f, type: 3}
+      propertyPath: activeState
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2828886455394430541, guid: 79829519eaca76f43b6badd7cbc78c0f, type: 3}
       propertyPath: m_LocalScale.x
       value: 1
@@ -2869,6 +2877,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 847687114}
     m_Modifications:
+    - target: {fileID: 2008120243752296783, guid: 79829519eaca76f43b6badd7cbc78c0f, type: 3}
+      propertyPath: activeState
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2828886455394430541, guid: 79829519eaca76f43b6badd7cbc78c0f, type: 3}
       propertyPath: m_LocalScale.x
       value: 1
@@ -3028,6 +3040,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 847687114}
     m_Modifications:
+    - target: {fileID: 2008120243752296783, guid: 79829519eaca76f43b6badd7cbc78c0f, type: 3}
+      propertyPath: activeState
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2828886455394430541, guid: 79829519eaca76f43b6badd7cbc78c0f, type: 3}
       propertyPath: m_LocalScale.x
       value: 1
@@ -3334,6 +3350,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 847687114}
     m_Modifications:
+    - target: {fileID: 2008120243752296783, guid: 79829519eaca76f43b6badd7cbc78c0f, type: 3}
+      propertyPath: activeState
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2828886455394430541, guid: 79829519eaca76f43b6badd7cbc78c0f, type: 3}
       propertyPath: m_LocalScale.x
       value: 1
@@ -5331,6 +5351,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 847687114}
     m_Modifications:
+    - target: {fileID: 2008120243752296783, guid: 79829519eaca76f43b6badd7cbc78c0f, type: 3}
+      propertyPath: activeState
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2828886455394430541, guid: 79829519eaca76f43b6badd7cbc78c0f, type: 3}
       propertyPath: m_LocalScale.x
       value: 1
@@ -5749,6 +5773,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 847687114}
     m_Modifications:
+    - target: {fileID: 2008120243752296783, guid: 79829519eaca76f43b6badd7cbc78c0f, type: 3}
+      propertyPath: activeState
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2828886455394430541, guid: 79829519eaca76f43b6badd7cbc78c0f, type: 3}
       propertyPath: m_LocalScale.x
       value: 1
@@ -5895,6 +5923,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 847687114}
     m_Modifications:
+    - target: {fileID: 2008120243752296783, guid: 79829519eaca76f43b6badd7cbc78c0f, type: 3}
+      propertyPath: activeState
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2828886455394430541, guid: 79829519eaca76f43b6badd7cbc78c0f, type: 3}
       propertyPath: m_LocalScale.x
       value: 1
@@ -6517,6 +6549,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 847687114}
     m_Modifications:
+    - target: {fileID: 2008120243752296783, guid: 79829519eaca76f43b6badd7cbc78c0f, type: 3}
+      propertyPath: activeState
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2828886455394430541, guid: 79829519eaca76f43b6badd7cbc78c0f, type: 3}
       propertyPath: m_LocalScale.x
       value: 1
@@ -7450,6 +7486,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 847687114}
     m_Modifications:
+    - target: {fileID: 2008120243752296783, guid: 79829519eaca76f43b6badd7cbc78c0f, type: 3}
+      propertyPath: activeState
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2828886455394430541, guid: 79829519eaca76f43b6badd7cbc78c0f, type: 3}
       propertyPath: m_LocalScale.x
       value: 1
@@ -7830,6 +7870,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 847687114}
     m_Modifications:
+    - target: {fileID: 2008120243752296783, guid: 79829519eaca76f43b6badd7cbc78c0f, type: 3}
+      propertyPath: activeState
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2828886455394430541, guid: 79829519eaca76f43b6badd7cbc78c0f, type: 3}
       propertyPath: m_LocalScale.x
       value: 1
@@ -8187,6 +8231,14 @@ PrefabInstance:
       propertyPath: spellUI
       value: 
       objectReference: {fileID: 1751816362}
+    - target: {fileID: 8954802387107831023, guid: 7531a2aade720b846b0a09aef54b739e, type: 3}
+      propertyPath: m_Resource
+      value: 
+      objectReference: {fileID: 8300000, guid: 1b28f9864f363064695ff5a31f322071, type: 3}
+    - target: {fileID: 8954802387107831023, guid: 7531a2aade720b846b0a09aef54b739e, type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 1b28f9864f363064695ff5a31f322071, type: 3}
     - target: {fileID: 9078919130649982495, guid: 7531a2aade720b846b0a09aef54b739e, type: 3}
       propertyPath: m_LocalPosition.x
       value: -47.167843

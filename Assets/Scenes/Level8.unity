@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
+  m_SkyboxMaterial: {fileID: 2100000, guid: 16bc8a9d5451ca44d8f70575adbece3a, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -7736,11 +7736,11 @@ PrefabInstance:
     - target: {fileID: 8954802387107831023, guid: 7531a2aade720b846b0a09aef54b739e, type: 3}
       propertyPath: m_Resource
       value: 
-      objectReference: {fileID: 8300000, guid: 13b00391ac25a8a44ab2774515432e72, type: 3}
+      objectReference: {fileID: 8300000, guid: 13d32b716227d124ea6f2f5bbb18e1a4, type: 3}
     - target: {fileID: 8954802387107831023, guid: 7531a2aade720b846b0a09aef54b739e, type: 3}
       propertyPath: m_audioClip
       value: 
-      objectReference: {fileID: 8300000, guid: 13b00391ac25a8a44ab2774515432e72, type: 3}
+      objectReference: {fileID: 8300000, guid: 13d32b716227d124ea6f2f5bbb18e1a4, type: 3}
     - target: {fileID: 9078919130649982495, guid: 7531a2aade720b846b0a09aef54b739e, type: 3}
       propertyPath: m_LocalPosition.x
       value: 50.8

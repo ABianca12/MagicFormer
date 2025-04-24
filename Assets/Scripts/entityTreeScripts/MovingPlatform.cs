@@ -14,6 +14,7 @@ public class MovingPlatform : Ground
     [SerializeField] private Material offMat, onMat;
 
     [SerializeField] private PlayerController player;
+    [SerializeField] private bool startUpOnY = true;
 
     private bool disableX;
     private bool playerIsOnTop;
@@ -57,8 +58,28 @@ public class MovingPlatform : Ground
                 updateVelocity((new Vector2(0, 1.0f)) * -speed);
                 disableX = true;
             }
-
         }
+        else
+        {
+            if (currentPos.x < endPos.x)
+            {
+                disableX = false;
+            }
+            else if (currentPos.x > endPos.x)
+            {
+                disableX = false;
+            }
+
+            else if (currentPos.y < endPos.y)
+            {
+                disableX = true;
+            }
+            else if (currentPos.y > endPos.y)
+            {
+                disableX = true;
+            }
+        }
+        
     }
 
     //updates velocity and swaps velocity once a platform reaches its endpoint
@@ -66,14 +87,19 @@ public class MovingPlatform : Ground
     {
         if(baseMoving)
         {
+            //If platform is meant to move
             if (!disableX)
             {
                 if (currentPos.x > endPos.x)
                 {
+                    currentPos.x = endPos.x;
+                    transform.position = currentPos;
                     updateVelocity((new Vector2(1.0f, 0)) * -speed);
                 }
                 else if (currentPos.x < startPos.x)
                 {
+                    currentPos.x = startPos.x;
+                    transform.position = currentPos;
                     updateVelocity((new Vector2(1.0f, 0)) * speed);
                 }
             }
@@ -81,17 +107,72 @@ public class MovingPlatform : Ground
             {
                 if (currentPos.y < endPos.y)
                 {
-                   updateVelocity((new Vector2(0, 1.0f)) * speed);
+                    currentPos.y = endPos.y;
+                    transform.position = currentPos;
+                    updateVelocity((new Vector2(0, 1.0f)) * speed);
                 }
                 else if (currentPos.y > startPos.y)
                 {
+                    currentPos.y = startPos.y;
+                    transform.position = currentPos;
                     updateVelocity((new Vector2(0, 1.0f)) * -speed);
                 }
             }
-
-            updateEntity(Time.deltaTime);
         }
-        Debug.Log(base.velocity);
+        //if platform is standing still
+        else
+        {
+            if (!disableX)
+            {
+                if (currentPos.x > endPos.x)
+                {
+                    currentPos.x = endPos.x;
+                    transform.position = currentPos;
+                    updateVelocity((new Vector2(-0.8f, 0)) * velocity);
+                }
+                else if (currentPos.x < startPos.x)
+                {
+                    currentPos.x = startPos.x;
+                    transform.position = currentPos;
+                    updateVelocity((new Vector2(-0.8f, 0)) * velocity);
+                }
+            }
+            else
+            {
+                if(startUpOnY)
+                {
+                    if (currentPos.y < endPos.y)
+                    {
+                        currentPos.y = endPos.y;
+                        transform.position = currentPos;
+                        updateVelocity((new Vector2(0, -0.8f)) * velocity);
+                    }
+                    else if (currentPos.y > startPos.y)
+                    {
+                        currentPos.y = startPos.y;
+                        transform.position = currentPos;
+                        updateVelocity((new Vector2(0, -0.8f)) * velocity);
+                    }
+                }
+                else
+                {
+                    if (currentPos.y > endPos.y)
+                    {
+                        currentPos.y = endPos.y;
+                        transform.position = currentPos;
+                        updateVelocity((new Vector2(0, -0.8f)) * velocity);
+                    }
+                    else if (currentPos.y < startPos.y)
+                    {
+                        currentPos.y = startPos.y;
+                        transform.position = currentPos;
+                        updateVelocity((new Vector2(0, -0.8f)) * velocity);
+                    }
+                }
+            }
+        }
+
+        updateEntity(Time.deltaTime);
         CheckMat();
     }
 
