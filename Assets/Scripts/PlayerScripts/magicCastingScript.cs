@@ -37,7 +37,7 @@ public class magicCastingScript : MonoBehaviour
         inventory = GameObject.FindWithTag("Player").GetComponent<Inventory>();
         planeDistance = 0.3f;
         nearPlane = new Plane(Vector3.forward, planeDistance);
-        spellUI = GameObject.FindWithTag("Canvas").GetComponent<SpellUI>();
+        spellUI = GameObject.FindWithTag("SpellUI").GetComponent<SpellUI>();
         pause = GameObject.FindWithTag("PauseManager").GetComponent<PauseSystem>();
         spawnedCrates = new Queue<Crate>();
         spawnedVines = new Queue<Climbable>();

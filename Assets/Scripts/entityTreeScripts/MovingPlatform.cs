@@ -91,7 +91,7 @@ public class MovingPlatform : Ground
 
             updateEntity(Time.deltaTime);
         }
-
+        Debug.Log(base.velocity);
         CheckMat();
     }
 
@@ -114,11 +114,11 @@ public class MovingPlatform : Ground
         //If platform is moving along the x axis
         if(!disableX)
         {
-            base.velocity += new Vector2(force.x * strength, 0);
+            base.velocity += new Vector2(force.x, 0);
         }
         else
         {
-            base.velocity += new Vector2(0,force.y * strength);
+            base.velocity += new Vector2(0,force.y);
         }
     }
 
