@@ -584,6 +584,54 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 84889671}
   m_CullTransparentMesh: 1
+--- !u!1 &94470167
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 94470169}
+  - component: {fileID: 94470168}
+  m_Layer: 0
+  m_Name: OrbManager
+  m_TagString: OrbManager
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &94470168
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 94470167}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f180cd1975b52f542928d650c9708359, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UncollectedOrb: {fileID: 2800000, guid: 094189367b888024d91a226a8c79c528, type: 3}
+  CollectedRed: {fileID: 2800000, guid: 77151d7fc5be1bc48b4dad9a8d1a95b5, type: 3}
+  CollectedYellow: {fileID: 2800000, guid: 0c050fad077da484bb73c79247dc61e8, type: 3}
+  CollectedBlue: {fileID: 2800000, guid: f0ad4e5d9d72e324eb4e42eb3a91f588, type: 3}
+--- !u!4 &94470169
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 94470167}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -8.651724, y: 11.552985, z: -7.7502065}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &101719525
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -669,6 +717,7 @@ GameObject:
   - component: {fileID: 142115393}
   - component: {fileID: 142115392}
   - component: {fileID: 142115391}
+  - component: {fileID: 142115395}
   m_Layer: 5
   m_Name: PanelLevel3
   m_TagString: Untagged
@@ -781,6 +830,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 142115389}
   m_CullTransparentMesh: 1
+--- !u!114 &142115395
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 142115389}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 401a4e92ea83592428e103a3dd018a0e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  levelData: {fileID: 11400000, guid: 3bc3c948bd6ba8a4493456ee39bd16d4, type: 2}
+  RedOrbSlot: {fileID: 1031558212}
+  YellowOrbSlot: {fileID: 372581977}
+  BlueOrbSlot: {fileID: 1889378323}
 --- !u!1001 &149254725
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -808,6 +873,26 @@ PrefabInstance:
     - target: {fileID: 2171205734845593753, guid: 83288128ca7a10d4d96e785361c6eaac, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: LoadLevel
+      objectReference: {fileID: 0}
+    - target: {fileID: 2806360700998134554, guid: 83288128ca7a10d4d96e785361c6eaac, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2806360700998134554, guid: 83288128ca7a10d4d96e785361c6eaac, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2806360700998134554, guid: 83288128ca7a10d4d96e785361c6eaac, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3969710093899311823, guid: 83288128ca7a10d4d96e785361c6eaac, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3969710093899311823, guid: 83288128ca7a10d4d96e785361c6eaac, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6130234782382022448, guid: 83288128ca7a10d4d96e785361c6eaac, type: 3}
       propertyPath: m_Pivot.x
@@ -889,6 +974,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7455942446177212248, guid: 83288128ca7a10d4d96e785361c6eaac, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7455942446177212248, guid: 83288128ca7a10d4d96e785361c6eaac, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7455942446177212248, guid: 83288128ca7a10d4d96e785361c6eaac, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7946217422060961838, guid: 83288128ca7a10d4d96e785361c6eaac, type: 3}
       propertyPath: m_Name
       value: PauseCanvas
@@ -900,6 +997,18 @@ PrefabInstance:
     - target: {fileID: 8504971004264718656, guid: 83288128ca7a10d4d96e785361c6eaac, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: LoadLevel
+      objectReference: {fileID: 0}
+    - target: {fileID: 8818938057133707945, guid: 83288128ca7a10d4d96e785361c6eaac, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8818938057133707945, guid: 83288128ca7a10d4d96e785361c6eaac, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8818938057133707945, guid: 83288128ca7a10d4d96e785361c6eaac, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1591,10 +1700,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levelData: {fileID: 11400000, guid: 897ff067c66640544a84181b0d89de80, type: 2}
-  UncollectedOrb: {fileID: 2800000, guid: 094189367b888024d91a226a8c79c528, type: 3}
-  CollectedRed: {fileID: 2800000, guid: 77151d7fc5be1bc48b4dad9a8d1a95b5, type: 3}
-  CollectedYellow: {fileID: 2800000, guid: 0c050fad077da484bb73c79247dc61e8, type: 3}
-  CollectedBlue: {fileID: 2800000, guid: f0ad4e5d9d72e324eb4e42eb3a91f588, type: 3}
   RedOrbSlot: {fileID: 682780707}
   YellowOrbSlot: {fileID: 1706789591}
   BlueOrbSlot: {fileID: 182472952}
@@ -1738,10 +1843,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levelData: {fileID: 11400000, guid: 4ff80d929d349a94a96ffd018f0fd6cd, type: 2}
-  UncollectedOrb: {fileID: 2800000, guid: 094189367b888024d91a226a8c79c528, type: 3}
-  CollectedRed: {fileID: 2800000, guid: 77151d7fc5be1bc48b4dad9a8d1a95b5, type: 3}
-  CollectedYellow: {fileID: 2800000, guid: 0c050fad077da484bb73c79247dc61e8, type: 3}
-  CollectedBlue: {fileID: 2800000, guid: f0ad4e5d9d72e324eb4e42eb3a91f588, type: 3}
   RedOrbSlot: {fileID: 1177515804}
   YellowOrbSlot: {fileID: 1191772194}
   BlueOrbSlot: {fileID: 1289091866}
@@ -1982,10 +2083,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levelData: {fileID: 11400000, guid: 60b9206ce678aec46a14a60626d9c739, type: 2}
-  UncollectedOrb: {fileID: 2800000, guid: 094189367b888024d91a226a8c79c528, type: 3}
-  CollectedRed: {fileID: 2800000, guid: 77151d7fc5be1bc48b4dad9a8d1a95b5, type: 3}
-  CollectedYellow: {fileID: 2800000, guid: 0c050fad077da484bb73c79247dc61e8, type: 3}
-  CollectedBlue: {fileID: 2800000, guid: f0ad4e5d9d72e324eb4e42eb3a91f588, type: 3}
   RedOrbSlot: {fileID: 978353674}
   YellowOrbSlot: {fileID: 2036786147}
   BlueOrbSlot: {fileID: 595952435}
@@ -2756,6 +2853,7 @@ GameObject:
   - component: {fileID: 597176136}
   - component: {fileID: 597176135}
   - component: {fileID: 597176134}
+  - component: {fileID: 597176138}
   m_Layer: 5
   m_Name: PanelLevel1
   m_TagString: Untagged
@@ -2868,6 +2966,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 597176132}
   m_CullTransparentMesh: 1
+--- !u!114 &597176138
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 597176132}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 401a4e92ea83592428e103a3dd018a0e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  levelData: {fileID: 11400000, guid: f99eb2d58b05c3e458aca2c225a32a32, type: 2}
+  RedOrbSlot: {fileID: 666357462}
+  YellowOrbSlot: {fileID: 1147188089}
+  BlueOrbSlot: {fileID: 1970149483}
 --- !u!1 &625034641
 GameObject:
   m_ObjectHideFlags: 0
@@ -3936,10 +4050,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levelData: {fileID: 11400000, guid: 9cd022d058db6914abe15c826dbafa5f, type: 2}
-  UncollectedOrb: {fileID: 2800000, guid: 094189367b888024d91a226a8c79c528, type: 3}
-  CollectedRed: {fileID: 2800000, guid: 77151d7fc5be1bc48b4dad9a8d1a95b5, type: 3}
-  CollectedYellow: {fileID: 2800000, guid: 0c050fad077da484bb73c79247dc61e8, type: 3}
-  CollectedBlue: {fileID: 2800000, guid: f0ad4e5d9d72e324eb4e42eb3a91f588, type: 3}
   RedOrbSlot: {fileID: 832682008}
   YellowOrbSlot: {fileID: 1844652782}
   BlueOrbSlot: {fileID: 1405754337}
@@ -4345,6 +4455,7 @@ GameObject:
   - component: {fileID: 845604549}
   - component: {fileID: 845604548}
   - component: {fileID: 845604547}
+  - component: {fileID: 845604551}
   m_Layer: 5
   m_Name: PanelLevel8
   m_TagString: Untagged
@@ -4457,6 +4568,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 845604545}
   m_CullTransparentMesh: 1
+--- !u!114 &845604551
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 845604545}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 401a4e92ea83592428e103a3dd018a0e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  levelData: {fileID: 11400000, guid: 4ff80d929d349a94a96ffd018f0fd6cd, type: 2}
+  RedOrbSlot: {fileID: 1177515804}
+  YellowOrbSlot: {fileID: 1191772194}
+  BlueOrbSlot: {fileID: 1289091866}
 --- !u!1 &882456836
 GameObject:
   m_ObjectHideFlags: 0
@@ -5126,6 +5253,7 @@ GameObject:
   - component: {fileID: 985441486}
   - component: {fileID: 985441485}
   - component: {fileID: 985441484}
+  - component: {fileID: 985441488}
   m_Layer: 5
   m_Name: PanelLevel6
   m_TagString: Untagged
@@ -5238,6 +5366,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 985441482}
   m_CullTransparentMesh: 1
+--- !u!114 &985441488
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 985441482}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 401a4e92ea83592428e103a3dd018a0e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  levelData: {fileID: 11400000, guid: 979fbf09ea718014d88de84fa5ad36d0, type: 2}
+  RedOrbSlot: {fileID: 742807732}
+  YellowOrbSlot: {fileID: 1186883732}
+  BlueOrbSlot: {fileID: 1486320975}
 --- !u!1 &990905216
 GameObject:
   m_ObjectHideFlags: 0
@@ -5391,10 +5535,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levelData: {fileID: 11400000, guid: 35b0896057f292940af5d34f0165e5d0, type: 2}
-  UncollectedOrb: {fileID: 2800000, guid: 094189367b888024d91a226a8c79c528, type: 3}
-  CollectedRed: {fileID: 2800000, guid: 77151d7fc5be1bc48b4dad9a8d1a95b5, type: 3}
-  CollectedYellow: {fileID: 2800000, guid: 0c050fad077da484bb73c79247dc61e8, type: 3}
-  CollectedBlue: {fileID: 2800000, guid: f0ad4e5d9d72e324eb4e42eb3a91f588, type: 3}
   RedOrbSlot: {fileID: 183850400}
   YellowOrbSlot: {fileID: 1366962852}
   BlueOrbSlot: {fileID: 569376102}
@@ -6354,6 +6494,7 @@ GameObject:
   - component: {fileID: 1255698174}
   - component: {fileID: 1255698173}
   - component: {fileID: 1255698172}
+  - component: {fileID: 1255698176}
   m_Layer: 5
   m_Name: PanelLevel7
   m_TagString: Untagged
@@ -6466,6 +6607,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1255698170}
   m_CullTransparentMesh: 1
+--- !u!114 &1255698176
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1255698170}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 401a4e92ea83592428e103a3dd018a0e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  levelData: {fileID: 11400000, guid: 35b0896057f292940af5d34f0165e5d0, type: 2}
+  RedOrbSlot: {fileID: 183850400}
+  YellowOrbSlot: {fileID: 1366962852}
+  BlueOrbSlot: {fileID: 569376102}
 --- !u!1 &1289091864
 GameObject:
   m_ObjectHideFlags: 0
@@ -7909,10 +8066,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levelData: {fileID: 11400000, guid: f99eb2d58b05c3e458aca2c225a32a32, type: 2}
-  UncollectedOrb: {fileID: 2800000, guid: 094189367b888024d91a226a8c79c528, type: 3}
-  CollectedRed: {fileID: 2800000, guid: 77151d7fc5be1bc48b4dad9a8d1a95b5, type: 3}
-  CollectedYellow: {fileID: 2800000, guid: 0c050fad077da484bb73c79247dc61e8, type: 3}
-  CollectedBlue: {fileID: 2800000, guid: f0ad4e5d9d72e324eb4e42eb3a91f588, type: 3}
   RedOrbSlot: {fileID: 666357462}
   YellowOrbSlot: {fileID: 1147188089}
   BlueOrbSlot: {fileID: 1970149483}
@@ -8819,10 +8972,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levelData: {fileID: 11400000, guid: 979fbf09ea718014d88de84fa5ad36d0, type: 2}
-  UncollectedOrb: {fileID: 2800000, guid: 094189367b888024d91a226a8c79c528, type: 3}
-  CollectedRed: {fileID: 2800000, guid: 77151d7fc5be1bc48b4dad9a8d1a95b5, type: 3}
-  CollectedYellow: {fileID: 2800000, guid: 0c050fad077da484bb73c79247dc61e8, type: 3}
-  CollectedBlue: {fileID: 2800000, guid: f0ad4e5d9d72e324eb4e42eb3a91f588, type: 3}
   RedOrbSlot: {fileID: 742807732}
   YellowOrbSlot: {fileID: 1186883732}
   BlueOrbSlot: {fileID: 1486320975}
@@ -9204,10 +9353,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levelData: {fileID: 11400000, guid: 3bc3c948bd6ba8a4493456ee39bd16d4, type: 2}
-  UncollectedOrb: {fileID: 2800000, guid: 094189367b888024d91a226a8c79c528, type: 3}
-  CollectedRed: {fileID: 2800000, guid: 77151d7fc5be1bc48b4dad9a8d1a95b5, type: 3}
-  CollectedYellow: {fileID: 2800000, guid: 0c050fad077da484bb73c79247dc61e8, type: 3}
-  CollectedBlue: {fileID: 2800000, guid: f0ad4e5d9d72e324eb4e42eb3a91f588, type: 3}
   RedOrbSlot: {fileID: 1031558212}
   YellowOrbSlot: {fileID: 372581977}
   BlueOrbSlot: {fileID: 1889378323}
@@ -9959,6 +10104,7 @@ GameObject:
   - component: {fileID: 2038200327}
   - component: {fileID: 2038200326}
   - component: {fileID: 2038200325}
+  - component: {fileID: 2038200329}
   m_Layer: 5
   m_Name: PanelLevel2
   m_TagString: Untagged
@@ -10071,6 +10217,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2038200323}
   m_CullTransparentMesh: 1
+--- !u!114 &2038200329
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2038200323}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 401a4e92ea83592428e103a3dd018a0e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  levelData: {fileID: 11400000, guid: 60b9206ce678aec46a14a60626d9c739, type: 2}
+  RedOrbSlot: {fileID: 978353674}
+  YellowOrbSlot: {fileID: 2036786147}
+  BlueOrbSlot: {fileID: 595952435}
 --- !u!1 &2041426544
 GameObject:
   m_ObjectHideFlags: 0
@@ -10181,6 +10343,7 @@ GameObject:
   - component: {fileID: 2110351055}
   - component: {fileID: 2110351054}
   - component: {fileID: 2110351053}
+  - component: {fileID: 2110351057}
   m_Layer: 5
   m_Name: PanelLevel4
   m_TagString: Untagged
@@ -10293,6 +10456,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2110351051}
   m_CullTransparentMesh: 1
+--- !u!114 &2110351057
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2110351051}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 401a4e92ea83592428e103a3dd018a0e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  levelData: {fileID: 11400000, guid: 897ff067c66640544a84181b0d89de80, type: 2}
+  RedOrbSlot: {fileID: 682780707}
+  YellowOrbSlot: {fileID: 1706789591}
+  BlueOrbSlot: {fileID: 182472952}
 --- !u!1 &2136432272
 GameObject:
   m_ObjectHideFlags: 0
@@ -10306,6 +10485,7 @@ GameObject:
   - component: {fileID: 2136432276}
   - component: {fileID: 2136432275}
   - component: {fileID: 2136432274}
+  - component: {fileID: 2136432278}
   m_Layer: 5
   m_Name: PanelLevel5
   m_TagString: Untagged
@@ -10418,6 +10598,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2136432272}
   m_CullTransparentMesh: 1
+--- !u!114 &2136432278
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2136432272}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 401a4e92ea83592428e103a3dd018a0e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  levelData: {fileID: 11400000, guid: 9cd022d058db6914abe15c826dbafa5f, type: 2}
+  RedOrbSlot: {fileID: 832682008}
+  YellowOrbSlot: {fileID: 1844652782}
+  BlueOrbSlot: {fileID: 1405754337}
 --- !u!1001 &4313237476633811821
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10495,3 +10691,4 @@ SceneRoots:
   - {fileID: 101719525}
   - {fileID: 1706642462}
   - {fileID: 149254725}
+  - {fileID: 94470169}

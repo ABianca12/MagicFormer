@@ -19,6 +19,8 @@ TagManager:
   - Canvas
   - LevelData
   - PauseManager
+  - SpellUI
+  - OrbManager
   layers:
   - Default
   - TransparentFX

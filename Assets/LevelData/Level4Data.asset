@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d3950150aaf4794db1a20958e20821d, type: 3}
   m_Name: Level4Data
   m_EditorClassIdentifier: 
-  HasCollectedRedOrb: 0
-  HasCollectedYellowOrb: 0
-  HasCollectedBlueOrb: 0
+  HasCollectedRedOrb: 1
+  HasCollectedYellowOrb: 1
+  HasCollectedBlueOrb: 1
   PlayerStartsWithFireball: 0
   PlayerStartsWithEarthCrate: 0
   PlayerStartsWithForcePush: 0

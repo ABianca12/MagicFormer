@@ -5,42 +5,44 @@ public class UpdateCollectedOrbs : MonoBehaviour
 {
     public LevelData levelData;
 
-    public Texture2D UncollectedOrb;
-    public Texture2D CollectedRed;
-    public Texture2D CollectedYellow;
-    public Texture2D CollectedBlue;
+    private OrbManager orbManager;
 
     public RawImage RedOrbSlot;
     public RawImage YellowOrbSlot;
     public RawImage BlueOrbSlot;
 
-    void Start()
+    private void Start()
+    {
+        orbManager = GameObject.FindWithTag("OrbManager").GetComponent<OrbManager>();
+    }
+
+    void Update()
     {
         if (levelData.HasCollectedRedOrb)
         {
-            RedOrbSlot.GetComponent<RawImage>().texture = CollectedRed;
+            RedOrbSlot.GetComponent<RawImage>().texture = orbManager.CollectedRed;
         }
         else
         {
-            RedOrbSlot.GetComponent<RawImage>().texture = UncollectedOrb;
+            RedOrbSlot.GetComponent<RawImage>().texture = orbManager.UncollectedOrb;
         }
 
         if (levelData.HasCollectedYellowOrb)
         {
-            YellowOrbSlot.GetComponent<RawImage>().texture = CollectedYellow;
+            YellowOrbSlot.GetComponent<RawImage>().texture = orbManager.CollectedYellow;
         }
         else
         {
-            YellowOrbSlot.GetComponent<RawImage>().texture = UncollectedOrb;
+            YellowOrbSlot.GetComponent<RawImage>().texture = orbManager.UncollectedOrb;
         }
 
         if (levelData.HasCollectedBlueOrb)
         {
-            BlueOrbSlot.GetComponent<RawImage>().texture = CollectedBlue;
+            BlueOrbSlot.GetComponent<RawImage>().texture = orbManager.CollectedBlue;
         }
         else
         {
-            BlueOrbSlot.GetComponent<RawImage>().texture = UncollectedOrb;
+            BlueOrbSlot.GetComponent<RawImage>().texture = orbManager.UncollectedOrb;
         }
     }
 }
