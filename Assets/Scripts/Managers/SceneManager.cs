@@ -4,9 +4,18 @@ using UnityEngine.SceneManagement;
 
 public class Scenemanager : MonoBehaviour
 {
+    private AudioSource bwomp;
+    private static bool bwompReady;
+
     private void Start()
     {
         DontDestroyOnLoad(gameObject);
+        bwomp = GetComponent<AudioSource>();
+
+        if (bwompReady)
+        {
+            bwomp.Play();
+        }
     }
 
     private void Update()
@@ -19,6 +28,7 @@ public class Scenemanager : MonoBehaviour
     }
     public void restartLevel()
     {
+        bwompReady = true;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 

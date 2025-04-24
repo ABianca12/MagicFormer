@@ -15,6 +15,9 @@ namespace TarodevController
         private FrameInput frameInput;
         public Vector2 velocity;
         private bool startInColliders = false;
+        private AudioSource[] allAudios;
+        private AudioSource jumpSound;
+        private AudioSource handstandJumpSound;
 
         public GameObject CrouchingPlayer;
 
@@ -84,6 +87,16 @@ namespace TarodevController
             HatRenderer = Hat.GetComponent<Renderer>();
 
             CrouchingPlayer.gameObject.SetActive(false);
+
+            allAudios = GetComponents<AudioSource>();
+
+            foreach (AudioSource audio in allAudios)
+            {
+                if (audio.resource.name == "yahoo")
+                {
+                    handstandJumpSound = audio;
+                }
+            }
 
             startInColliders = Physics2D.queriesStartInColliders; 
         }
@@ -465,6 +478,7 @@ namespace TarodevController
                     }
                     else if (canHandstandJump && timeSinceHandstandSetupLanded <= moveVars.HandStandJumpTime)
                     {
+                        handstandJumpSound.Play();
                         velocity.y = moveVars.HandStandJumpPower;
                         canHandstandJump = false;
                     }
