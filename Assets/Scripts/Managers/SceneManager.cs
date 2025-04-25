@@ -9,7 +9,7 @@ public class Scenemanager : MonoBehaviour
 
     private void Start()
     {
-        DontDestroyOnLoad(gameObject);
+        //DontDestroyOnLoad(gameObject);
         bwomp = GetComponent<AudioSource>();
 
         if (bwompReady)

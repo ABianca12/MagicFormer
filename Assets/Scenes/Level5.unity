@@ -547,6 +547,10 @@ PrefabInstance:
       propertyPath: levelData
       value: 
       objectReference: {fileID: 11400000, guid: 9cd022d058db6914abe15c826dbafa5f, type: 2}
+    - target: {fileID: 4643056817794610278, guid: 06eb38bafed16534fa6b820832b4093f, type: 3}
+      propertyPath: PauseMenu
+      value: 
+      objectReference: {fileID: 818809031}
     - target: {fileID: 6946340434602230245, guid: 06eb38bafed16534fa6b820832b4093f, type: 3}
       propertyPath: m_Name
       value: AllManagers
@@ -3031,6 +3035,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 83288128ca7a10d4d96e785361c6eaac, type: 3}
+--- !u!223 &818809031 stripped
+Canvas:
+  m_CorrespondingSourceObject: {fileID: 8797511554102416121, guid: 83288128ca7a10d4d96e785361c6eaac, type: 3}
+  m_PrefabInstance: {fileID: 818809030}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &831645491
 PrefabInstance:
   m_ObjectHideFlags: 0

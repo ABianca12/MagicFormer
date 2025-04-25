@@ -326,6 +326,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 83288128ca7a10d4d96e785361c6eaac, type: 3}
+--- !u!223 &76506531 stripped
+Canvas:
+  m_CorrespondingSourceObject: {fileID: 8797511554102416121, guid: 83288128ca7a10d4d96e785361c6eaac, type: 3}
+  m_PrefabInstance: {fileID: 76506530}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &96183225
 GameObject:
   m_ObjectHideFlags: 0
@@ -2650,6 +2655,10 @@ PrefabInstance:
       propertyPath: levelData
       value: 
       objectReference: {fileID: 11400000, guid: 4ff80d929d349a94a96ffd018f0fd6cd, type: 2}
+    - target: {fileID: 4643056817794610278, guid: 06eb38bafed16534fa6b820832b4093f, type: 3}
+      propertyPath: PauseMenu
+      value: 
+      objectReference: {fileID: 76506531}
     - target: {fileID: 6946340434602230245, guid: 06eb38bafed16534fa6b820832b4093f, type: 3}
       propertyPath: m_Name
       value: AllManagers
@@ -5712,6 +5721,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3687429421684507037, guid: fee25fb25a8cbc541874fc46bd1c8af5, type: 3}
+      propertyPath: levelData
+      value: 
+      objectReference: {fileID: 11400000, guid: 4ff80d929d349a94a96ffd018f0fd6cd, type: 2}
     - target: {fileID: 5906586748028918829, guid: fee25fb25a8cbc541874fc46bd1c8af5, type: 3}
       propertyPath: m_Name
       value: Door
