@@ -8,20 +8,25 @@ public class Enemy : Pickup
 
     [SerializeField] private bool redShell = false;
 
-    [SerializeField] private CircleCollider2D enemyDetectionSphere;
     [SerializeField] private float moveSpeed = 5.0f;
 
     [SerializeField] private LayerMask groundLayer;
+    [SerializeField] private LayerMask playerLayer;
 
-    public bool isDetectable = false;
+    [SerializeField] private GameObject enemyHitbox;
+    [SerializeField] private GameObject attackCanvas;
+
+    public bool isAttacking = false;
     private bool isRight = false;
+    private float attackCooldownTimer = 0;
 
     private void Start()
     {
         initEnemy();
 
         enemyRB = GetComponent<Rigidbody2D>();
-        //playerTransform = FindAnyObjectByType<PlayerMovement>().transform;
+
+        enemyRB.linearVelocity = new Vector2(-1 * moveSpeed, enemyRB.linearVelocity.y);
     }
 
     public void initEnemy()
@@ -33,104 +38,151 @@ public class Enemy : Pickup
     {
         //Collider2D col = Physics2D.OverlapCircle(enemyRB.position, enemyDetectionSphere.radius);
         //
-
-        if (isDetectable)
-        {
-            detectMovement();
-        }
-        else
-        {
-            patrolMovement();
-        }
-
-
+        PatrolMovement();
     }
 
     //turns sprite around
-    private void Flip()
+    public void Flip()
     {
         Vector3 localScale = transform.localScale;
         localScale.x *= -1f;
         transform.localScale = localScale;
-    }
 
-    //if chasing player
-    private void detectMovement()
-    {
-        if (playerTransform.position.x < enemyRB.position.x)
-        {
-            enemyRB.linearVelocity = new Vector2(-1 * moveSpeed, enemyRB.linearVelocity.y);
-            if (isRight)
-            {
-                Flip();
-                isRight = false;
-            }
-        }
-        else if (playerTransform.position.x > enemyRB.position.x)
-        {
-            enemyRB.linearVelocity = new Vector2(1 * moveSpeed, enemyRB.linearVelocity.y);
-            if (!isRight)
-            {
-                Flip();
-                isRight = true;
-            }
-        }
+        updateVelocity(new Vector2(-1 * enemyRB.linearVelocity.x, enemyRB.linearVelocity.y));
+        enemyRB.linearVelocity = new Vector2(-1 * enemyRB.linearVelocity.x, enemyRB.linearVelocity.y);
+        isRight = !isRight;
     }
-
 
     /* Creates a marker in front of the enemy that if doesnt detect ground turns around
      * is toggled off if player is detected
      */
-    private void patrolMovement()
+    private void PatrolMovement()
     {
-        //if facing left
+        WallDetection();
+        GroundDetection();
+
+        Attack();
+
+        if(enemyRB.linearVelocity.x == 0 && !isAttacking)
+        {
+            if(isRight)
+            {
+                enemyRB.linearVelocityX = moveSpeed;
+            }
+            else
+            {
+                enemyRB.linearVelocityX = -moveSpeed;
+            }
+        }
+    }
+
+    //checks ground in front of enemy to know if should turn around
+    private void GroundDetection()
+    {
         if (!isRight)
         {
             if (redShell && !Physics2D.OverlapCircle(new Vector2(gameObject.transform.position.x - 0.7f, gameObject.transform.position.y - 1.1f), 0.2f, groundLayer))
             {
-                updateVelocity(new Vector2(enemyRB.linearVelocity.x * -1, enemyRB.linearVelocity.y));
                 Flip();
-                isRight = true;
-            }
-            else
-            {
-                enemyRB.linearVelocity = new Vector2(-1 * moveSpeed, enemyRB.linearVelocity.y);
             }
         }
-        //if facing right
         else if (isRight)
         {
             if (redShell && !Physics2D.OverlapCircle(new Vector2(gameObject.transform.position.x + 0.7f, gameObject.transform.position.y - 1.1f), 0.2f, groundLayer))
             {
-                updateVelocity(new Vector2(enemyRB.linearVelocity.x * -1, enemyRB.linearVelocity.y));
                 Flip();
-                isRight = false;
+            }
+        }
+    }
+
+    //checks if anything is infront of enemy and turns it around if so
+    private void WallDetection()
+    {
+        if(isRight)
+        {
+            if(Physics2D.OverlapArea(new Vector2(gameObject.transform.position.x + 0.7f, gameObject.transform.position.y - 0.9f),
+                new Vector2(gameObject.transform.position.x + 0.7f, gameObject.transform.position.y + 0.9f), 0))
+            {
+                Flip();
+            }
+        }
+        else
+        {
+            if (Physics2D.OverlapArea(new Vector2(gameObject.transform.position.x - 0.7f, gameObject.transform.position.y - 0.9f),
+                new Vector2(gameObject.transform.position.x - 0.7f, gameObject.transform.position.y + 0.9f), 0))
+            {
+                Flip();
+            }
+        }
+    }
+    private void Attack()
+    {
+        if (isRight)
+        {
+            if (Physics2D.OverlapArea(new Vector2(gameObject.transform.position.x + 2f, gameObject.transform.position.y - 0.9f),
+                new Vector2(gameObject.transform.position.x + 0.5f, gameObject.transform.position.y + 0.9f), playerLayer))
+            {
+                attackCooldownTimer += Time.deltaTime;
+                updateVelocity(new Vector2(0, enemyRB.linearVelocity.y));
+                enemyRB.linearVelocity = new Vector2(0, enemyRB.linearVelocity.y);
+                isAttacking = true;
+                attackCanvas.SetActive(true);
+                //after .75f set hitbox active
+                switch (attackCooldownTimer)
+                {
+                    case < 0.75f:
+                        break;
+                    case < 2f:
+                        enemyHitbox.SetActive(true);
+                        break;
+                    default:
+                        enemyHitbox.SetActive(false);
+                        attackCooldownTimer = 0;
+                        break;
+                }
             }
             else
             {
-                enemyRB.linearVelocity = new Vector2(1 * moveSpeed, enemyRB.linearVelocity.y);
+                attackCanvas.SetActive(false);
+                isAttacking = false;
+                enemyHitbox.SetActive(false);
+                attackCooldownTimer = 0;
+            }
+        }
+        else if(!isRight)
+        {
+            if (Physics2D.OverlapArea(new Vector2(gameObject.transform.position.x - 1.3f, gameObject.transform.position.y - 0.9f),
+                new Vector2(gameObject.transform.position.x - 0.2f, gameObject.transform.position.y + 0.9f), playerLayer))
+            {
+                attackCooldownTimer += Time.deltaTime;
+                updateVelocity(new Vector2(0, enemyRB.linearVelocity.y));
+                enemyRB.linearVelocity = new Vector2(0, enemyRB.linearVelocity.y);
+                isAttacking = true;
+                attackCanvas.SetActive(true);
+                //after .75f set hitbox active
+                switch (attackCooldownTimer)
+                {
+                    case < 0.75f:
+                        break;
+                    case < 2f:
+                        enemyHitbox.SetActive(true);
+                        break;
+                    default:
+                        enemyHitbox.SetActive(false);
+                        attackCooldownTimer = 0;
+                        break;
+                }
+                
+            }
+            else
+            {
+                attackCanvas.SetActive(false);
+                isAttacking = false;
+                enemyHitbox.SetActive(false);
+                attackCooldownTimer = 0;
             }
         }
 
-        
+        Debug.Log(attackCooldownTimer);
     }
-
-    ////binds players movement to set platform
-    //private void OnCollisionEnter2D(Collision2D collision)
-    //{
-    //    if (collision.gameObject.tag == "Player" || collision.gameObject.CompareTag("PickUp"))
-    //    {
-    //        collision.gameObject.transform.SetParent(transform, true);
-    //    }
-    //}
-
-    ////unbinds players movement
-    //private void OnCollisionExit2D(Collision2D collision)
-    //{
-    //    if (collision.gameObject.tag == "Player" || collision.gameObject.CompareTag("PickUp"))
-    //    {
-    //        transform.DetachChildren();
-    //    }
-    //}
-
 }
