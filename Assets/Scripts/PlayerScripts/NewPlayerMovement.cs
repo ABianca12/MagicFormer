@@ -111,7 +111,11 @@ namespace TarodevController
             HandleJump();
             HandleDown();
             HandleUp();
+            HandleHorizontalRope();
+        }
 
+        private void HandleHorizontalRope()
+        {
             if (state == PlayerState.SingleRope)
             {
                 if (frameInput.LeftDown)

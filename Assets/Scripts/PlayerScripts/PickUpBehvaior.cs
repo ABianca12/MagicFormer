@@ -13,7 +13,6 @@ public class PickUpBehvaior : MonoBehaviour
     private Vector3 pickUpPos;
     public Vector3 initalPos;
     private Renderer rend;
-    //private BoxCollider2D[] allColliders;
     private BoxCollider2D coll;
     private Rigidbody2D rb;
     public bool beingCarried;
@@ -31,7 +30,6 @@ public class PickUpBehvaior : MonoBehaviour
         controller = player.GetComponent<PlayerController>();
         initalPos = transform.position;
         rend = this.GetComponent<Renderer>();
-        //allColliders = this.GetComponents<BoxCollider2D>();
         coll = GetComponent<BoxCollider2D>();
         rb = this.GetComponent<Rigidbody2D>();
         this.beingCarried = false;

@@ -1,11 +1,7 @@
-using System;
-using TarodevController;
 using UnityEngine;
-using static TarodevController.PlayerController;
 
 public class Pickup : Destructable
 {
-
     public void initPickup()
     {
         base.initDestructable();
