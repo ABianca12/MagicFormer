@@ -12,7 +12,6 @@ public class PickUpBehvaior : MonoBehaviour
     private PlayerController controller;
     private Vector3 pickUpPos;
     public Vector3 initalPos;
-    private Renderer rend;
     private BoxCollider2D coll;
     private Rigidbody2D rb;
     public bool beingCarried;
@@ -29,7 +28,6 @@ public class PickUpBehvaior : MonoBehaviour
         throwingVars = GameObject.FindGameObjectWithTag("ThrowingVars").GetComponent<ThrowingVariables>();
         controller = player.GetComponent<PlayerController>();
         initalPos = transform.position;
-        rend = this.GetComponent<Renderer>();
         coll = GetComponent<BoxCollider2D>();
         rb = this.GetComponent<Rigidbody2D>();
         this.beingCarried = false;

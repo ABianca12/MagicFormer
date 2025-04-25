@@ -6,7 +6,7 @@ public class MovementVariables : MonoBehaviour
     public KeyCode up = KeyCode.W;
     public KeyCode down = KeyCode.S;
     public KeyCode jump = KeyCode.Space;
-    public KeyCode pickUp = KeyCode.R;
+    public KeyCode pickUp = KeyCode.LeftShift;
     public KeyCode left = KeyCode.A;
     public KeyCode right = KeyCode.D;
 

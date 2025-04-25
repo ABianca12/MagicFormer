@@ -1,4 +1,3 @@
-using NUnit.Framework;
 using TarodevController;
 using UnityEngine;
 using static TarodevController.PlayerController;
@@ -74,7 +73,6 @@ public class magicCastingScript : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
     void Update()
     {
         if(Input.GetMouseButtonDown(0))
@@ -213,7 +211,6 @@ public class magicCastingScript : MonoBehaviour
                     }
                 }
             }
-
             
 
         if(Input.GetKeyDown(KeyCode.Q))

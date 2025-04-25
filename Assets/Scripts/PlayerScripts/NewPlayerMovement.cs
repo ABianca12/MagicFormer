@@ -9,12 +9,17 @@ namespace TarodevController
         [SerializeField] private MovementVariables moveVars;
         private Rigidbody2D rb;
         private CapsuleCollider2D capCollider;
+
+        // Renderers
         private Renderer MainPlayerRenderer;
         public GameObject Hat;
         private Renderer HatRenderer;
+
         private FrameInput frameInput;
         public Vector2 velocity;
         private bool startInColliders = false;
+
+        // Audios
         private AudioSource[] allAudios;
         private AudioSource jumpSound;
         private AudioSource handstandJumpSound;
@@ -237,11 +242,14 @@ namespace TarodevController
         private bool inRangeOfRope;
         private bool inRangeOfBar;
         private bool isOnTopOfPickup;
+
+        // Raycasts
         private RaycastHit2D ceilingHit;
         private RaycastHit2D CrouchingCeilingHit;
         private RaycastHit2D groundHit;
         private RaycastHit2D LeftRopeHit;
         private RaycastHit2D RightRopeHit;
+
         private GameObject ObjectOnTopOf;
 
         private void CheckCollisions()
@@ -345,15 +353,11 @@ namespace TarodevController
                 if (transform.position.y < climbable.GetRightTransform().y)
                 {
                     state = PlayerState.None;
-                    Debug.Log(climbable.GetRightTransform().y);
-                    Debug.Log("Player is lower than bottom");
                 }
 
                 if (transform.position.y > climbable.GetLeftTransform().y)
                 {
-                    state = PlayerState.None;
-                    Debug.Log(climbable.GetRightTransform().y);
-                    Debug.Log("Player is Higher than top");
+                    transform.position = new Vector3(transform.position.x, climbable.GetLeftTransform().y, transform.position.z);
                 }
 
                 if (LeftRopeHit)
@@ -492,7 +496,6 @@ namespace TarodevController
 
         #region Down Input
 
-        private float timeDownWasPressed;
         private bool canCrouch;
         private bool canUncrouch;
 
@@ -507,14 +510,12 @@ namespace TarodevController
                         MainPlayerRenderer.enabled = false;
                         HatRenderer.enabled = false;
                         CrouchingPlayer.gameObject.SetActive(true);
-                        //transform.localScale = new Vector3(1, 0.5f, 1);
                         state = PlayerState.Crouching;
                     }
                     break;
                 case PlayerState.Crouching:
                     if (frameInput.Move.y == 0 && canUncrouch)
                     {
-                        //transform.localScale = new Vector3(1, 1, 1);
                         capCollider.size = new Vector2(capCollider.size.x, 2);
                         MainPlayerRenderer.enabled = true;
                         HatRenderer.enabled = true;
@@ -527,7 +528,6 @@ namespace TarodevController
                     MainPlayerRenderer.enabled = true;
                     HatRenderer.enabled = true;
                     CrouchingPlayer.gameObject.SetActive(false);
-                    //transform.localScale = new Vector3(1, 1, 1);
                     break;
                 case PlayerState.SingleRope:
                     if (frameInput.DownHeld)
@@ -643,8 +643,6 @@ namespace TarodevController
                             timeUpHasBeenHeld = timeUpHasBeenHeld - moveVars.BarSpeedDecay;
                         }
                     }
-                    // Rotate player around bar at a speed scaled to how long up has been held
-
                     break;
                 default:
                     break;
@@ -670,7 +668,6 @@ namespace TarodevController
                     if (frameInput.PickUpDown && isOnTopOfPickup)
                     {
                         ObjectBeingHeld = ObjectOnTopOf.GetComponent<PickUpBehvaior>();
-                        //ObjectBeingHeld.pickUpObject();
                         state = PlayerState.Carrying;
                         ObjectBeingHeld.beingCarried = true;
                     }
@@ -764,7 +761,6 @@ namespace TarodevController
 
         #region Horizontal
 
-        private bool HangingOffRope;
         private float timeDirectionChanged;
 
         private void HandleDirection()
