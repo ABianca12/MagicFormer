@@ -14,6 +14,7 @@ public class Enemy : Pickup
     [SerializeField] private LayerMask playerLayer;
 
     [SerializeField] private GameObject enemyHitbox;
+    [SerializeField] private GameObject attackCanvas;
 
     public bool isAttacking = false;
     private bool isRight = false;
@@ -125,6 +126,7 @@ public class Enemy : Pickup
                 updateVelocity(new Vector2(0, enemyRB.linearVelocity.y));
                 enemyRB.linearVelocity = new Vector2(0, enemyRB.linearVelocity.y);
                 isAttacking = true;
+                attackCanvas.SetActive(true);
                 //after .75f set hitbox active
                 switch (attackCooldownTimer)
                 {
@@ -141,6 +143,7 @@ public class Enemy : Pickup
             }
             else
             {
+                attackCanvas.SetActive(false);
                 isAttacking = false;
                 enemyHitbox.SetActive(false);
                 attackCooldownTimer = 0;
@@ -155,6 +158,7 @@ public class Enemy : Pickup
                 updateVelocity(new Vector2(0, enemyRB.linearVelocity.y));
                 enemyRB.linearVelocity = new Vector2(0, enemyRB.linearVelocity.y);
                 isAttacking = true;
+                attackCanvas.SetActive(true);
                 //after .75f set hitbox active
                 switch (attackCooldownTimer)
                 {
@@ -172,6 +176,7 @@ public class Enemy : Pickup
             }
             else
             {
+                attackCanvas.SetActive(false);
                 isAttacking = false;
                 enemyHitbox.SetActive(false);
                 attackCooldownTimer = 0;
