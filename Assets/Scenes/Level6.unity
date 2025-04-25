@@ -208,6 +208,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy
       objectReference: {fileID: 0}
+    - target: {fileID: 643789264702919643, guid: 7b51b21ecbd36e048832ba25a8096bb4, type: 3}
+      propertyPath: m_Layer
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2006607612091040099, guid: 7b51b21ecbd36e048832ba25a8096bb4, type: 3}
+      propertyPath: zAxis
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4003889637189001499, guid: 7b51b21ecbd36e048832ba25a8096bb4, type: 3}
       propertyPath: m_LocalPosition.x
       value: 31.32
@@ -218,7 +226,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4003889637189001499, guid: 7b51b21ecbd36e048832ba25a8096bb4, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 2.34
+      value: 0.06
       objectReference: {fileID: 0}
     - target: {fileID: 4003889637189001499, guid: 7b51b21ecbd36e048832ba25a8096bb4, type: 3}
       propertyPath: m_LocalRotation.w
@@ -8533,6 +8541,14 @@ PrefabInstance:
     - target: {fileID: 961925328010761007, guid: a19254d189972144e98e4da30e252ab2, type: 3}
       propertyPath: m_Name
       value: MagicBook
+      objectReference: {fileID: 0}
+    - target: {fileID: 961925328010761007, guid: a19254d189972144e98e4da30e252ab2, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2152120225097944388, guid: a19254d189972144e98e4da30e252ab2, type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2375544544827928860, guid: a19254d189972144e98e4da30e252ab2, type: 3}
       propertyPath: m_LocalScale.x
