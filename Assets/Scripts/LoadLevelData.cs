@@ -60,9 +60,4 @@ public class LoadLevelData : MonoBehaviour
         inventory.initInventory(spells);
         spellUI.cycleSpells();
     }
-
-    private void Update()
-    {
-        
-    }
 }

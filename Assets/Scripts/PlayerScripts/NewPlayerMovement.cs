@@ -168,15 +168,6 @@ namespace TarodevController
                     }
                 }
             }
-
-            if (Input.GetKeyDown(KeyCode.O))
-            {
-                grounded = true;
-                coyoteUsable = true;
-                bufferedJumpUsable = true;
-                endedJumpEarly = false;
-                GroundedChanged?.Invoke(true, Mathf.Abs(velocity.y));
-            }
         }
 
         private void GatherInput()
@@ -286,10 +277,6 @@ namespace TarodevController
 
                 CrouchingCeilingHit = Physics2D.CapsuleCast(capCollider.bounds.center, capCollider.size, capCollider.direction,
                 0, Vector2.up, 1, moveVars.DefaultLayer);
-
-                Debug.Log(CrouchingCeilingHit.collider);
-
-                Debug.DrawRay(transform.position, transform.up, Color.yellow);
 
                 if (CrouchingCeilingHit)
                 {
@@ -942,6 +929,18 @@ namespace TarodevController
         private void OnValidate()
         {
             if (moveVars == null) Debug.LogWarning("Please assign a MovementVaribles asset to the Player Controller's Stats slot", this);
+        }
+
+        private void LateUpdate()
+        {
+            if (Input.GetKeyDown(KeyCode.O))
+            {
+                grounded = true;
+                coyoteUsable = true;
+                bufferedJumpUsable = true;
+                endedJumpEarly = false;
+                GroundedChanged?.Invoke(true, Mathf.Abs(velocity.y));
+            }
         }
 #endif
     }

@@ -4,6 +4,7 @@ using UnityEngine.UI;
 public class UpdateCollectedOrbs : MonoBehaviour
 {
     public LevelData levelData;
+    public DataManager dataManager;
 
     private OrbManager orbManager;
 
@@ -14,6 +15,7 @@ public class UpdateCollectedOrbs : MonoBehaviour
     private void Start()
     {
         orbManager = GameObject.FindWithTag("OrbManager").GetComponent<OrbManager>();
+        dataManager = GameObject.FindWithTag("DataManager").GetComponent<DataManager>();
     }
 
     void Update()

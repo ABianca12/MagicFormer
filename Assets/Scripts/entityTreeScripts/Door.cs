@@ -5,11 +5,15 @@ using UnityEngine.SceneManagement;
 public class Door : Ground
 {
     public LevelData levelData;
+    private LevelData FoundLevelData;
+    public DataManager dataManager;
     private Scenemanager s;
 
     private void Start()
     {
         s = GameObject.FindWithTag("SceneManager").GetComponent<Scenemanager>();
+        dataManager = GameObject.FindWithTag("DataManager").GetComponent<DataManager>();
+        FoundLevelData = dataManager.GetLevelData(levelData);
         Debug.Log(levelData.ToString());
     }
 
@@ -23,15 +27,15 @@ public class Door : Ground
                 {
                     if (obj.CompareTag("RedOrb"))
                     {
-                        levelData.HasCollectedRedOrb = true;
+                        FoundLevelData.HasCollectedRedOrb = true;
                     }
                     else if (obj.CompareTag("YellowOrb"))
                     {
-                        levelData.HasCollectedYellowOrb = true;
+                        FoundLevelData.HasCollectedYellowOrb = true;
                     }
                     else if (obj.CompareTag("BlueOrb"))
                     {
-                        levelData.HasCollectedBlueOrb = true;
+                        FoundLevelData.HasCollectedBlueOrb = true;
                     }
                 }
 

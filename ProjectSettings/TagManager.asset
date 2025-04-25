@@ -21,6 +21,7 @@ TagManager:
   - PauseManager
   - SpellUI
   - OrbManager
+  - DataManager
   layers:
   - Default
   - TransparentFX

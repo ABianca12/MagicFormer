@@ -4,15 +4,22 @@ public class DataManager : MonoBehaviour
 {
     public LevelData[] allLevelData;
 
-    void Start()
+    private void Start()
     {
-        
+        DontDestroyOnLoad(gameObject);
     }
 
-    // Update is called once per frame
-    void Update()
+    public LevelData GetLevelData(LevelData levelData)
     {
-        
+        foreach (LevelData data in allLevelData)
+        {
+            if (data.name == levelData.name)
+            {
+                return data;
+            }
+        }
+
+        return null;
     }
 
     public void ResetData()
