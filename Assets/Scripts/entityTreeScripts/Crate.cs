@@ -5,6 +5,7 @@ public class Crate : Pickup
 
     //member variables
     private Rigidbody2D rb;
+    private PickUpBehvaior pb;
 
     //Init functions
     public void initCrate()
@@ -32,6 +33,7 @@ public class Crate : Pickup
     private void Start()
     {
         rb = gameObject.GetComponent<Rigidbody2D>();
+        pb = gameObject.GetComponent<PickUpBehvaior>();
     }
 
     private void FixedUpdate()
@@ -41,7 +43,12 @@ public class Crate : Pickup
 
     private void Update()
     {
-        if(frozen)
+        if (pb.beingCarried)
+        {
+            base.unfreeze();
+        }
+
+        if (frozen)
         {
             rb.constraints = RigidbodyConstraints2D.FreezeAll;
         }
@@ -49,6 +56,7 @@ public class Crate : Pickup
         {
             rb.constraints = RigidbodyConstraints2D.FreezeRotation;
         }
+        
     }
 
     private void checkSpawn()
