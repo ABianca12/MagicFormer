@@ -58,7 +58,9 @@ public class Enemy : Pickup
      */
     private void PatrolMovement()
     {
+        //smth on this broke last sec
         WallDetection();
+
         GroundDetection();
 
         Attack();
@@ -183,6 +185,5 @@ public class Enemy : Pickup
             }
         }
 
-        Debug.Log(attackCooldownTimer);
     }
 }

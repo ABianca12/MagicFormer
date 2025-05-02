@@ -22,6 +22,7 @@ TagManager:
   - SpellUI
   - OrbManager
   - DataManager
+  - DamageBox
   layers:
   - Default
   - TransparentFX

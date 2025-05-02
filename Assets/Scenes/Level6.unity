@@ -210,7 +210,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 643789264702919643, guid: 7b51b21ecbd36e048832ba25a8096bb4, type: 3}
       propertyPath: m_Layer
-      value: 1
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 643789264702919643, guid: 7b51b21ecbd36e048832ba25a8096bb4, type: 3}
+      propertyPath: m_TagString
+      value: DamageBox
       objectReference: {fileID: 0}
     - target: {fileID: 2006607612091040099, guid: 7b51b21ecbd36e048832ba25a8096bb4, type: 3}
       propertyPath: zAxis
